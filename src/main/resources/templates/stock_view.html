@@ -69,7 +69,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6" style="display: none;" id="quantityRow">
                                                             <div class="form-group">
                                                                 <label for="pro_quantity" class="control-label">Quantity</label>
                                                                 <input type="text" class="form-control" id="pro_quantity" placeholder="5, 10, 15 etc...">
@@ -220,10 +220,10 @@
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i, v) {
-                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.user_image, '');
+                                        usr_image = !wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.user_image, '');
 
                                         strHtml +='<tr data-index="0">';
-                                        strHtml +='    <td class="user-image" style="width: 10px;border-right: none; ">';
+                                        strHtml +='    <td class="user-image" style="float: right;border-right: none; ">';
                                         strHtml +='    	<img src="'+usr_image+'" alt="user-img" class="img-circle" width="30px" />';
                                         strHtml +='    </td>';
                                         strHtml +='    <td style="width: 15%;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
@@ -231,7 +231,7 @@
                                         strHtml +='    <td style="">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
                                         strHtml +='    <td style="">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
                                         strHtml +='    <td class="act_btn text-center">';
-                                        strHtml +='      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                                        strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick="editProduct();"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
                                         strHtml +='    </td>';
@@ -267,8 +267,9 @@
                         });
                         
                         $("#btnAddPro").click(function () {
-                            // $('#myModal').modal('show');
-                            $('#con-close-modal').modal('show');
+                            var input = {};
+                            input["STATUS"] = "N";
+                            open_popup(input);
                         });
 
                         $("#myImageFile").on("click", function () {
@@ -295,6 +296,39 @@
                     }else{
                         return formatValue;
                     }
+                }
+
+                function getCategoryList(){
+                    $.ajax({
+                        type    : "GET",
+                        url       : "/stock/get_categorry_lists",
+                        data    : {"STATUS":"1"},
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+
+                function open_popup(input_){
+                    $('#con-close-modal').modal('show');
+                    if(input_.STATUS == "U"){
+                        $("#quantityRow").show();
+                    }else{
+                        $("#quantityRow").hide();
+                    }
+                }
+                
+                function editProduct() {
+                    var input = {};
+                    input["STATUS"] = "U";
+                    open_popup(input);
                 }
 
             </script>
