@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="User-List"></title>
+</head>
+<body>
+<!-- Begin page -->
+<div layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container">
+
+                <!--Custom Toolbar-->
+                <!--===================================================-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title"><b>User List</b></h4>
+                            <p class="text-muted font-13">
+                                All users from whole company.
+                            </p>
+
+                            <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                    <!--<button id="" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                                    <!--<button id="" class="btn btn-info"><i class="fa fa-plus m-r-5" style="margin-left: 10px;"></i>Add</button>-->
+                                </div>
+                                <div class="pull-right search" style="display: inline-flex;">
+                                    <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
+                                    <button id="demo-search-row" class="btn btn-warning" style="margin-left: -5px;" onclick="_thisPage.fillTable();"><i class="fa fa-search m-r-5"></i></button>
+                                </div>
+                            </div>
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                    <div class="fixed-table-body">
+                                        <table data-toggle="" class="table-bordered table table-hover" id="tbl_user">
+                                            <thead>
+                                            <tr>
+                                                <th class="bs-checkbox " style="width: 36px;display: none;">
+                                                    <div class="th-inner "><input name="btSelectAll" type="checkbox" id="btSelectAll"></div>
+                                                </th>
+                                                <th style="width: 5%;" colspan="2">
+                                                    <div class="th-inner ">ID Card Number</div>
+                                                </th>
+                                                <th style="width: 15%;">
+                                                    <div class="th-inner ">Name</div>
+                                                </th>
+                                                <!--<th style="width: 5%;">
+                                                    <div class="th-inner ">Gender</div>
+                                                </th>
+                                                <th style="width: 20%;text-align: center; ">
+                                                    <div class="th-inner ">Duty</div>
+                                                </th>-->
+                                                <th style="width: 5%;text-align: center; ">
+                                                    <div class="th-inner ">Credit Balance</div>
+                                                </th>
+                                                <th style="width: 15%;text-align: center; ">
+                                                    <div class="th-inner ">Department</div>
+                                                </th>
+                                                <th style="width:20%;text-align: center; ">
+                                                    <div class="th-inner ">Team</div>
+                                                </th>
+                                                <!--<th style="text-align: center; ">-->
+                                                    <!--<div class="th-inner ">Status</div>-->
+                                                <!--</th>-->
+                                            </tr>
+                                            </thead>
+                                            <tbody id="table_result">
+                                                <tr data-index="0">
+                                                <td class="bs-checkbox"><input data-index="0" name="btSelectItem" type="checkbox"></td>
+                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="30px" /></td>
+                                                <td style="border-left: none;"><a href="#" class="btn-link">#UB-1609</a></td>
+                                                <td style="">Boudreaux</td>
+                                                <td style="">Male</td>
+                                                <td style="text-align: center; ">Web Dev</td>
+                                                <td style="text-align: center; ">$20</td>
+                                                <td style="text-align: center; ">B2B</td>
+                                                <td style="text-align: center; ">B2B II</td>
+                                                <!--<td style="text-align: center; ">-->
+                                                    <!--<button onclick="" type="button" class="btn btn-primary btn-xs">-->
+                                                        <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
+                                                    <!--</button>-->
+                                                <!--</td>-->
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="fixed-table-pagination">
+                                        <div class="pull-left pagination-detail" id="page_layer">
+                                            <span class="pagination-info">Showing 1 to 10 of 16 rows</span>
+                                            <span class="page-list">
+                                              <span class="btn-group dropup">
+                                                 <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
+                                                     <span class="page-size" id="per_page">10</span> <span class="caret"></span>
+                                                 </button>
+                                                 <ul class="dropdown-menu" role="menu" id="pageSizeLayer">
+                                                     <li><a href="javascript:void(0)">5</a></li>
+                                                    <li class="active"><a href="javascript:void(0)">10</a></li>
+                                                    <li><a href="javascript:void(0)">25</a></li>
+                                                 </ul>
+                                              </span>
+                                              records per page
+                                            </span>
+                                        </div>
+                                        <div class="pull-right pagination">
+                                            <ul class="pagination" id="paging" style="display: none;">
+                                                <li class="page-first disabled"><a href="javascript:void(0)">«</a></li>
+                                                <li class="page-pre disabled"><a href="javascript:void(0)">‹</a></li>
+                                                <li class="page-number active"><a href="javascript:void(0)">1</a></li>
+                                                <li class="page-number"><a href="javascript:void(0)">2</a></li>
+                                                <li class="page-next"><a href="javascript:void(0)">›</a></li>
+                                                <li class="page-last"><a href="javascript:void(0)">»</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+    <!--<th:block layout:fragment="myscript">-->
+        <script type="text/javascript">
+
+            var _page_no = 1;
+            $(function(){
+                _thisPage.onload();
+            });
+
+            var _thisPage = {
+                onload : function () {
+                    var _this = this;
+                    _this.event();
+                    _this.fillTable();
+                    wegarden.comm.checkAllTblChk("btSelectAll", "tbl_user", "bs-checkbox");
+
+                },
+                fillTable : function (input) {
+                    if(!input) input = {};
+                    console.log(input)
+                    if(!input["PAGE_NO"]){
+                        var page_no = 1
+                    }else{
+                        var page_no = input["PAGE_NO"];
+                    }
+                    var page_size = $("#per_page").text();
+                    input["PAGE_NO"] = page_no;
+                    input["LIMIT"]       = page_size;
+                    input["SRCH_WD"] = $("#srch_wd").val().trim();
+
+                    console.log(input);
+                    console.log(+1)
+                    $.ajax({
+                        type    : "GET",
+                        url       : "/users/get_user_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            $("#table_result").empty();
+                            // $(".bs-checkbox").show();
+                            $("#page_layer").show();
+                            $(".bs-checkbox").attr("checked", false);
+                            var strHtml = "", usr_image = "";
+
+
+                            if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                $.each(result.DATA_REC, function (i, v) {
+                                    usr_image = wegarden.comm.isEmpty(v.user_image) ? "/images/default_user.png" : wegarden.comm.null2Void(v.user_image, '');
+
+                                    strHtml += '<tr data-index="'+(i+1)+'">';
+                                    strHtml += '    <td class="bs-checkbox" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
+                                    strHtml += '    <td class="user-image" style="width: 10px;border-right: none; ">';
+                                    strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle" width="30px" /></td>';
+                                    strHtml += '    <td style="border-left: none;"><a href="#" class="btn-link">#########</a></td>';
+                                    strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
+                                    // strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_gender, '')+'</td>';
+                                    // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
+                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(v.user_credit_balance)+'</td>';
+                                    strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
+                                    strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                                    strHtml += '</tr>';
+                                });
+                                $("#table_result").append(strHtml);
+                            }else{
+                                $(".bs-checkbox").hide();
+                                $("#page_layer").hide();
+                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+
+                            // wegarden.comm.renderPaging("paging", page_size, result.CNT_REC, _page_no);
+                            // tms.ui.drawTablePaing("CREATE_PG_LINK", _ppay_2001_01.fillTable, input["PAGE_NO"], data.CNT, input["PAGE_SIZE"],input);
+                            wegarden.comm.drawTablePaging("paging", _thisPage.fillTable, page_no, result.CNT_REC, page_size, input);
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                event : function () {
+                    $("#pageSizeLayer li a").on("click", function () {
+                        var per_page = $(this).text();
+                        $("#per_page").text(per_page);
+                        $("#pageSizeLayer li").removeClass("active");
+                        $(this).parent().addClass("active");
+                        _thisPage.fillTable();
+                    });
+
+                    $("#srch_wd").keypress(function (e) {
+                        if(e.which == 13){
+                            _thisPage.fillTable();
+                        }
+                    });
+                }
+            }
+
+            function addCurrencySymbol(value_){
+                value_ = wegarden.comm.null2Void(value_, '0');
+                var isEmpty = wegarden.comm.isEmpty(value_);
+                var formatValue = wegarden.comm.formatCurrency(value_);
+
+                if(!isEmpty && value_ != "0"){
+                    return formatValue = "$"+formatValue;
+                }else{
+                    return formatValue;
+                }
+            }
+
+        </script>
+    <!--</th:block>-->
+</div>
+
+</body>
+</html>

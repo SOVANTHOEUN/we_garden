@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <title>WE_GARDEN</title>
+
+        <link th:replace="fragments/allstyle"/>
+        <script th:replace="fragments/allscript"></script>
+        <th:block layout:fragment="mystyle"></th:block>
+    </head>
+    <body>
+        <!--whole wrapper-->
+        <div id="wrapper">
+            <div th:replace="fragments/header :: header"></div>
+                <div th:replace="fragments/left-sidebar :: left-sidebar"></div>
+                    <div layout:fragment="content">
+
+                    </div>
+            <!-- <div th:replace="admin/fragments/footer::footer"></div>
+                   <div th:replace="admin/fragments/scripts::script"></div>-->
+                    <!--<div th:replace="fragments/right-sidebar :: right-sidebar"></div>-->
+        </div>
+
+    </body>
+</html>
