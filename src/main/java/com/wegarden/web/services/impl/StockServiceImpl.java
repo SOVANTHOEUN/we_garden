@@ -1,5 +1,7 @@
 package com.wegarden.web.services.impl;
 
+import com.wegarden.web.model.stock.Category;
+import com.wegarden.web.model.stock.Image;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.repositories.StockRepository;
 import com.wegarden.web.services.StockService;
@@ -19,4 +21,17 @@ public class StockServiceImpl implements StockService {
         return stockRepository.getStockList(srch_wd, status);
     }
 
+    @Override
+    public List<Category> getCategoryList(String status) {
+        return stockRepository.getCategoryList(status);
+    }
+    @Override
+    public String saveProImg(String img_nm, String img_type) {
+        return stockRepository.saveProImg(img_nm, img_type);
+    }
+
+    @Override
+    public String saveProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid) {
+        return stockRepository.saveProductData(pro_nm, pro_price, cate_uuid, img_uuid);
+    }
 }

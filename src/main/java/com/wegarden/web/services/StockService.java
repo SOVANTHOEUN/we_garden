@@ -1,9 +1,14 @@
 package com.wegarden.web.services;
 
+import com.wegarden.web.model.stock.Category;
+import com.wegarden.web.model.stock.Image;
 import com.wegarden.web.model.stock.Stock;
 
 import java.util.List;
 
 public interface StockService {
     List<Stock> getStocksList(String srch_wd,String status);
+    List<Category> getCategoryList(String status);
+    String saveProImg(String img_nm, String img_type);
+    String saveProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid);
 }

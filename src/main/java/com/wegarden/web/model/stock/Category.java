@@ -1,46 +1,34 @@
 package com.wegarden.web.model.stock;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Category {
 
-    private int id;
-    private String name;
-    private String remark;
-    private String status;
+    @Id
+    @JsonProperty("uuid")
     private String uuid;
 
-    public Category(int id, String name, String remark, String status, String uuid) {
-        this.id = id;
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("remark")
+    private String remark;
+
+    @JsonProperty("status")
+    private String status;
+
+    public Category() {
+
+    }
+
+    public Category(String uuid, String name, String remark, String status) {
+        this.uuid = uuid;
         this.name = name;
         this.remark = remark;
-        this.status = status;
-        this.uuid = uuid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRemark() { return remark; }
-
-    public void setRemark(String remark) { this.remark = remark; }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -52,14 +40,27 @@ public class Category {
         this.uuid = uuid;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", remark='" + remark + '\'' +
-                ", status='" + status + '\'' +
-                ", uuid='" + uuid + '\'' +
-                '}';
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

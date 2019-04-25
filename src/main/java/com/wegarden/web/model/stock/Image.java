@@ -1,27 +1,35 @@
 package com.wegarden.web.model.stock;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Image {
 
-    private int id;
+    @Id
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("status")
     private String status;
+
+    @JsonProperty("uuid")
     private String uuid;
 
-    public Image(int id, String name, String type, String status, String uuid) {
-        this.id = id;
+    public Image() {
+
+    }
+
+    public Image(String name, String type, String status, String uuid) {
         this.name = name;
         this.type = type;
         this.status = status;
         this.uuid = uuid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -54,16 +62,5 @@ public class Image {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", uuid='" + uuid + '\'' +
-                '}';
     }
 }

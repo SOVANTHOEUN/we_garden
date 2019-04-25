@@ -54,7 +54,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_nm" class="control-label">Product Name</label>
-                                                                <input type="text" class="form-control" id="pro_nm" placeholder="Oishi">
+                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -72,13 +72,13 @@
                                                         <div class="col-md-6" style="display: none;" id="quantityRow">
                                                             <div class="form-group">
                                                                 <label for="pro_quantity" class="control-label">Quantity</label>
-                                                                <input type="text" class="form-control" id="pro_quantity" placeholder="5, 10, 15 etc...">
+                                                                <input type="text" class="form-control" id="pro_quantity" placeholder="product quantity">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_price" class="control-label">Price</label>
-                                                                <input type="text" class="form-control" id="pro_price" placeholder="0.5$, 1$ etc...">
+                                                                <input type="text" class="form-control" id="pro_price" placeholder="product price">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -97,7 +97,7 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info waves-effect waves-light">Save</button>
+                                                    <button type="button" class="btn btn-info waves-effect waves-light" id="btnSaveProduct">Save</button>
                                                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
@@ -107,7 +107,7 @@
                                     <div class="bootstrap-table">
                                         <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
                                             <div class="fixed-table-body">
-                                                <table data-toggle="" class="table-bordered table table-hover" id="tbl_stock">
+                                                <table data-toggle="" class="table table-bordered table-hover" id="tbl_stock">
                                                     <thead>
                                                         <tr>
                                                             <th style="width: 15%;" colspan="2">
@@ -117,10 +117,10 @@
                                                                 <div class="th-inner ">Price</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Stock Amount</div>
+                                                                <div class="th-inner ">Stock</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Refrigerator Amount</div>
+                                                                <div class="th-inner ">Refrigerator</div>
                                                             </th>
                                                             <th style="text-align: center;">
                                                                 <div class="th-inner ">Status</div>
@@ -193,6 +193,7 @@
                         var _this = this;
                         _this.event();
                         _this.fillTable();
+                        _this.getCategoryList();
                         wegarden.comm.checkAllTblChk("btSelectAll", "tbl_stock", "bs-checkbox");
 
                     },
@@ -200,7 +201,7 @@
                         if(!input) input = {};
 
                         input["SRCH_WD"] = $("#srch_wd").val().toString().trim();
-                        console.log(input);
+
                         $.ajax({
                             type    : "GET",
                             url       : "/stock/get_stock_lists",
@@ -215,22 +216,21 @@
                                 $("#page_layer").show();
                                 $(".bs-checkbox").attr("checked", false);
                                 var strHtml = "", usr_image = "";
-                                console.log("data....");
-                                console.log(result.DATA_REC);
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i, v) {
-                                        usr_image = !wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.user_image, '');
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
 
+                                        console.log("usr_image:: "+usr_image);
                                         strHtml +='<tr data-index="0">';
-                                        strHtml +='    <td class="user-image" style="float: right;border-right: none; ">';
-                                        strHtml +='    	<img src="'+usr_image+'" alt="user-img" class="img-circle" width="30px" />';
+                                        strHtml +='    <td class="user-image" style="border-right: none;line-height: 40px;width: 1%;">';
+                                        strHtml +='    	<img src="/images/mentos1_2019042502.jpg" alt="user-img" class="img-circle" width="40px" />';
                                         strHtml +='    </td>';
-                                        strHtml +='    <td style="width: 15%;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
-                                        strHtml +='    <td style="">'+addCurrencySymbol(v.product_price)+'</td>';
-                                        strHtml +='    <td style="">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
-                                        strHtml +='    <td style="">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
-                                        strHtml +='    <td class="act_btn text-center">';
+                                        strHtml +='    <td style="width: 15%;border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+addCurrencySymbol(v.product_price)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick="editProduct();"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
@@ -248,6 +248,57 @@
                             error: function (error) {
                                 console.log(error);
                                 $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    getCategoryList : function(input){
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/stock/get_categorry_lists",
+                            data    : {"STATUS":"1"},
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+
+                                $("#pro_category").empty();
+                                var catHtml = "";
+                                $.each(result.DATA_REC, function (i,v) {
+                                    catHtml += '<option data-uuid="'+v.uuid+'">'+wegarden.comm.null2Void(v.name)+'</option>';
+                                });
+                                $("#pro_category").html(catHtml);
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    },
+                    saveProduct : function(input){
+                        if(!input) input = {};
+                        console.log("first::: "+input)
+
+                        input["PRO_NM"]      = $.trim($("#pro_nm").val());
+                        input["PRO_PRICE"]  = parseFloat($.trim($("#pro_price").val()));
+                        input["CATE_UUID"]  = $("#pro_category option:selected").data("uuid");
+                        input["FILENAME"]   = input.FILENAME;
+                        input["EXTENSION"] = input.EXTENSION;
+
+                        console.log(input);
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/stock/save_product_data",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                console.log(result.status);
+                            },
+                            error: function (error) {
+                                console.log(error);
                             }
                         });
                     },
@@ -283,6 +334,37 @@
                             };
                             reader.readAsDataURL(this.files[0]);
                         });
+
+                        $("input").focus(function () {
+                            $(this).css("background-color", "white");
+                        });
+
+                        $("#btnSaveProduct").click(function () {
+                            validateBorderInputColor(true, function (hasEmptyTextbox) {
+                                if (!hasEmptyTextbox) {
+                                    if ($("#myFile").val()) {
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("POST", "/image/uploadimg");
+                                        xhr.send(new FormData($('#myForm')[0]));
+                                        xhr.onload = function() {
+                                            if (this.readyState === 4 && this.status === 200) {
+                                                var dataPicture  = JSON.parse(this.responseText);
+                                                _thisPage.saveProduct(dataPicture)
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        // requestToSaveCategory();
+                                    }
+
+                                    // -------------- M O V E   S U B ---------------
+
+                                    // if (oldUUID != $("#mySelectCategory").val() && oldUUID != "" && $("#mySelectCategory").val() != "null") {
+                                    //     requestAPI("POST", "/admin/ajax/move_subcategory?mainCategoryUuid=" + $("#mySelectCategory").val() + "&subcategoryUuid=" + dataUUID);
+                                    // }
+                                }
+                            });
+                        });
                     }
                 }
 
@@ -298,24 +380,6 @@
                     }
                 }
 
-                function getCategoryList(){
-                    $.ajax({
-                        type    : "GET",
-                        url       : "/stock/get_categorry_lists",
-                        data    : {"STATUS":"1"},
-                        headers : {
-                            "Content-Type"  : "application/json;",
-                            "charset"       : "UTF-8"
-                        },
-                        success : function (result) {
-
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
-
                 function open_popup(input_){
                     $('#con-close-modal').modal('show');
                     if(input_.STATUS == "U"){
@@ -329,6 +393,27 @@
                     var input = {};
                     input["STATUS"] = "U";
                     open_popup(input);
+                }
+
+                function validateBorderInputColor(validate, callback) {
+                    var hasEmptyTextbox = false;
+
+                    $('input').each(function () {
+                        if (validate) {
+                            if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                                $(this).css("background-color", "#f9dfd8");
+                                hasEmptyTextbox = true
+                            }else{
+                                $(this).css("background-color", "white");
+                            }
+                        }else{
+                            $(this).css("border", "2px solid lightgrey");
+                        }
+                    });
+
+                    if (validate) {
+                        callback(hasEmptyTextbox);
+                    }
                 }
 
             </script>

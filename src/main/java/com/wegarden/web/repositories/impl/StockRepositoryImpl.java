@@ -1,5 +1,7 @@
 package com.wegarden.web.repositories.impl;
 
+import com.wegarden.web.model.stock.Category;
+import com.wegarden.web.model.stock.Image;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.repositories.StockRepository;
 import org.springframework.stereotype.Repository;
@@ -37,4 +39,74 @@ public class StockRepositoryImpl implements StockRepository {
         return stockList;
     }
 
+    @Override
+    public List<Category> getCategoryList(String status) {
+        List<Category> categoryList = new ArrayList<>();
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_read_categories", Category.class)
+                .registerStoredProcedureParameter("_status", String.class, ParameterMode.IN)
+                .setParameter("_status", status);
+
+        try{
+            categoryList = storedProcedureQuery.getResultList();
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return categoryList;
+    }
+
+    @Override
+    public String saveProImg(String img_nm, String img_type) {
+        String imageUuid = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_create_image")
+                .registerStoredProcedureParameter("_name", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_type", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("image_uuid", String.class, ParameterMode.OUT)
+                .setParameter("_name", img_nm)
+                .setParameter("_type", img_type);
+
+        try{
+            imageUuid = (String) storedProcedureQuery.getOutputParameterValue("image_uuid");
+            System.out.println("repo img_nm: "+img_nm);
+            System.out.println("repo img_type: "+img_type);
+            System.out.println("repo imageUuid: "+imageUuid);
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return imageUuid;
+    }
+
+    @Override
+    public String saveProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid) {
+        String actionCode = "";
+        /*Double dd = new Double();
+        String ss = new String();*/
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_create_product")
+                .registerStoredProcedureParameter("_name", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_price", Double .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_category_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_image_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_name", pro_nm)
+                .setParameter("_price", pro_price)
+                .setParameter("_image_uuid", img_uuid)
+                .setParameter("_category_uuid", cate_uuid);
+
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
 }
