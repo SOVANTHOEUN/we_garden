@@ -19,13 +19,15 @@ public class StockRepositoryImpl implements StockRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Stock> getStockList(String srch_wd, String status) {
+    public List<Stock> getStockList(String srch_wd, String status, String pro_uuid) {
         List<Stock> stockList = new ArrayList<>();
 
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_read_products_in_stock_and_refrigerator", Stock.class)
                 .registerStoredProcedureParameter("_status", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_srch_wd", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
                 .setParameter("_status", status)
+                .setParameter("_product_uuid", pro_uuid)
                 .setParameter("_srch_wd", srch_wd);
 
         try{
@@ -98,7 +100,40 @@ public class StockRepositoryImpl implements StockRepository {
                 .setParameter("_price", pro_price)
                 .setParameter("_image_uuid", img_uuid)
                 .setParameter("_category_uuid", cate_uuid);
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
 
+        return actionCode;
+    }
+
+    @Override
+    public String updateProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid, String pro_uuid) {
+        String actionCode = "";
+        /*Double dd = new Double();
+        String ss = new String();*/
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_update_product")
+                .registerStoredProcedureParameter("_name", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_price", Double .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_image_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_category_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_name", pro_nm)
+                .setParameter("_price", pro_price)
+                .setParameter("_image_uuid", img_uuid)
+                .setParameter("_category_uuid", cate_uuid)
+                .setParameter("_product_uuid", pro_uuid);
+
+        System.out.println("pro_nm: "+pro_nm);
+        System.out.println("pro_price: "+pro_price);
+        System.out.println("img_uuid: "+img_uuid);
+        System.out.println("cate_uuid: "+cate_uuid);
+        System.out.println("pro_uuid: "+pro_uuid);
         try{
             actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
         }catch (Exception e){

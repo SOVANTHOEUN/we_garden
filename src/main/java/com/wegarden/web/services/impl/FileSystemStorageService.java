@@ -40,7 +40,7 @@ public class FileSystemStorageService implements StorageService {
             String fileNmDate   = getName+"_"+DateFormatUtils.format(new Date(), "yyyyMMddss");
             String fileExe           = "."+FilenameUtils.getExtension(file.getOriginalFilename());
 
-            Files.copy(file.getInputStream(),this.rootLocation.resolve(fileNmDate+"."+fileExe));
+            Files.copy(file.getInputStream(),this.rootLocation.resolve(fileNmDate+fileExe));
 //            FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(tempPath));
             return new HashMap<String, Object>(){
                 {

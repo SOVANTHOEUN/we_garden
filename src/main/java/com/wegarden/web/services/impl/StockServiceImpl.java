@@ -17,8 +17,8 @@ public class StockServiceImpl implements StockService {
     private StockRepository stockRepository;
 
     @Override
-    public List<Stock> getStocksList(String srch_wd, String status) {
-        return stockRepository.getStockList(srch_wd, status);
+    public List<Stock> getStocksList(String srch_wd, String status, String pro_uuid) {
+        return stockRepository.getStockList(srch_wd, status, pro_uuid);
     }
 
     @Override
@@ -33,5 +33,10 @@ public class StockServiceImpl implements StockService {
     @Override
     public String saveProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid) {
         return stockRepository.saveProductData(pro_nm, pro_price, cate_uuid, img_uuid);
+    }
+
+    @Override
+    public String updateProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid, String pro_uuid) {
+        return stockRepository.updateProductData(pro_nm, pro_price, cate_uuid, img_uuid, pro_uuid);
     }
 }

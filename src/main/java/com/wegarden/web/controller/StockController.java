@@ -27,11 +27,10 @@ public class StockController {
 
     @RequestMapping("/get_stock_lists")
     @ResponseBody
-    public Map<String, Object> getUsersList(@ModelAttribute("SRCH_WD") String srch_wd){
+    public Map<String, Object> getUsersList(@ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("PRO_UUID") String pro_uuid){
         Map<String, Object> response = new HashMap<>();
-        System.out.println("hiiiii; "+srch_wd);
         String status       = "1"; // get from view soon
-        List<Stock> userList = stockService.getStocksList(srch_wd, status);
+        List<Stock> userList = stockService.getStocksList(srch_wd, status, pro_uuid);
 
         response.put("DATA_REC", userList);
         return response;
@@ -70,14 +69,28 @@ public class StockController {
                                                @ModelAttribute("CATE_UUID") String catUuid, @ModelAttribute("FILENAME") String filename,
                                                @ModelAttribute("EXTENSION") String extension){
         Map<String, Object> response = new HashMap<>();
-//        System.out.println(proPrice);
-//        Double proPrice = 0.5;
 
         String imageUuid = stockService.saveProImg(filename, extension);
-
-        System.out.println("imageUuid:: "+imageUuid);
         String actionCode = stockService.saveProductData(proNm, proPrice, catUuid, imageUuid);
-//        String actionCode = "";
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+
+        return response;
+    }
+
+    @RequestMapping("/update_product_data")
+    @ResponseBody
+    public Map<String, Object> updateProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
+                                                 @ModelAttribute("PRO_UUID") String pro_uuid, @ModelAttribute("CATE_UUID") String catUuid,
+                                                 @ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
+        Map<String, Object> response = new HashMap<>();
+
+        System.out.println("update is called....");
+        String imageUuid = stockService.saveProImg(filename, extension);
+        String actionCode = stockService.updateProductData(proNm,proPrice,catUuid,imageUuid,pro_uuid);
         if (actionCode.equals("00000")){
             response.put("status",true);
         }else {
