@@ -33,7 +33,7 @@ public class User {
     @JsonProperty("user_image")
     private String userImage;
     @JsonProperty("user_credit_balance")
-    private double userCreditBalance;
+    private Double userCreditBalance;
     @JsonProperty("user_username")
     private String userUsername;
     @JsonProperty("user_email")
@@ -44,8 +44,8 @@ public class User {
     private String userToken;
     @JsonProperty("user_created_date")
     private Timestamp userCreatedDate;
-    @JsonProperty("user_emplyment_status")
-    private String userEmplymentStatus;
+    @JsonProperty("user_employment_status")
+    private String userEmploymentStatus;
     @JsonProperty("user_status")
     private String userStatus;
     private String position;
@@ -74,7 +74,7 @@ public class User {
     public User() {
     }
 
-    public User(String userUuid, String userEnName, String userKhName, String userKrName, String userDuty, String userGender, Date userDob, String userPhoneNumber, String userImage, double userCreditBalance, String userUsername, String userEmail, String userRole, String userToken, Timestamp userCreatedDate, String userEmplymentStatus, String userStatus, String position, String positionType, String positionUuid, String teamUuid, String teamRemark, String teamStatus, String teamName, String departmentUuid, String departmentName, String departmentRemark, String departmentStatus) {
+    public User(String userUuid, String userEnName, String userKhName, String userKrName, String userDuty, String userGender, Date userDob, String userPhoneNumber, String userImage, Double userCreditBalance, String userUsername, String userEmail, String userRole, String userToken, Timestamp userCreatedDate, String userEmploymentStatus, String userStatus, String position, String positionType, String positionUuid, String teamUuid, String teamRemark, String teamStatus, String teamName, String departmentUuid, String departmentName, String departmentRemark, String departmentStatus) {
         this.userUuid = userUuid;
         this.userEnName = userEnName;
         this.userKhName = userKhName;
@@ -90,7 +90,7 @@ public class User {
         this.userRole = userRole;
         this.userToken = userToken;
         this.userCreatedDate = userCreatedDate;
-        this.userEmplymentStatus = userEmplymentStatus;
+        this.userEmploymentStatus = userEmploymentStatus;
         this.userStatus = userStatus;
         this.position = position;
         this.positionType = positionType;
@@ -177,11 +177,11 @@ public class User {
         this.userImage = userImage;
     }
 
-    public double getUserCreditBalance() {
+    public Double getUserCreditBalance() {
         return userCreditBalance;
     }
 
-    public void setUserCreditBalance(double userCreditBalance) {
+    public void setUserCreditBalance(Double userCreditBalance) {
         this.userCreditBalance = userCreditBalance;
     }
 
@@ -225,12 +225,12 @@ public class User {
         this.userCreatedDate = userCreatedDate;
     }
 
-    public String getUserEmplymentStatus() {
-        return userEmplymentStatus;
+    public String getuserEmploymentStatus() {
+        return userEmploymentStatus;
     }
 
-    public void setUserEmplymentStatus(String userEmplymentStatus) {
-        this.userEmplymentStatus = userEmplymentStatus;
+    public void setuserEmploymentStatus(String userEmploymentStatus) {
+        this.userEmploymentStatus = userEmploymentStatus;
     }
 
     public String getUserStatus() {

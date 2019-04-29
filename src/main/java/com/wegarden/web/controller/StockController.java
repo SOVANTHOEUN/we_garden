@@ -128,4 +128,19 @@ public class StockController {
 
         return response;
     }
+
+    @RequestMapping("/delete_product")
+    @ResponseBody
+    public Map<String, Object> deleteProduct(@ModelAttribute("PRO_UUID") String proUuid){
+        Map<String, Object> response = new HashMap<>();
+
+        String actionCode = stockService.deleteProduct(proUuid);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+
+        return response;
+    }
 }

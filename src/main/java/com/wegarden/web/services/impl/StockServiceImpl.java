@@ -48,4 +48,9 @@ public class StockServiceImpl implements StockService {
     public String saveRefrigeratorAmt(String proUuid, Integer quantity) {
         return stockRepository.saveRefrigeratorAmt(proUuid, quantity);
     }
+
+    @Override
+    public String deleteProduct(String proUuid) {
+        return stockRepository.deleteProduct(proUuid);
+    }
 }

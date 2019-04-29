@@ -26,15 +26,15 @@ public class UsersController {
 
     @RequestMapping("/get_user_list")
     @ResponseBody
-    public Map<String, Object> getUsersList(@ModelAttribute("LIMIT") int limit, @ModelAttribute("PAGE_NO") int page_no, @ModelAttribute("SRCH_WD") String srch_wd){
+    public Map<String, Object> getUsersList(@ModelAttribute("LIMIT") int limit, @ModelAttribute("PAGE_NO") int page_no,
+                                            @ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("USER_UUID") String userUuid){
         Map<String, Object> response = new HashMap<>();
-        String user_uuid = ""; // get from view soon
         String status       = ""; // get from view soon
-        List<User> userList = usersService.getUsersList(limit, page_no, srch_wd);
+        List<User> userList = usersService.getUsersList(limit, page_no, srch_wd, userUuid);
 
         System.out.println("limit: "+limit+" & page: "+page_no);
         response.put("DATA_REC", userList);
-        response.put("CNT_REC", usersService.countUsers(user_uuid, srch_wd, status));
+        response.put("CNT_REC", usersService.countUsers(userUuid, srch_wd, status));
         return response;
     }
 }

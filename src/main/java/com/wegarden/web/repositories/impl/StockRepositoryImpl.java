@@ -178,4 +178,24 @@ public class StockRepositoryImpl implements StockRepository {
 
         return actionCode;
     }
+
+    @Override
+    public String deleteProduct(String proUuid) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_disable_product")
+                .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_product_uuid", proUuid);
+
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
 }

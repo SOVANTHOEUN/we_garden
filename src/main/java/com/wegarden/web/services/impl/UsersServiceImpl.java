@@ -15,8 +15,8 @@ public class UsersServiceImpl implements UsersService {
     private UsersRepository usersRepository;
 
     @Override
-    public List<User> getUsersList(int limit, int page, String srch_wd) {
-        return usersRepository.getUsersList(limit, page, srch_wd);
+    public List<User> getUsersList(int limit, int page, String srch_wd, String userUuid) {
+        return usersRepository.getUsersList(limit, page, srch_wd, userUuid);
     }
 
     @Override

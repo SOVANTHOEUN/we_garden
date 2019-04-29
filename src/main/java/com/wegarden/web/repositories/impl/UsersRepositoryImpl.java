@@ -19,14 +19,16 @@ public class UsersRepositoryImpl implements UsersRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<User> getUsersList(int limit, int page, String srch_wd) {
+    public List<User> getUsersList(int limit, int page, String srch_wd, String userUuid) {
         List<User> userList = new ArrayList<>();
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_read_users", User.class )
                 .registerStoredProcedureParameter("_en_name", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_user_uuid", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_status", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_page", Integer.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_limit", Integer.class, ParameterMode.IN)
                 .setParameter("_en_name", srch_wd)
+                .setParameter("_user_uuid", userUuid)
                 .setParameter("_status", "")
                 .setParameter("_page", page)
                 .setParameter("_limit", limit);

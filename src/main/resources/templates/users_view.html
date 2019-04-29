@@ -6,6 +6,18 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="User-List"></title>
+    <style type="text/css">
+        .modal-custom{margin-left: 78px;width: 34em;}
+        .control-label-custom{margin-top: 5px;margin-bottom: 0;}
+        .id-custom{font-family: -webkit-body;font-size: 0.9em;opacity: 0.5;}
+        .label-balance{margin-top: 5px;margin-bottom: 5px;display: block;text-align: right;}
+        .label-topup{margin-top: 5px;margin-bottom: 5px;font-family: -webkit-body;font-size: 0.8em;opacity: 0.6;}
+        .card-box1{height: 90px;background-color: #b5f5ff;cursor: pointer;}
+        .card-box1:hover{height: 90px;background-color: #93e7ff;cursor: pointer;}
+        .card-selected{background-color: #93e7ff;}
+        .txt-topup-amt{margin: 0 auto;line-height: 45px;padding: 0;color: #444;font-weight: 1000 !important;}
+        .btn-topup{width: 100%;background-color: #b5f5ff !important;border: 1px solid #b5f5ff !important;color: #444 !important;font-weight: 900;height: 40px}
+    </style>
 </head>
 <body>
 <!-- Begin page -->
@@ -39,19 +51,160 @@
                                     <button id="demo-search-row" class="btn btn-warning" style="margin-left: -5px;" onclick="_thisPage.fillTable();"><i class="fa fa-search m-r-5"></i></button>
                                 </div>
                             </div>
+
+                            <!--modal-->
+                            <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content modal-custom">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Top Up</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="/images/b-tou.png" alt="image" id="userImage" class="img-responsive img-rounded" width="200">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="media-body">
+                                                        <h4 for="pro_category" class="control-label control-label-custom">
+                                                            <label id="userName">Lay Bunnavitou</label>
+                                                        </h4>
+                                                        <div class="name-id id-custom">
+                                                            <span>ID:</span>
+                                                            <span id="userId">000143</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label label-balance" id="userBalance">$100.50</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="media-body" style="padding: 27px 0 0;">
+                                                        <h5 for="pro_category" class="control-label label-topup">Top Up Amount</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter">$2</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="4">$4</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="5">$5</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="10">$10</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="15">$15</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="20">$20</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="25">$25</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="30">$30</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card-box card-box1 btnCardClick">
+                                                        <div class="text-center">
+                                                            <h3 class="txt-topup-amt">
+                                                                <p class="counter" data-amount="40">$40</p>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info btn-topup" id="btnSaveTopup">Top Up</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal -->
+
                             <div class="bootstrap-table">
                                 <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
                                     <div class="fixed-table-body">
                                         <table data-toggle="" class="table-bordered table table-hover" id="tbl_user">
+                                            <colgroup>
+                                                <col style="width:10px;">
+                                                <col style="width:10px;">
+                                                <col>
+                                                <col style="width:5px;">
+                                                <col style="width:200px;">
+                                                <col style="width:200px;">
+                                                <col style="width:50px">
+                                            </colgroup>
                                             <thead>
                                             <tr>
-                                                <th class="bs-checkbox " style="width: 36px;display: none;">
+                                                <th class="bs-checkbox " style="display: none;">
                                                     <div class="th-inner "><input name="btSelectAll" type="checkbox" id="btSelectAll"></div>
                                                 </th>
-                                                <th style="width: 5%;" colspan="2">
+                                                <th style="" colspan="2">
                                                     <div class="th-inner ">ID Card Number</div>
                                                 </th>
-                                                <th style="width: 15%;">
+                                                <th style="">
                                                     <div class="th-inner ">Name</div>
                                                 </th>
                                                 <!--<th style="width: 5%;">
@@ -60,36 +213,22 @@
                                                 <th style="width: 20%;text-align: center; ">
                                                     <div class="th-inner ">Duty</div>
                                                 </th>-->
-                                                <th style="width: 5%;text-align: center; ">
+                                                <th style="text-align: center; ">
                                                     <div class="th-inner ">Credit Balance</div>
                                                 </th>
-                                                <th style="width: 15%;text-align: center; ">
+                                                <th style="text-align: center; ">
                                                     <div class="th-inner ">Department</div>
                                                 </th>
-                                                <th style="width:20%;text-align: center; ">
+                                                <th style="text-align: center; ">
                                                     <div class="th-inner ">Team</div>
                                                 </th>
-                                                <!--<th style="text-align: center; ">-->
-                                                    <!--<div class="th-inner ">Status</div>-->
-                                                <!--</th>-->
+                                                <th style="text-align: center; ">
+                                                    <div class="th-inner ">Action</div>
+                                                </th>
                                             </tr>
                                             </thead>
                                             <tbody id="table_result">
-                                                <tr data-index="0">
-                                                <td class="bs-checkbox"><input data-index="0" name="btSelectItem" type="checkbox"></td>
-                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="30px" /></td>
-                                                <td style="border-left: none;"><a href="#" class="btn-link">#UB-1609</a></td>
-                                                <td style="">Boudreaux</td>
-                                                <td style="">Male</td>
-                                                <td style="text-align: center; ">Web Dev</td>
-                                                <td style="text-align: center; ">$20</td>
-                                                <td style="text-align: center; ">B2B</td>
-                                                <td style="text-align: center; ">B2B II</td>
-                                                <!--<td style="text-align: center; ">-->
-                                                    <!--<button onclick="" type="button" class="btn btn-primary btn-xs">-->
-                                                        <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
-                                                    <!--</button>-->
-                                                <!--</td>-->
+
                                             </tr>
                                             </tbody>
                                         </table>
@@ -143,6 +282,7 @@
         <script type="text/javascript">
 
             var _page_no = 1;
+            var _userUuid = "";
             $(function(){
                 _thisPage.onload();
             });
@@ -170,7 +310,6 @@
                     input["SRCH_WD"] = $("#srch_wd").val().trim();
 
                     console.log(input);
-                    console.log(+1)
                     $.ajax({
                         type    : "GET",
                         url       : "/users/get_user_list",
@@ -199,9 +338,12 @@
                                     strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
                                     // strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_gender, '')+'</td>';
                                     // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
-                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(v.user_credit_balance)+'</td>';
+                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(v.user_credit_balance.toFixed(2))+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                                    strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
+                                    strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick=open_popup("'+v.user_uuid+'");><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                                    strHtml +='    </td>';
                                     strHtml += '</tr>';
                                 });
                                 $("#table_result").append(strHtml);
@@ -215,6 +357,65 @@
                             // tms.ui.drawTablePaing("CREATE_PG_LINK", _ppay_2001_01.fillTable, input["PAGE_NO"], data.CNT, input["PAGE_SIZE"],input);
                             wegarden.comm.drawTablePaging("paging", _thisPage.fillTable, page_no, result.CNT_REC, page_size, input);
 
+                            setTimeout(function () {
+                                $("#loading").hide();
+                            }, 300);
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                saveTopupAmount : function (input) {
+                    // $("#loading").show();
+
+                    console.log(input);
+                    // $.ajax({
+                    //     type    : "GET",
+                    //     url       : "/users/get_user_list",
+                    //     data    : input,
+                    //     headers : {
+                    //         "Content-Type"  : "application/json;",
+                    //         "charset"       : "UTF-8"
+                    //     },
+                    //     success : function (result) {
+                    //         setTimeout(function () {
+                    //             $("#loading").hide();
+                    //         }, 300);
+                    //
+                    //
+                    //     },
+                    //     error: function (error) {
+                    //         console.log(error);
+                    //     }
+                    // });
+                },
+                getUserCreditBalance : function (input) {
+                    // top.$("#loading").show();
+                    if(!input) input = {};
+
+                    input["PAGE_NO"] = 1;
+                    input["LIMIT"]       = 1;
+                    input["SRCH_WD"] = '';
+                    input["USER_UUID"] = input.USER_UUID;
+
+                    $.ajax({
+                        type    : "GET",
+                        url       : "/users/get_user_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            console.log(result.DATA_REC);
+                            $.each(result.DATA_REC, function (i,v) {
+                                $("#userName").text(wegarden.comm.null2Void(v.user_en_name, ''));
+                                // $("#userId").text(wegarden.comm.null2Void(v.user_en_name, ''));
+                                // $("#userImage").attr(''src,wegarden.comm.null2Void(v.user_image, ''));
+                                $("#userBalance").text(addCurrencySymbol(v.user_credit_balance.toFixed(2)));
+                            });
                             setTimeout(function () {
                                 $("#loading").hide();
                             }, 300);
@@ -239,7 +440,33 @@
                             _thisPage.fillTable();
                         }
                     });
+
+                    $(document).on("click", ".btnCardClick", function () {
+                        $(".btnCardClick").removeClass('card-selected');
+                        $(this).addClass('card-selected');
+                    });
+
+                    $(document).on("click", "#btnSaveTopup", function () {
+                        var input = {};
+                        var amtTopup = $(".card-selected").find('p.counter').data("amount");
+                        if(!amtTopup) return;
+                        input["TRANSACTION_AMOUNT"] = amtTopup;
+                        input["TRANSACTION_TYPE"] = "+";
+                        input["USER_UUID"] = _userUuid;
+                        _thisPage.saveTopupAmount(input);
+                    });
+
+
                 }
+            }
+
+            function open_popup(input_){
+                $('#con-close-modal').modal('show');
+                $(".btnCardClick").removeClass('card-selected');
+                var input = {};
+                input["USER_UUID"] = input_;
+                _userUuid = input_;
+                _thisPage.getUserCreditBalance(input);
             }
 
             function addCurrencySymbol(value_){

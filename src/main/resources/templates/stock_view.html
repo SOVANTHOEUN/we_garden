@@ -130,7 +130,8 @@
                                                         <col style="width:200px;">
                                                         <col style="width:200px;">
                                                         <col>
-                                                        <col style="width:50px"></colgroup>
+                                                        <col style="width:50px">
+                                                    </colgroup>
                                                     <thead>
                                                         <tr>
                                                             <th style="" colspan="2">
@@ -251,7 +252,6 @@
                                     $.each(result.DATA_REC, function (i, v) {
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
 
-                                        console.log("usr_image:: "+usr_image);
                                         strHtml +='<tr data-uuid="'+v.product_uuid+'">';
                                         strHtml +='    <td class="user-image pro-image">';
                                         strHtml +='    	<img src="/images/'+usr_image+'" alt="user-img" class="img-circle" width="40px" />';
@@ -277,7 +277,7 @@
                                         strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick=editProduct("'+v.product_uuid+'");><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-                                        strHtml +='      <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
+                                        strHtml +='      <button type="button" class="btn btn-danger btn-xs" onclick=deleteProduct("'+v.product_uuid+'");><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
                                         strHtml +='    </td>';
                                         strHtml +='</tr>';
                                     });
@@ -383,8 +383,6 @@
                         var saveStatus = $("#txtSave").data("status");
                         (saveStatus == "U" ? requestUrl = "/stock/update_product_data" : requestUrl = "/stock/save_product_data")
 
-                        console.log(saveStatus+"requestUrl:: "+requestUrl)
-                        console.log(input)
                         $.ajax({
                             type    : "GET",
                             url       : requestUrl,
@@ -421,6 +419,46 @@
                                     $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
 
                                 });
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    fn_delete_product : function (input) {
+                        if(!input) input = {};
+                        input["PRO_UUID"] = input.PRO_UUID;
+                        console.log(input)
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/stock/delete_product",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+
+                                fnSearch();
+                                if(result.status){
+                                    swal({
+                                        title: "Successful",
+                                        text: "Your transaction has been successfully processed!",
+                                        type: "success",
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    });
+                                }else{
+                                    swal({
+                                        title: "Failed",
+                                        text: "Your transaction cannot be completed!",
+                                        type: "error",
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                }
                             },
                             error: function (error) {
                                 console.log(error);
@@ -566,10 +604,29 @@
                     open_popup(input);
                 }
 
+                function deleteProduct(proUuid){
+                    var input = {};
+                    input["PRO_UUID"] = proUuid;
+                    swal({
+                            title               : "Are you sure ?",
+                            text                : "You will be able to recover this record from trash!",
+                            type                : "info",
+                            cancelButtonText    : "No, thanks!",
+                            confirmButtonText   : 'Yes, delete it!',
+                            confirmButtonColor  : '#ff5e6e',
+                            showCancelButton    : true,
+                            closeOnCancel       : true,
+                            closeOnConfirm      : false
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                _thisPage.fn_delete_product(input);
+                            }
+                        });
+                }
+
                 function open_popup(input_){
                     $('#con-close-modal').modal('show');
-                    $('input').val('');
-                    $('#myImage').attr('src','../images/imageDefault2.svg');
 
                     if(input_.STATUS == "U"){
                         $("#txtSave").text("Update Product");
@@ -577,6 +634,9 @@
                         $("#txtSave").data("uuid",input_.PRO_UUID);
                         _thisPage.searchProductRow(input_);
                     }else{
+                        $('#myImage').attr('src','../images/imageDefault2.svg');
+                        $('input#pro_nm').val('');
+                        $('input#pro_price').val('');
                         $("#quantityRow").hide();
                     }
                 }
