@@ -84,13 +84,42 @@ public class StockController {
     @RequestMapping("/update_product_data")
     @ResponseBody
     public Map<String, Object> updateProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
-                                                 @ModelAttribute("PRO_UUID") String pro_uuid, @ModelAttribute("CATE_UUID") String catUuid,
+                                                 @ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("CATE_UUID") String catUuid,
                                                  @ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
         Map<String, Object> response = new HashMap<>();
 
-        System.out.println("update is called....");
         String imageUuid = stockService.saveProImg(filename, extension);
-        String actionCode = stockService.updateProductData(proNm,proPrice,catUuid,imageUuid,pro_uuid);
+        String actionCode = stockService.updateProductData(proNm,proPrice,catUuid,imageUuid,proUuid);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+
+        return response;
+    }
+
+    @RequestMapping("/save_product_amount")
+    @ResponseBody
+    public Map<String, Object> saveProductAmount(@ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("QUANTITY") Integer quantity){
+        Map<String, Object> response = new HashMap<>();
+
+        String actionCode = stockService.saveProductAmt(proUuid, quantity);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+
+        return response;
+    }
+
+    @RequestMapping("/save_refrigerator_amount")
+    @ResponseBody
+    public Map<String, Object> saveRefrigeratorAmount(@ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("QUANTITY") Integer quantity){
+        Map<String, Object> response = new HashMap<>();
+
+        String actionCode = stockService.saveRefrigeratorAmt(proUuid, quantity);
         if (actionCode.equals("00000")){
             response.put("status",true);
         }else {

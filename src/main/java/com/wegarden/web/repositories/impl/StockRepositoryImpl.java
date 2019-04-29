@@ -73,9 +73,6 @@ public class StockRepositoryImpl implements StockRepository {
 
         try{
             imageUuid = (String) storedProcedureQuery.getOutputParameterValue("image_uuid");
-            System.out.println("repo img_nm: "+img_nm);
-            System.out.println("repo img_type: "+img_type);
-            System.out.println("repo imageUuid: "+imageUuid);
         }catch (Exception e){
             System.out.println("Error.....proned.");
             e.printStackTrace();
@@ -129,11 +126,48 @@ public class StockRepositoryImpl implements StockRepository {
                 .setParameter("_category_uuid", cate_uuid)
                 .setParameter("_product_uuid", pro_uuid);
 
-        System.out.println("pro_nm: "+pro_nm);
-        System.out.println("pro_price: "+pro_price);
-        System.out.println("img_uuid: "+img_uuid);
-        System.out.println("cate_uuid: "+cate_uuid);
-        System.out.println("pro_uuid: "+pro_uuid);
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
+
+    @Override
+    public String saveProductAmt(String proUuid, Integer quantity) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_add_to_stock")
+                .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_stock_in_qty", Integer .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_product_uuid", proUuid)
+                .setParameter("_stock_in_qty", quantity);
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
+
+    @Override
+    public String saveRefrigeratorAmt(String proUuid, Integer quantity) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_add_to_refrigerator")
+                .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_stock_in_qty", Integer .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_product_uuid", proUuid)
+                .setParameter("_stock_in_qty", quantity);
         try{
             actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
         }catch (Exception e){

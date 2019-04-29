@@ -156,6 +156,7 @@
 
                 },
                 fillTable : function (input) {
+                    $("#loading").show();
                     if(!input) input = {};
                     console.log(input)
                     if(!input["PAGE_NO"]){
@@ -213,6 +214,10 @@
                             // wegarden.comm.renderPaging("paging", page_size, result.CNT_REC, _page_no);
                             // tms.ui.drawTablePaing("CREATE_PG_LINK", _ppay_2001_01.fillTable, input["PAGE_NO"], data.CNT, input["PAGE_SIZE"],input);
                             wegarden.comm.drawTablePaging("paging", _thisPage.fillTable, page_no, result.CNT_REC, page_size, input);
+
+                            setTimeout(function () {
+                                $("#loading").hide();
+                            }, 300);
 
                         },
                         error: function (error) {

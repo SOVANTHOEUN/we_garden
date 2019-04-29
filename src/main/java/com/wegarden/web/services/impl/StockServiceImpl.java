@@ -39,4 +39,13 @@ public class StockServiceImpl implements StockService {
     public String updateProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid, String pro_uuid) {
         return stockRepository.updateProductData(pro_nm, pro_price, cate_uuid, img_uuid, pro_uuid);
     }
+
+    @Override
+    public String saveProductAmt(String proUuid, Integer quantity) {
+        return stockRepository.saveProductAmt(proUuid, quantity);
+    }
+    @Override
+    public String saveRefrigeratorAmt(String proUuid, Integer quantity) {
+        return stockRepository.saveRefrigeratorAmt(proUuid, quantity);
+    }
 }
