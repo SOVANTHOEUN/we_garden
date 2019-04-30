@@ -72,5 +72,26 @@ public class UsersRepositoryImpl implements UsersRepository {
         return countUsers;
     }
 
+    @Override
+    public String userUpdateBalance(String userUuid, String transactionType, Double transactionAmount) {
+        String actionCode = "";
 
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_update_balance")
+                .registerStoredProcedureParameter("_user_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_transaction_type", String .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_transaction_amount", Double .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_user_uuid", userUuid)
+                .setParameter("_transaction_type", transactionType)
+                .setParameter("_transaction_amount", transactionAmount);
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
 }

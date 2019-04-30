@@ -37,4 +37,19 @@ public class UsersController {
         response.put("CNT_REC", usersService.countUsers(userUuid, srch_wd, status));
         return response;
     }
+
+    @RequestMapping("/user_update_balance")
+    @ResponseBody
+    public Map<String, Object> updateBalance(@ModelAttribute("TRANSACTION_AMOUNT") Double transactionAmount, @ModelAttribute("TRANSACTION_TYPE") String transactionType,
+                                             @ModelAttribute("USER_UUID") String userUuid){
+        Map<String, Object> response = new HashMap<>();
+
+        String actionCode = usersService.userUpdateBalance(userUuid, transactionType, transactionAmount);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+        return response;
+    }
 }

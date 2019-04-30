@@ -23,4 +23,9 @@ public class UsersServiceImpl implements UsersService {
     public int countUsers(String user_uuid, String srch_wd, String status) {
         return usersRepository.countUsers(user_uuid, srch_wd, status);
     }
+
+    @Override
+    public String userUpdateBalance(String userUuid, String transactionType, Double transactionAmount) {
+        return usersRepository.userUpdateBalance(userUuid, transactionType, transactionAmount);
+    }
 }

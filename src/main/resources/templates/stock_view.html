@@ -17,11 +17,11 @@
             .action_layer{/* display: none; */position: absolute;top: 70px;right: 166px;border: 1px solid #999;width: 100px;background: #fff;box-shadow: 1px 1px 2px 0 #ccc;-webkit-box-shadow: 0 2px 5px 2px #ccc;}
 
             .pro-image{border-right: none;line-height: 40px;}
-            .input-amt-stock{width: 145px;height: 30px;margin-left: -10px;padding-left: 8px;}
+            .input-amt-stock{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
             .btn-save-stock{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
             .btn-canc-stock{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
 
-            .input-amt-refri{width: 145px;height: 30px;margin-left: -10px;padding-left: 8px;}
+            .input-amt-refri{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
             .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
             .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
             .edit-row{font-size: 0.8em;}
@@ -129,8 +129,8 @@
                                                         <col style="width:80px;">
                                                         <col style="width:200px;">
                                                         <col style="width:200px;">
-                                                        <col>
                                                         <col style="width:50px">
+                                                        <col>
                                                     </colgroup>
                                                     <thead>
                                                         <tr>
@@ -214,6 +214,8 @@
             <!--<th:block layout:fragment="myscript">-->
             <script type="text/javascript">
                 var _page_no = 1;
+                var CATEGORY_REC_ = {};
+                var imageSrc_ = ""
                 $(function(){
                     _thisPage.onload();
                 });
@@ -222,8 +224,8 @@
                     onload : function () {
                         var _this = this;
                         _this.event();
-                        fnSearch();
                         _this.getCategoryList();
+                        fnSearch();
                         wegarden.comm.checkAllTblChk("btSelectAll", "tbl_stock", "bs-checkbox");
 
                     },
@@ -246,9 +248,10 @@
                                 $(".bs-checkbox").show();
                                 $("#page_layer").show();
                                 $(".bs-checkbox").attr("checked", false);
-                                var strHtml = "", usr_image = "";
+                                var strHtml = "", strCate = "", usr_image = "";
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                    console.log("CATEGORY_REC_:: "+JSON.stringify(CATEGORY_REC_));
                                     $.each(result.DATA_REC, function (i, v) {
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
 
@@ -258,25 +261,24 @@
                                         strHtml +='    </td>';
                                         strHtml +='    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         strHtml +='    <td style="line-height: 40px;">'+addCurrencySymbol(v.product_price)+'</td>';
-                                        strHtml +='    <td style="line-height: 40px;border: none;">';
+                                        strHtml +='    <td style="line-height: 40px;">';
                                         strHtml +='         <span class="stoAmt">'+wegarden.comm.null2Void(v.stock_quantity)+'</span>';
                                         strHtml +='         <a href="javascript:" class="on-default edit-row btnAddStock" style="float: right"><i class="fa fa-plus"></i></a>';
-                                        strHtml +='         <div class="hidden editStockLayer" style="display:inline-flex;">';
+                                        strHtml +='         <div class="hidden editStockLayer" style="display:inline-flex;width: 100%;">';
                                         strHtml +='             <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="'+wegarden.comm.null2Void(v.stock_quantity)+'">';
                                         strHtml +='             <a href="javascript:" class="on-editing save-row btn-save-stock btnSaveStock"><i class="fa fa-save"></i></a>';
                                         strHtml +='             <a href="javascript:" class="on-editing cancel-row btn-canc-stock btnCanStock"><i class="fa fa-times"></i></a>';
                                         strHtml +='    </div></td>';
-                                        strHtml +='    <td style="line-height: 40px;border: none;">';
+                                        strHtml +='    <td style="line-height: 40px;">';
                                         strHtml +='         <span class="refrigAmt">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</span>';
                                         strHtml +='         <a href="javascript:" class="on-default edit-row btnAddRefrig" style="float: right"><i class="fa fa-plus"></i></a>';
-                                        strHtml +='         <div class="hidden editRefrigLayer" style="display:inline-flex;">';
+                                        strHtml +='         <div class="hidden editRefrigLayer" style="display:inline-flex;width: 100%;">';
                                         strHtml +='                 <input type="text" maxlength="10" class="form-control input-block input-amt-refri REFRIG_AMT" onkeypress="javascript:return isNumber(event)" value="'+wegarden.comm.null2Void(v.refrigerator_quantity)+'">';
                                         strHtml +='                 <a href="javascript:" class="on-editing save-row btn-save-refrig btnSaveRefrig"><i class="fa fa-save"></i></a>';
                                         strHtml +='                 <a href="javascript:" class="on-editing cancel-row btn-canc-refrig btnCanRefrig"><i class="fa fa-times"></i></a>';
                                         strHtml +='    </div></td>';
                                         strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
                                         strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick=editProduct("'+v.product_uuid+'");><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
-                                        strHtml +='      <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
                                         strHtml +='      <button type="button" class="btn btn-danger btn-xs" onclick=deleteProduct("'+v.product_uuid+'");><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
                                         strHtml +='    </td>';
                                         strHtml +='</tr>';
@@ -285,7 +287,7 @@
                                 }else{
                                     $(".bs-checkbox").hide();
                                     $("#page_layer").hide();
-                                    $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                                    $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
                                 }
                                 setTimeout(function () {
                                     // $("#loading").hide();
@@ -294,7 +296,7 @@
                             },
                             error: function (error) {
                                 console.log(error);
-                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                                $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
                             }
                         });
                     },
@@ -309,6 +311,7 @@
                             },
                             success : function (result) {
 
+                                CATEGORY_REC_ = result.DATA_REC;
                                 $("#pro_category").empty();
                                 var catHtml = "";
                                 $.each(result.DATA_REC, function (i,v) {
@@ -480,7 +483,7 @@
                                 fnSearch();
                             }
                         });
-                        
+
                         $("#btnAddPro").click(function () {
                             var input = {};
                             input["STATUS"] = "N";
@@ -495,6 +498,8 @@
                             var reader = new FileReader();
                             reader.onload = function () {
                                 $('#myImage').attr('src', reader.result);
+                                imageSrc_ = reader.result;
+                                console.log("reader.result::: "+reader.result);
                             };
                             reader.readAsDataURL(this.files[0]);
                         });
@@ -552,14 +557,28 @@
                                 if (!hasEmptyTextbox) {
                                     if ($("#myFile").val()) {
                                         var xhr = new XMLHttpRequest();
-                                        xhr.open("POST", "/image/uploadimg");
+                                        // xhr.open("POST", "/image/uploadimg");
+                                        xhr.open("POST", "http://192.168.178.131:8762/image/file_upload");
                                         xhr.send(new FormData($('#myForm')[0]));
+
+                                        // xhr.onload = function() {
+                                        //     if (this.readyState === 4 && this.status === 200) {
+                                        //         // var dataPicture  = JSON.parse(this.responseText);
+                                        //         var dataPicture = JSON.parse(this.responseText).data.file_name;
+                                        //         console.log("dataPicture:: "+dataPicture);
+                                        //         // _thisPage.saveProduct(dataPicture)
+                                        //     }
+                                        // }
+
                                         xhr.onload = function() {
-                                            if (this.readyState === 4 && this.status === 200) {
-                                                var dataPicture  = JSON.parse(this.responseText);
-                                                _thisPage.saveProduct(dataPicture)
-                                            }
-                                        }
+                                            var responseText = xhr.responseText;
+                                            console.log("responseText:: "+responseText);
+                                            // process the response.
+                                        };
+
+                                        xhr.onerror = function() {
+                                            console.log('There was an error!'+xhr.messages);
+                                        };
                                     }
                                     else {
                                         // requestToSaveCategory();

@@ -12,9 +12,9 @@
         .id-custom{font-family: -webkit-body;font-size: 0.9em;opacity: 0.5;}
         .label-balance{margin-top: 5px;margin-bottom: 5px;display: block;text-align: right;}
         .label-topup{margin-top: 5px;margin-bottom: 5px;font-family: -webkit-body;font-size: 0.8em;opacity: 0.6;}
-        .card-box1{height: 90px;background-color: #b5f5ff;cursor: pointer;}
+        .card-box1{height: 90px;background-color: #b5f5ff;cursor: pointer;display: block;}
         .card-box1:hover{height: 90px;background-color: #93e7ff;cursor: pointer;}
-        .card-selected{background-color: #93e7ff;}
+        .card-selected{background-color: #34d3eb;}
         .txt-topup-amt{margin: 0 auto;line-height: 45px;padding: 0;color: #444;font-weight: 1000 !important;}
         .btn-topup{width: 100%;background-color: #b5f5ff !important;border: 1px solid #b5f5ff !important;color: #444 !important;font-weight: 900;height: 40px}
     </style>
@@ -89,7 +89,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter">$2</p>
@@ -98,7 +98,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="4">$4</p>
@@ -107,7 +107,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="5">$5</p>
@@ -118,7 +118,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="10">$10</p>
@@ -127,7 +127,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="15">$15</p>
@@ -136,7 +136,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="20">$20</p>
@@ -147,7 +147,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="25">$25</p>
@@ -156,7 +156,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="30">$30</p>
@@ -165,7 +165,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <div class="card-box card-box1 btnCardClick">
+                                                    <div class="card-box card-box1 btnCardClick waves-effect">
                                                         <div class="text-center">
                                                             <h3 class="txt-topup-amt">
                                                                 <p class="counter" data-amount="40">$40</p>
@@ -176,7 +176,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-info btn-topup" id="btnSaveTopup">Top Up</button>
+                                            <button type="button" class="btn btn-info btn-topup" data-dismiss="modal"  id="btnSaveTopup">Top Up</button>
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                     </div>
                                     <div class="fixed-table-pagination">
                                         <div class="pull-left pagination-detail" id="page_layer">
-                                            <span class="pagination-info">Showing 1 to 10 of 16 rows</span>
+                                            <!--<span class="pagination-info" id="pagination-info">Showing 1 to 10 of 16 rows</span>-->
                                             <span class="page-list">
                                               <span class="btn-group dropup">
                                                  <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
@@ -247,7 +247,7 @@
                                                     <li><a href="javascript:void(0)">25</a></li>
                                                  </ul>
                                               </span>
-                                              records per page
+                                              <!--records per page-->
                                             </span>
                                         </div>
                                         <div class="pull-right pagination">
@@ -338,7 +338,7 @@
                                     strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
                                     // strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_gender, '')+'</td>';
                                     // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
-                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(v.user_credit_balance.toFixed(2))+'</td>';
+                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(2))+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
                                     strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
@@ -368,28 +368,29 @@
                     });
                 },
                 saveTopupAmount : function (input) {
-                    // $("#loading").show();
+                    $("#loading").show();
 
                     console.log(input);
-                    // $.ajax({
-                    //     type    : "GET",
-                    //     url       : "/users/get_user_list",
-                    //     data    : input,
-                    //     headers : {
-                    //         "Content-Type"  : "application/json;",
-                    //         "charset"       : "UTF-8"
-                    //     },
-                    //     success : function (result) {
-                    //         setTimeout(function () {
-                    //             $("#loading").hide();
-                    //         }, 300);
-                    //
-                    //
-                    //     },
-                    //     error: function (error) {
-                    //         console.log(error);
-                    //     }
-                    // });
+                    $.ajax({
+                        type    : "GET",
+                        url       : "/users/user_update_balance",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            _thisPage.fillTable();
+                            setTimeout(function () {
+                                $("#loading").hide();
+                            }, 300);
+
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
                 },
                 getUserCreditBalance : function (input) {
                     // top.$("#loading").show();
@@ -410,11 +411,13 @@
                         },
                         success : function (result) {
                             console.log(result.DATA_REC);
+                            var userSrc = "";
                             $.each(result.DATA_REC, function (i,v) {
                                 $("#userName").text(wegarden.comm.null2Void(v.user_en_name, ''));
                                 // $("#userId").text(wegarden.comm.null2Void(v.user_en_name, ''));
-                                // $("#userImage").attr(''src,wegarden.comm.null2Void(v.user_image, ''));
-                                $("#userBalance").text(addCurrencySymbol(v.user_credit_balance.toFixed(2)));
+                                wegarden.comm.isEmpty(v.user_image, '') ? userSrc = '/images/default_user.png' : userSrc = wegarden.comm.null2Void(v.user_image, '');
+                                $("#userImage").attr('src',userSrc);
+                                $("#userBalance").text(addCurrencySymbol(Number(v.user_credit_balance).toFixed(2)));
                             });
                             setTimeout(function () {
                                 $("#loading").hide();
@@ -446,6 +449,10 @@
                         $(this).addClass('card-selected');
                     });
 
+                    $(document).on("change", "#per_page", function () {
+                        $("#pagination-info").html('card-selected');
+                    });
+
                     $(document).on("click", "#btnSaveTopup", function () {
                         var input = {};
                         var amtTopup = $(".card-selected").find('p.counter').data("amount");
@@ -474,7 +481,7 @@
                 var isEmpty = wegarden.comm.isEmpty(value_);
                 var formatValue = wegarden.comm.formatCurrency(value_);
 
-                if(!isEmpty && value_ != "0"){
+                if(!isEmpty && value_ != "0" && value_ != "0.00"){
                     return formatValue = "$"+formatValue;
                 }else{
                     return formatValue;
