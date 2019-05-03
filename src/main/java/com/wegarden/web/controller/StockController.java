@@ -5,13 +5,15 @@ import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import sun.java2d.SurfaceData;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.io.ObjectStreamClass;
+import java.lang.reflect.Field;
+import java.sql.Array;
+import java.util.*;
 
 @Controller
 @RequestMapping("/stock")
@@ -19,92 +21,37 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    @RequestMapping("/select")
+    @RequestMapping("/index")
     public String home(){
         System.out.println("stock is called...");
         return "stock_view";
     }
 
-    @RequestMapping("/get_stock_lists")
+    @RequestMapping("/get_stock_list")
     @ResponseBody
-    public Map<String, Object> getUsersList(@ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("PRO_UUID") String pro_uuid){
+    public Map<String, Object> getStockList(@ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("PRO_UUID") String pro_uuid){
         Map<String, Object> response = new HashMap<>();
-        String status       = "1"; // get from view soon
-        List<Stock> userList = stockService.getStocksList(srch_wd, status, pro_uuid);
-
+        String status       = "1"; // get from view
+        List<Stock> userList = stockService.getStockList(srch_wd, status, pro_uuid);
+        System.out.println("stock list is called...");
         response.put("DATA_REC", userList);
         return response;
     }
 
-    @RequestMapping("/get_categorry_lists")
+    @PostMapping("/stock_save_pro_amount")
     @ResponseBody
-    public Map<String, Object> getCategoryList(@ModelAttribute("STATUS") String status){
+    public Map<String, Object> saveProductAmount(@RequestBody HashMap<String, Object> inRec){
         Map<String, Object> response = new HashMap<>();
+        ArrayList arrIn = (ArrayList)inRec.get("IN_REC");
+        String actionCode = "";
 
-        List<Category> cateRec= stockService.getCategoryList(status);
-
-        response.put("DATA_REC", cateRec);
-        return response;
-    }
-
-    @RequestMapping("/save_pro_img")
-    @ResponseBody
-    public Map<String, Object> saveProductImage(@ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
-        Map<String, Object> response = new HashMap<>();
-        System.out.println("filename:: "+filename);
-        System.out.println(extension);
-
-         String imageUuid = stockService.saveProImg(filename, extension);
-        return new HashMap<String, Object>(){
-            {
-                put("IMG_UUID", imageUuid);
-//                put("EXTENSION",  objectMap.get("EXTENSION"));
-            }
-        };
-    }
-
-    @RequestMapping("/save_product_data")
-    @ResponseBody
-    public Map<String, Object> saveProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
-                                               @ModelAttribute("CATE_UUID") String catUuid, @ModelAttribute("FILENAME") String filename,
-                                               @ModelAttribute("EXTENSION") String extension){
-        Map<String, Object> response = new HashMap<>();
-
-        String imageUuid = stockService.saveProImg(filename, extension);
-        String actionCode = stockService.saveProductData(proNm, proPrice, catUuid, imageUuid);
-        if (actionCode.equals("00000")){
-            response.put("status",true);
-        }else {
-            response.put("status",false);
+        for(int i = 0; i < arrIn.size()-1; i++){
+            HashMap  objItem = (HashMap)arrIn.get(i);
+            String proUuid      = (String)objItem.get("PRO_UUID");
+            Integer stockAmt = (Integer)objItem.get("STOCK_AMT");
+            actionCode = stockService.saveProductAmt(proUuid,stockAmt);
         }
 
-        return response;
-    }
-
-    @RequestMapping("/update_product_data")
-    @ResponseBody
-    public Map<String, Object> updateProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
-                                                 @ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("CATE_UUID") String catUuid,
-                                                 @ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
-        Map<String, Object> response = new HashMap<>();
-
-        String imageUuid = stockService.saveProImg(filename, extension);
-        String actionCode = stockService.updateProductData(proNm,proPrice,catUuid,imageUuid,proUuid);
-        if (actionCode.equals("00000")){
-            response.put("status",true);
-        }else {
-            response.put("status",false);
-        }
-
-        return response;
-    }
-
-    @RequestMapping("/save_product_amount")
-    @ResponseBody
-    public Map<String, Object> saveProductAmount(@ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("QUANTITY") Integer quantity){
-        Map<String, Object> response = new HashMap<>();
-
-        String actionCode = stockService.saveProductAmt(proUuid, quantity);
         if (actionCode.equals("00000")){
             response.put("status",true);
         }else {
@@ -129,18 +76,4 @@ public class StockController {
         return response;
     }
 
-    @RequestMapping("/delete_product")
-    @ResponseBody
-    public Map<String, Object> deleteProduct(@ModelAttribute("PRO_UUID") String proUuid){
-        Map<String, Object> response = new HashMap<>();
-
-        String actionCode = stockService.deleteProduct(proUuid);
-        if (actionCode.equals("00000")){
-            response.put("status",true);
-        }else {
-            response.put("status",false);
-        }
-
-        return response;
-    }
 }

@@ -18,6 +18,9 @@ public class Stock {
     @JsonProperty("product_price")
     private String productPrice;
 
+    @JsonProperty("quantity_per_box")
+    private Integer quantityPerBox;
+
     @JsonProperty("product_image_name")
     private String productImageName;
 
@@ -43,10 +46,11 @@ public class Stock {
 
     }
 
-    public Stock(String productUuid, String productName, String productPrice, String imagePath, String productStatus, String categoryUuid, String categoryName, String categoryStatus) {
+    public Stock(String productUuid, String productName, String productPrice, Integer quantityPerBox, String imagePath, String productStatus, String categoryUuid, String categoryName, String categoryStatus) {
         this.productUuid = productUuid;
         this.productName = productName;
         this.productPrice = productPrice;
+        this.quantityPerBox = quantityPerBox;
         this.productImageName = productImageName;
         this.productStatus = productStatus;
         this.categoryUuid = categoryUuid;
@@ -132,5 +136,13 @@ public class Stock {
 
     public void setRefrigeratorQuantity(String refrigeratorQuantity) {
         this.refrigeratorQuantity = refrigeratorQuantity;
+    }
+
+    public Integer getQuantityPerBox() {
+        return quantityPerBox;
+    }
+
+    public void setQuantityPerBox(Integer quantityPerBox) {
+        this.quantityPerBox = quantityPerBox;
     }
 }

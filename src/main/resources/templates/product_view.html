@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="UTF-8"/>
+        <title th:text="Product-List"></title>
+
+        <style>
+            table > thead > tr > th{background-color: #ffffff !important;}
+            table tbody > tr > td{font-size: 1.07em;}
+            table thead tr {background-color: #ebeff2;}
+            table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+            table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+            table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+            .action_layer{/* display: none; */position: absolute;top: 70px;right: 166px;border: 1px solid #999;width: 100px;background: #fff;box-shadow: 1px 1px 2px 0 #ccc;-webkit-box-shadow: 0 2px 5px 2px #ccc;}
+
+            .pro-image{border-right: none;line-height: 40px;}
+            .input-amt-stock{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
+            .btn-save-stock{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+            .btn-canc-stock{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+
+            .input-amt-refri{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
+            .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+            .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+            .edit-row{font-size: 0.8em;}
+        </style>
+
+    </head>
+    <body>
+        <!-- Begin page -->
+        <div layout:fragment="content">
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <!--Custom Toolbar-->
+                        <!--===================================================-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="m-t-0 header-title"><b>Product List</b></h4>
+                                    <p class="text-muted font-13">
+                                        <label>Function: </label> Search, Create , Update and Delete product.
+                                    </p>
+
+                                    <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                                    <div class="fixed-table-toolbar">
+                                        <div class="bars pull-left">
+                                            <div class="bars pull-left">
+                                                <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                                                <button id="btnAddPro" class="btn btn-info" data-target="#con-close-modal"><i class="fa fa-plus m-r-5"></i>Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right search" style="display: inline-flex;">
+                                            <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
+                                            <button id="demo-search-row" class="btn btn-warning" style="margin-left: -5px;" onclick="fnSearch();"><i class="fa fa-search m-r-5"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Product</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_nm" class="control-label">Product Name</label>
+                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_category" class="control-label">Category</label>
+                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category">
+                                                                    <option>Food</option>
+                                                                    <option>Drink</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_price" class="control-label">Price</label>
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_quantity" class="control-label">Quantity/per box</label>
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12" style="">
+                                                            <img style="object-fit: cover;display: block;border: solid 1px #ddd;margin: 0 auto;border-radius: 50%;margin-bottom: 15px;" id="myImage" class="roundrect" width="130px" height="130px" data-toggle="lightbox" src="../images/imageDefault2.svg">
+                                                        </div>
+                                                        <div class="fileUpload btn btn-default" id="myImageFile" style="margin: 0 auto;display: table;border-radius: 26em;">
+                                                            <span>Choose Image</span>
+                                                        </div>
+                                                        <form action="" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
+                                                            <input type="file" name="file" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" id="btnSaveProduct">Save</button>
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.modal -->
+
+                                    <div class="bootstrap-table">
+                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                            <div class="fixed-table-body">
+                                                <table data-toggle="" class="table table-bordered" id="tbl_product">
+                                                    <colgroup>
+                                                        <col style="width:10px;">
+                                                        <col style="width:490px;">
+                                                        <col style="width:80px;">
+                                                        <col style="width:80px;">
+                                                        <col style="width:80px;">
+                                                        <col style="width:50px">
+                                                        <col>
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="" colspan="2">
+                                                                <div class="th-inner" style="text-align: center;">Product Name</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">Price</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">Stock</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">Refrigerator</div>
+                                                            </th>
+                                                            <th style="text-align: center;">
+                                                                <div class="th-inner ">Status</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table_result">
+                                                        <tr data-index="0">
+                                                            <td class="bs-checkbox"><input data-index="0" name="btSelectItem" type="checkbox"></td>
+                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="30px" /></td>
+                                                            <td style="border-left: none;"><a href="#" class="btn-link">Coca Cola</a></td>
+                                                            <td style="">$0.5</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <div class="panel-disabled loading-stock" style="display: none;">
+                                                        <div class="loader-1"></div>
+                                                    </div>
+                                                </table>
+                                            </div>
+                                            <div class="fixed-table-pagination" style="display: none;">
+                                                <div class="pull-left pagination-detail" id="page_layer">
+                                                    <span class="pagination-info">Showing 1 to 10 of 16 rows</span>
+                                                    <span class="page-list">
+                                              <span class="btn-group dropup">
+                                                 <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown">
+                                                     <span class="page-size" id="per_page">10</span> <span class="caret"></span>
+                                                 </button>
+                                                 <ul class="dropdown-menu" role="menu" id="pageSizeLayer">
+                                                     <li><a href="javascript:void(0)">5</a></li>
+                                                    <li class="active"><a href="javascript:void(0)">10</a></li>
+                                                    <li><a href="javascript:void(0)">25</a></li>
+                                                 </ul>
+                                              </span>
+                                              records per page
+                                            </span>
+                                                </div>
+                                                <div class="pull-right pagination">
+                                                    <ul class="pagination" id="paging" style="display: none;">
+                                                        <li class="page-first disabled"><a href="javascript:void(0)">«</a></li>
+                                                        <li class="page-pre disabled"><a href="javascript:void(0)">‹</a></li>
+                                                        <li class="page-number active"><a href="javascript:void(0)">1</a></li>
+                                                        <li class="page-number"><a href="javascript:void(0)">2</a></li>
+                                                        <li class="page-next"><a href="javascript:void(0)">›</a></li>
+                                                        <li class="page-last"><a href="javascript:void(0)">»</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+            <!--<th:block layout:fragment="myscript">-->
+            <script type="text/javascript">
+                var _page_no = 1;
+                var CATEGORY_REC_ = {};
+                var imageSrc_ = ""
+                $(function(){
+                    _thisPage.onload();
+                });
+
+                var _thisPage = {
+                    onload : function () {
+                        var _this = this;
+                        _this.event();
+                        _this.getCategoryList();
+                        fnSearch();
+                        wegarden.comm.checkAllTblChk("btSelectAll", "tbl_stock", "bs-checkbox");
+
+                    },
+                    fillTable : function (input) {
+                        if(!input) input = {};
+
+                        input["SRCH_WD"] = $("#srch_wd").val().toString().trim();
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/product/get_product_list",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                $("#table_result").empty();
+                                $(".bs-checkbox").show();
+                                $("#page_layer").show();
+                                $(".bs-checkbox").attr("checked", false);
+                                var strHtml = "", strCate = "", usr_image = "";
+
+                                if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                    $.each(result.DATA_REC, function (i, v) {
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
+
+                                        strHtml +='<tr data-uuid="'+v.product_uuid+'">';
+                                        strHtml +='    <td class="user-image pro-image">';
+                                        strHtml +='    	<img src="/images/'+usr_image+'" alt="user-img" class="img-circle" width="40px" />';
+                                        strHtml +='    </td>';
+                                        strHtml +='    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+addCurrencySymbol(v.product_price)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                        strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
+                                        strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick=editProduct("'+v.product_uuid+'");><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                                        strHtml +='      <button type="button" class="btn btn-danger btn-xs" onclick=deleteProduct("'+v.product_uuid+'");><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
+                                        strHtml +='    </td>';
+                                        strHtml +='</tr>';
+                                    });
+                                    $("#table_result").append(strHtml);
+                                }else{
+                                    $(".bs-checkbox").hide();
+                                    $("#page_layer").hide();
+                                    $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                                }
+                                setTimeout(function () {
+                                    // $("#loading").hide();
+                                }, 300);
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    getCategoryList : function(input){
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/product/get_categorry_lists",
+                            data    : {"STATUS":"1"},
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+
+                                CATEGORY_REC_ = result.DATA_REC;
+                                $("#pro_category").empty();
+                                var catHtml = "";
+                                $.each(result.DATA_REC, function (i,v) {
+                                    catHtml += '<option data-uuid="'+v.uuid+'">'+wegarden.comm.null2Void(v.name)+'</option>';
+                                });
+                                $("#pro_category").html(catHtml);
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    },
+                    saveStockAmt : function(input,this_){
+                        if(!input) input = {};
+                        $('.loading-stock').show();
+
+                        $.ajax({
+                            type    : "GET",
+                            url     : "/stock/save_product_amount",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                _thisPage.fillTable();
+                                setTimeout(function () {
+                                    $('.loading-stock').hide();
+                                }, 300);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    },
+                    saveRefrigeratorAmt : function(input,this_){
+                        if(!input) input = {};
+                        $('.loading-stock').show();
+
+                        $.ajax({
+                            type    : "GET",
+                            url     : "/stock/save_refrigerator_amount",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                _thisPage.fillTable();
+                                setTimeout(function () {
+                                    $('.loading-stock').hide();
+                                }, 300);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    },
+                    saveProduct : function(input){
+                        if(!input) input = {};
+                        top.$("#loading").show();
+                        console.log("save is called...."+input.EXTENSION)
+
+                        input["PRO_NM"]      = $.trim($("#pro_nm").val());
+                        input["PRO_PRICE"]  = parseFloat($.trim($("#pro_price").val()).replace("$",""));
+                        input["PRO_QTY_BOX"]  = parseFloat($.trim($("#pro_quantity").val()));
+                        input["CATE_UUID"]  = $("#pro_category option:selected").data("uuid");
+                        input["FILENAME"]   = input.FILENAME;
+                        input["EXTENSION"] = input.EXTENSION;
+                        input["PRO_UUID"]   = $("#txtSave").data("uuid");
+
+                        var requestUrl = "";
+                        var saveStatus = $("#txtSave").data("status");
+                        (saveStatus == "U" ? requestUrl = "/product/update_product_data" : requestUrl = "/product/save_product_data");
+                        console.log(input);
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : requestUrl,
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                fnSearch();
+                            },
+                            error: function (error) {
+                                $("#btnSaveProduct").attr("data-dismiss", "none");
+                                console.log(error);
+                            }
+                        });
+                    },searchProductRow : function (input) {
+                        if(!input) input = {};
+                        input["PRO_UUID"] = input.PRO_UUID;
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/product/get_product_list",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                $.each(result.DATA_REC, function (i,v) {
+                                    $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
+                                    $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
+                                    $("#pro_quantity").val(wegarden.comm.null2Void(v.quantity_per_box,0));
+                                    $("#myImage").attr("src", "/images/"+wegarden.comm.null2Void(v.product_image_name));
+                                    $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
+
+                                });
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    fn_delete_product : function (input) {
+                        if(!input) input = {};
+                        input["PRO_UUID"] = input.PRO_UUID;
+                        console.log(input)
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/product/delete_product",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+
+                                fnSearch();
+                                if(result.status){
+                                    swal({
+                                        title: "Successful",
+                                        text: "Your transaction has been successfully processed!",
+                                        type: "success",
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    });
+                                }else{
+                                    swal({
+                                        title: "Failed",
+                                        text: "Your transaction cannot be completed!",
+                                        type: "error",
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    event : function () {
+                        $("#srch_wd").keypress(function (e) {
+                            if(e.which == 13){
+                                fnSearch();
+                            }
+                        });
+
+                        $("#btnAddPro").click(function () {
+                            var input = {};
+                            input["STATUS"] = "N";
+                            open_popup(input);
+                        });
+
+                        $("#myImageFile").on("click", function () {
+                            $("#myFile").trigger("click");
+                        });
+
+                        $("#myFile").on('change', function () {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                $('#myImage').attr('src', reader.result);
+                                imageSrc_ = reader.result;
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        });
+
+                        $(document).on("click", ".btnAddStock", function(){
+                            $(".stoAmt").show();
+                            $(".btnAddStock").show();
+                            $(".editStockLayer").addClass('hidden');
+                            $(this).hide();
+                            $(this).prev().hide();
+                            $(this).next().removeClass('hidden');
+                        });
+
+                        $(document).on("click", ".btnCanStock", function(){
+                            $(".stoAmt").show();
+                            $(".btnAddStock").show();
+                            $(".editStockLayer").addClass('hidden');
+                        });
+
+                        $(document).on("click", ".btnSaveStock", function(){
+                            var input = {}
+                            input["QUANTITY"] = $(this).prev('input.STOCK_AMT').val();
+                            input["PRO_UUID"] = $(this).closest('tr').data('uuid');
+                            _thisPage.saveStockAmt(input,this);
+                        });
+
+                        $(document).on("click", ".btnAddRefrig", function(){
+                            $(".refrigAmt").show();
+                            $(".btnAddRefrig").show();
+                            $(".editRefrigLayer").addClass('hidden');
+                            $(this).hide();
+                            $(this).prev().hide();
+                            $(this).next().removeClass('hidden');
+                        });
+
+                        $(document).on("click", ".btnCanRefrig", function(){
+                            $(".refrigAmt").show();
+                            $(".btnAddRefrig").show();
+                            $(".editRefrigLayer").addClass('hidden');
+                        });
+
+                        $(document).on("click", ".btnSaveRefrig", function(){
+                            var input = {}
+                            input["QUANTITY"] = $(this).prev('input.REFRIG_AMT').val();
+                            input["PRO_UUID"] = $(this).closest('tr').data('uuid');
+                            _thisPage.saveRefrigeratorAmt(input,this);
+                        });
+
+                        $("input").focus(function () {
+                            $(this).css("background-color", "white");
+                        });
+
+                        $("#btnSaveProduct").click(function () {
+                            validateBorderInputColor(true, function (hasEmptyTextbox) {
+                                if (!hasEmptyTextbox) {
+                                    if ($("#myFile").val()) {
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("POST", "/image/uploadimg");
+                                        // xhr.open("POST", "http://192.168.178.131:8762/image/file_upload");
+                                        xhr.send(new FormData($('#myForm')[0]));
+
+                                        xhr.onload = function() {
+                                            if (this.readyState === 4 && this.status === 200) {
+                                                var dataPicture  = JSON.parse(this.responseText);
+                                                _thisPage.saveProduct(dataPicture);
+                                            }
+                                        }
+
+                                        xhr.onerror = function() {
+                                            console.log('There was an error!'+xhr.messages);
+                                        };
+                                    }
+                                    else {
+                                        var dataPicture  = {};
+                                         var file = /[^/]+$/.exec($("#myImage").attr("src"))[0];
+                                        dataPicture["FILENAME"]   = file.split('.').slice(0, -1).join('.');
+                                        dataPicture["EXTENSION"] = "."+/[^.]+$/.exec(file)[0];
+                                        _thisPage.saveProduct(dataPicture);
+                                    }
+
+                                    // -------------- M O V E   S U B ---------------
+
+                                    // if (oldUUID != $("#mySelectCategory").val() && oldUUID != "" && $("#mySelectCategory").val() != "null") {
+                                    //     requestAPI("POST", "/admin/ajax/move_subcategory?mainCategoryUuid=" + $("#mySelectCategory").val() + "&subcategoryUuid=" + dataUUID);
+                                    // }
+                                }
+                            });
+                        });
+
+                    }
+                }
+
+                function addCurrencySymbol(value_){
+                    value_ = wegarden.comm.null2Void(value_, '0');
+                    var isEmpty = wegarden.comm.isEmpty(value_);
+                    var formatValue = wegarden.comm.formatCurrency(value_);
+
+                    if(!isEmpty && value_ != "0"){
+                        return formatValue = "$"+formatValue;
+                    }else{
+                        return formatValue;
+                    }
+                }
+
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                }
+
+                function editProduct(pro_uuid) {
+                    var input = {};
+                    input["STATUS"] = "U";
+                    input["PRO_UUID"] = pro_uuid;
+                    open_popup(input);
+                }
+
+                function deleteProduct(proUuid){
+                    var input = {};
+                    input["PRO_UUID"] = proUuid;
+                    swal({
+                            title               : "Are you sure ?",
+                            text                : "You will be able to recover this record from trash!",
+                            type                : "info",
+                            cancelButtonText    : "No, thanks!",
+                            confirmButtonText   : 'Yes, delete it!',
+                            confirmButtonColor  : '#ff5e6e',
+                            showCancelButton    : true,
+                            closeOnCancel       : true,
+                            closeOnConfirm      : false
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                _thisPage.fn_delete_product(input);
+                            }
+                        });
+                }
+
+                function open_popup(input_){
+                    $('#con-close-modal').modal('show');
+
+                    if(input_.STATUS == "U"){
+                        $("#txtSave").text("Update Product");
+                        $("#txtSave").data("status","U");
+                        $("#txtSave").data("uuid",input_.PRO_UUID);
+                        _thisPage.searchProductRow(input_);
+                    }else{
+                        $('#myImage').attr('src','../images/imageDefault2.svg');
+                        $('input#pro_nm').val('');
+                        $('input#pro_price').val('');
+                        $('input#pro_quantity').val('');
+                        $("#quantityRow").hide();
+                    }
+                }
+
+                function fnSearch() {
+                    top.$("#loading").show();
+                    _thisPage.fillTable();
+                    setTimeout(function () {
+                        top.$("#loading").hide();
+                    }, 300);
+                }
+
+                function validateBorderInputColor(validate, callback) {
+                    var hasEmptyTextbox = false;
+
+                    $('input').each(function () {
+                        if (validate) {
+                            if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                                $(this).css("background-color", "#f9dfd8");
+                                hasEmptyTextbox = true
+                            }else{
+                                $(this).css("background-color", "white");
+                            }
+                        }else{
+                            $(this).css("border", "2px solid lightgrey");
+                        }
+                    });
+
+                    if (validate) {
+                        callback(hasEmptyTextbox);
+                    }
+                }
+
+            </script>
+            <!--</th:block>-->
+        </div>
+
+    </body>
+</html>

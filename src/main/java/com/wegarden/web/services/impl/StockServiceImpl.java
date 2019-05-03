@@ -17,30 +17,6 @@ public class StockServiceImpl implements StockService {
     private StockRepository stockRepository;
 
     @Override
-    public List<Stock> getStocksList(String srch_wd, String status, String pro_uuid) {
-        return stockRepository.getStockList(srch_wd, status, pro_uuid);
-    }
-
-    @Override
-    public List<Category> getCategoryList(String status) {
-        return stockRepository.getCategoryList(status);
-    }
-    @Override
-    public String saveProImg(String img_nm, String img_type) {
-        return stockRepository.saveProImg(img_nm, img_type);
-    }
-
-    @Override
-    public String saveProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid) {
-        return stockRepository.saveProductData(pro_nm, pro_price, cate_uuid, img_uuid);
-    }
-
-    @Override
-    public String updateProductData(String pro_nm, Double pro_price, String cate_uuid, String img_uuid, String pro_uuid) {
-        return stockRepository.updateProductData(pro_nm, pro_price, cate_uuid, img_uuid, pro_uuid);
-    }
-
-    @Override
     public String saveProductAmt(String proUuid, Integer quantity) {
         return stockRepository.saveProductAmt(proUuid, quantity);
     }
@@ -50,7 +26,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public String deleteProduct(String proUuid) {
-        return stockRepository.deleteProduct(proUuid);
+    public List<Stock> getStockList(String srch_wd, String status, String pro_uuid) {
+        return stockRepository.getStockList(srch_wd,status,pro_uuid);
     }
 }

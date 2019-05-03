@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="UTF-8"/>
+        <title th:text="Stock-List"></title>
+
+        <style>
+            table > thead > tr > th{background-color: #ffffff !important;}
+            table tbody > tr > td{font-size: 1.07em;}
+            table thead tr {background-color: #ebeff2;}
+            table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+            table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+            table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+            .action_layer{/* display: none; */position: absolute;top: 70px;right: 166px;border: 1px solid #999;width: 100px;background: #fff;box-shadow: 1px 1px 2px 0 #ccc;-webkit-box-shadow: 0 2px 5px 2px #ccc;}
+
+            .pro-image{border-right: none;line-height: 40px;}
+            .input-amt-stock{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
+            .btn-save-stock{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+            .btn-canc-stock{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+
+            .input-amt-refri{width: 100%;height: 30px;margin-left: 0;margin-top: -5px;padding-left: 8px;}
+            .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+            .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+            .edit-row{font-size: 0.8em;}
+        </style>
+
+    </head>
+    <body>
+        <!-- Begin page -->
+        <div layout:fragment="content">
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <!--Custom Toolbar-->
+                        <!--===================================================-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="m-t-0 header-title"><b>Refrigerator List</b></h4>
+                                    <p class="text-muted font-13">
+                                        <label>Function: </label> Add product to sell on refrigerator.
+                                    </p>
+
+                                    <div class="fixed-table-toolbar">
+                                        <div class="bars pull-left">
+                                            <div class="bars pull-left">
+                                                <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                                                <button id="btnCheckReport" class="btn btn-info" data-target="#con-close-modal"><i class="fa fa-bar-chart m-r-5"></i>Report</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Product</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_nm" class="control-label">Product Name</label>
+                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_category" class="control-label">Category</label>
+                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category">
+                                                                    <option>Food</option>
+                                                                    <option>Drink</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="pro_price" class="control-label">Price</label>
+                                                                <input type="text" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12" style="">
+                                                            <img style="object-fit: cover;display: block;border: solid 1px #ddd;margin: 0 auto;border-radius: 50%;margin-bottom: 15px;" id="myImage" class="roundrect" width="130px" height="130px" data-toggle="lightbox" src="../images/imageDefault2.svg">
+                                                        </div>
+                                                        <div class="fileUpload btn btn-default" id="myImageFile" style="margin: 0 auto;display: table;border-radius: 26em;">
+                                                            <span>Choose Image</span>
+                                                        </div>
+                                                        <form action="" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
+                                                            <input type="file" name="file" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" id="btnSaveProduct">Save</button>
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.modal -->
+
+                                    <div class="bootstrap-table">
+                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                            <div class="fixed-table-body">
+                                                <table data-toggle="" class="table table-bordered" id="tbl_stock">
+                                                    <colgroup>
+                                                        <col style="width:10px;">
+                                                        <col style="width:250px;">
+                                                        <col style="width:80px;">
+                                                        <col style="width:200px;">
+                                                        <col style="width:200px;">
+                                                        <col style="width:50px">
+                                                        <col>
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="" colspan="2">
+                                                                <div class="th-inner" style="text-align: center;">Product Name</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">In-Stock</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">Add Stock</div>
+                                                            </th>
+                                                            <th style="">
+                                                                <div class="th-inner ">Qty on Hand</div>
+                                                            </th>
+                                                            <th style="text-align: center;">
+                                                                <div class="th-inner ">Action</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table_result">
+                                                        <tr data-index="0">
+                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                            <td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">Oishi</a></td>
+                                                            <td style="line-height: 40px;">30</td>
+                                                            <td style="line-height: 40px;">
+                                                                <div class="editRefriLayer" style="display:inline-flex;width: 100%;">
+                                                                    <input type="text" maxlength="10" class="form-control input-block input-amt-refri REFRIG_AMT" onkeypress="javascript:return isNumber(event)" onkeyup="javascript:return calculateProductPrice(this)" value="0">
+                                                                </div>
+                                                            </td>
+                                                            <td style="line-height: 40px;">60</td>
+                                                            <td style="line-height: 40px;text-align: center;">
+                                                                <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="total-price">
+                                                            <td colspan="4" styl;="border-right: none;"><label>Total Price</label></td>
+                                                            <td style="border-right: none;border-left: none;" colspan="3">
+                                                                <div style="text-align: left;" id="totalPrice"><label>$30</label></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <div class="panel-disabled loading-stock" style="display: none;">
+                                                        <div class="loader-1"></div>
+                                                    </div>
+                                                </table>
+                                            </div>
+                                            <div class="fixed-table-pagination" style="display: block;">
+                                                <div class="pull-right search" style="display: inline-flex;">
+                                                    <button id="btnSaveStock" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Stock</i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+            <!--<th:block layout:fragment="myscript">-->
+            <script type="text/javascript">
+                var _page_no = 1;
+                var CATEGORY_REC_ = {};
+                var imageSrc_ = ""
+                $(function(){
+                    _thisPage.onload();
+                });
+
+                var _thisPage = {
+                    onload : function () {
+                        var _this = this;
+
+                    },
+                    fillTable : function (input) {
+
+                    },
+                    getCategoryList : function(input){
+
+                    },
+                    event : function () {
+
+                    }
+                }
+
+                function addCurrencySymbol(value_){
+                    value_ = wegarden.comm.null2Void(value_, '0');
+                    var isEmpty = wegarden.comm.isEmpty(value_);
+                    var formatValue = wegarden.comm.formatCurrency(value_);
+
+                    if(!isEmpty && value_ != "0"){
+                        return formatValue = "$"+formatValue;
+                    }else{
+                        return formatValue;
+                    }
+                }
+
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                }
+
+                function open_popup(input_){
+                    $('#con-close-modal').modal('show');
+
+                    if(input_.STATUS == "U"){
+                        $("#txtSave").text("Update Product");
+                        $("#txtSave").data("status","U");
+                        $("#txtSave").data("uuid",input_.PRO_UUID);
+                        _thisPage.searchProductRow(input_);
+                    }else{
+                        $('#myImage').attr('src','../images/imageDefault2.svg');
+                        $('input#pro_nm').val('');
+                        $('input#pro_price').val('');
+                        $("#quantityRow").hide();
+                    }
+                }
+
+                function fnSearch() {
+
+                }
+
+                function validateBorderInputColor(validate, callback) {
+                    var hasEmptyTextbox = false;
+
+                    $('input').each(function () {
+                        if (validate) {
+                            if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                                $(this).css("background-color", "#f9dfd8");
+                                hasEmptyTextbox = true
+                            }else{
+                                $(this).css("background-color", "white");
+                            }
+                        }else{
+                            $(this).css("border", "2px solid lightgrey");
+                        }
+                    });
+
+                    if (validate) {
+                        callback(hasEmptyTextbox);
+                    }
+                }
+
+            </script>
+            <!--</th:block>-->
+        </div>
+
+    </body>
+</html>

@@ -8,11 +8,11 @@
 
                     <li class="text-muted menu-title">Navigation</li>
 
-                    <li class="">
+                    <li class="has_sub" data-url="dashboard">
                         <a href="/" class="waves-effect"><i class="ti-home"></i> <span> Dashboard </span> </a>
                     </li>
 
-                    <li class="">
+                    <li class="has_sub" data-url="/order/select">
                         <a href="/order/select" class="waves-effect"><i class="ti-receipt"></i> <span> Order </span> </a>
                         <!--<ul class="list-unstyled">-->
                             <!--<li><a href="ui-buttons.html">Buttons</a></li>-->
@@ -30,23 +30,23 @@
                         <!--</ul>-->
                     </li>
 
-                    <li class="">
-                        <a href="/stock/select" class="waves-effect"><i class="ti-server"></i><span> Stock </span> </a>
+                    <li class="has_sub" data-url="/product/index">
+                        <a href="/product/index" class="waves-effect"><i class="ti-shopping-cart"></i> <span> Products </span> </a>
                         <!--<ul class="list-unstyled">
                             <li><a href="components-grid.html">Stock</a></li>
                             <li><a href="components-widgets.html">Refrigerator</a></li>
                         </ul>-->
                     </li>
 
-                    <!--<li class="has_sub">-->
-                        <!--<a href="javascript:" class="waves-effect"><i class="ti-server"></i> <span> Products </span> </a>-->
-                        <!--<ul class="list-unstyled">-->
-                            <!--<li><a href="components-grid.html">Stock</a></li>-->
-                            <!--<li><a href="components-widgets.html">Refrigerator</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
+                    <li class="has_sub" data-url="/stock/refrigerator">
+                        <a href="javascript:" class="waves-effect product_tap"><i class="ti-server"></i><span> Stock </span> </a>
+                        <ul class="list-unstyled" style="display: none;">
+                            <li class="sub" data-url="/stock/index"><a href="/stock/index">Stock</a></li>
+                            <li class="sub" data-url="/refrigerator/index"><a href="/refrigerator/index">Refrigerator</a></li>
+                        </ul>
+                    </li>
 
-                    <li class="">
+                    <li class="has_sub" data-url="/users/select">
                         <a href="/users/select" class="waves-effect"><i class="ti-user"></i> <span> Users </span> </a>
                         <!--<ul class="list-unstyled">-->
                             <!--<li><a href="icons-glyphicons.html">Glyphicons</a></li>-->
@@ -70,7 +70,6 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function($) {
-
 
     });
 
