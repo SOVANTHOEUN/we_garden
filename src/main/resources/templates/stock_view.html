@@ -92,7 +92,13 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-sm-3">
+                                                            <div class="bars pull-left" style="margin-top: 25px;">
+                                                                <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                                    <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
 
                                                             </div>
@@ -113,8 +119,6 @@
                                                                                 <col style="width:450px;">
                                                                                 <col style="width:40px;">
                                                                                 <col style="width:40px;">
-                                                                                <col style="width:200px;">
-                                                                                <col style="width:20px;">
                                                                                 <col>
                                                                             </colgroup>
                                                                             <thead>
@@ -122,8 +126,6 @@
                                                                                 <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
                                                                                 <th style=""><div class="th-inner ">Price</div></th>
                                                                                 <th style=""><div class="th-inner ">In-Stock</div></th>
-                                                                                <th style=""><div class="th-inner ">Add Stock</div></th>
-                                                                                <th style=""><div class="th-inner ">Product Price</div></th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody id="table_report-result">
@@ -132,26 +134,17 @@
                                                                                     <td style="border-left: none;line-height: 40px;">Oishi</td>
                                                                                     <td style="line-height: 40px;">$0.5</td>
                                                                                     <td style="line-height: 40px;">180</td>
-                                                                                    <td style="line-height: 40px;">
-                                                                                        <div class="editStockLayer" style="display:inline-flex;width: 100%;">
-                                                                                            <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="15">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td style="line-height: 40px;">$15</td>
                                                                                 </tr>
                                                                                 <tr data-index="0">
                                                                                     <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
                                                                                     <td style="border-left: none;line-height: 40px;">Bacchus</td>
                                                                                     <td style="line-height: 40px;">$0.5</td>
                                                                                     <td style="line-height: 40px;">180</td>
-                                                                                    <td style="line-height: 40px;">
-                                                                                        <div class="editStockLayer" style="display:inline-flex;width: 100%;">
-                                                                                            <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="15">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td style="line-height: 40px;">$15</td>
                                                                                 </tr>
                                                                             </tbody>
+                                                                            <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                                <div class="loader-1"></div>
+                                                                            </div>
                                                                         </table>
                                                                     </div>
                                                                 </div>
@@ -374,27 +367,46 @@
                     },
                     fillStockReportBetweenDate: function (input) {
                         if (!input) input = {};
-                        top.$("#loading").show();
+                        $(".loading-stock-pop").show();
                         input["START_DATE"] = $.trim($("#sDate input").val());
                         input["END_DATE"]    = $.trim($("#eDate input").val());
-                        console.log(input)
 
                         $.ajax({
-                            type: "POST",
+                            type: "GET",
                             url: "/stock/get_report_stock_list",
-                            data: JSON.stringify(input),
+                            data: input,
                             headers: {
                                 "Content-Type": "application/json;",
                                 "charset": "UTF-8"
                             },
                             success: function (result) {
-                                console.log(result.DATA_REC);
+                                $("#tbl_report tbody").empty();
+                                var strReport = "", usr_image = "";
+
+                                if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                    $.each(result.DATA_REC, function (i,v) {
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                        strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
+                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
+                                        strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_in_quantity)+'</td>';
+                                        strReport += '</tr>';
+                                    });
+                                    $("#tbl_report tbody").html(strReport);
+
+                                }else{
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                                }
                                 setTimeout(function () {
-                                    top.$("#loading").hide();
+                                    $(".loading-stock-pop").hide();
                                 }, 500);
+
                             },
                             error: function (error) {
                                 console.log(error);
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
                             }
                         });
                     },
@@ -531,7 +543,7 @@
                 }
 
                 function fn_chooseDate(){
-                    $.fn.datepicker.defaults.format = "dd-mm-yyyy";
+                    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
                     var today	  = new Date();
                     var firstDay = new Date(today.getFullYear(), today.getMonth());
                     var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
@@ -539,7 +551,7 @@
                     var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
 
                     $('#sDate').datepicker({
-                        format: 'dd-mm-yyyy',
+                        format: 'yyyy-mm-dd',
                         showOtherMonths: true,
                         changeMonth: true,
                         changeYear: true,
@@ -550,7 +562,7 @@
                     });
 
                     $('#eDate').datepicker({
-                        format: 'dd-mm-yyyy'
+                        format: 'yyyy-mm-dd'
                     });
 
                     $("#sDate input").val(startDate);

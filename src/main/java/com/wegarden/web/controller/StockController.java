@@ -74,6 +74,8 @@ public class StockController {
     @ResponseBody
     public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
         Map<String, Object> response = new HashMap<>();
+        System.out.println("sDate::: "+sDate);
+        System.out.println("eDate::: "+eDate);
 
         List<StockReport> userList = stockService.getReportStockList(sDate, eDate);
         response.put("DATA_REC", userList);
