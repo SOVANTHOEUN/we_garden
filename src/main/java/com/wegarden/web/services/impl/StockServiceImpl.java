@@ -3,6 +3,7 @@ package com.wegarden.web.services.impl;
 import com.wegarden.web.model.stock.Category;
 import com.wegarden.web.model.stock.Image;
 import com.wegarden.web.model.stock.Stock;
+import com.wegarden.web.model.stock.StockReport;
 import com.wegarden.web.repositories.StockRepository;
 import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class StockServiceImpl implements StockService {
     @Override
     public List<Stock> getStockList(String srch_wd, String status, String pro_uuid) {
         return stockRepository.getStockList(srch_wd,status,pro_uuid);
+    }
+
+    @Override
+    public List<StockReport> getReportStockList(String sDate, String eDate) {
+        return stockRepository.getReportStockList(sDate,eDate);
     }
 }

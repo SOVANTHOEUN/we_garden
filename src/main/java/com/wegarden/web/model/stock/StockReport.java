@@ -1,12 +1,12 @@
 package com.wegarden.web.model.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-public class Report {
+public class StockReport {
     @Id
     @JsonProperty("product_uuid")
     private String productUuid;
@@ -38,7 +38,9 @@ public class Report {
     @JsonProperty("stock_in_quantity")
     private String stockInQuantity;
 
-    public Report(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String stockInQuantity) {
+    public StockReport(){ }
+
+    public StockReport(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String stockInQuantity) {
         this.productUuid = productUuid;
         this.productName = productName;
         this.productPrice = productPrice;

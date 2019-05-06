@@ -1,18 +1,12 @@
 package com.wegarden.web.controller;
 
-import com.wegarden.web.model.stock.Category;
+import com.wegarden.web.model.stock.StockReport;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sun.java2d.SurfaceData;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.ObjectStreamClass;
-import java.lang.reflect.Field;
-import java.sql.Array;
 import java.util.*;
 
 @Controller
@@ -73,6 +67,16 @@ public class StockController {
             response.put("status",false);
         }
 
+        return response;
+    }
+
+    @RequestMapping("/get_report_stock_list")
+    @ResponseBody
+    public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
+        Map<String, Object> response = new HashMap<>();
+
+        List<StockReport> userList = stockService.getReportStockList(sDate, eDate);
+        response.put("DATA_REC", userList);
         return response;
     }
 

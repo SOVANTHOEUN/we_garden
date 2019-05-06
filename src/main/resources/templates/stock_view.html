@@ -25,6 +25,8 @@
             .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
             .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
             .edit-row{font-size: 0.8em;}
+
+            .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
         </style>
 
     </head>
@@ -61,55 +63,105 @@
                                     </div>
 
                                     <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Product</h4>
+                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">View Report</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="pro_nm" class="control-label">Product Name</label>
-                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name">
+                                                                <label for="sDate" class="control-label">Select Date</label>
+                                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                                    <input type="text" class="form-control">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                                    <input type="text" class="form-control" style="background-color: white;">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_category" class="control-label">Category</label>
-                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category">
-                                                                    <option>Food</option>
-                                                                    <option>Drink</option>
-                                                                    <option>Other</option>
-                                                                </select>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="pro_price" class="control-label">Price</label>
-                                                                <input type="text" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
-                                                            </div>
-                                                        </div>
+
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-12" style="">
-                                                            <img style="object-fit: cover;display: block;border: solid 1px #ddd;margin: 0 auto;border-radius: 50%;margin-bottom: 15px;" id="myImage" class="roundrect" width="130px" height="130px" data-toggle="lightbox" src="../images/imageDefault2.svg">
+                                                            <div class="bootstrap-table custom-table1">
+                                                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                                    <div class="fixed-table-body">
+                                                                        <table data-toggle="" class="table table-bordered" id="tbl_report">
+                                                                            <colgroup>
+                                                                                <col style="width:10px;">
+                                                                                <col style="width:450px;">
+                                                                                <col style="width:40px;">
+                                                                                <col style="width:40px;">
+                                                                                <col style="width:200px;">
+                                                                                <col style="width:20px;">
+                                                                                <col>
+                                                                            </colgroup>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                                                <th style=""><div class="th-inner ">Price</div></th>
+                                                                                <th style=""><div class="th-inner ">In-Stock</div></th>
+                                                                                <th style=""><div class="th-inner ">Add Stock</div></th>
+                                                                                <th style=""><div class="th-inner ">Product Price</div></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody id="table_report-result">
+                                                                                <tr data-index="0">
+                                                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                    <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                                    <td style="line-height: 40px;">$0.5</td>
+                                                                                    <td style="line-height: 40px;">180</td>
+                                                                                    <td style="line-height: 40px;">
+                                                                                        <div class="editStockLayer" style="display:inline-flex;width: 100%;">
+                                                                                            <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="15">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td style="line-height: 40px;">$15</td>
+                                                                                </tr>
+                                                                                <tr data-index="0">
+                                                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                    <td style="border-left: none;line-height: 40px;">Bacchus</td>
+                                                                                    <td style="line-height: 40px;">$0.5</td>
+                                                                                    <td style="line-height: 40px;">180</td>
+                                                                                    <td style="line-height: 40px;">
+                                                                                        <div class="editStockLayer" style="display:inline-flex;width: 100%;">
+                                                                                            <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="15">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td style="line-height: 40px;">$15</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
                                                         </div>
-                                                        <div class="fileUpload btn btn-default" id="myImageFile" style="margin: 0 auto;display: table;border-radius: 26em;">
-                                                            <span>Choose Image</span>
-                                                        </div>
-                                                        <form action="" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
-                                                            <input type="file" name="file" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
-                                                        </form>
                                                     </div>
 
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" id="btnSaveProduct">Save</button>
+                                                <div class="modal-footer" style="text-align: center;">
                                                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
@@ -145,7 +197,7 @@
                                                                 <div class="th-inner ">Add Stock</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Total Price</div>
+                                                                <div class="th-inner ">Product Price</div>
                                                             </th>
                                                             <th style="text-align: center;">
                                                                 <div class="th-inner ">Action</div>
@@ -222,7 +274,6 @@
             <!-- ============================================================== -->
             <!--<th:block layout:fragment="myscript">-->
             <script type="text/javascript">
-                var _page_no = 1;
                 var CATEGORY_REC_ = {};
                 var imageSrc_ = ""
                 $(function(){
@@ -234,12 +285,12 @@
                         var _this = this;
                         _this.event();
                         fnSearch();
+                        fn_chooseDate();
 
                     },
                     fillTable: function (input) {
                         if (!input) input = {};
                         // $("#loading").show();
-
                         // input["SRCH_WD"] = $("#srch_wd").val().toString().trim();
 
                         $.ajax({
@@ -321,52 +372,29 @@
                             }
                         });
                     },
-                    saveRefrigeratorAmt: function (input, this_) {
+                    fillStockReportBetweenDate: function (input) {
                         if (!input) input = {};
-                        $('.loading-stock').show();
+                        top.$("#loading").show();
+                        input["START_DATE"] = $.trim($("#sDate input").val());
+                        input["END_DATE"]    = $.trim($("#eDate input").val());
+                        console.log(input)
 
                         $.ajax({
-                            type: "GET",
-                            url: "/stock/save_refrigerator_amount",
-                            data: input,
+                            type: "POST",
+                            url: "/stock/get_report_stock_list",
+                            data: JSON.stringify(input),
                             headers: {
                                 "Content-Type": "application/json;",
                                 "charset": "UTF-8"
                             },
                             success: function (result) {
-                                _thisPage.fillTable();
+                                console.log(result.DATA_REC);
                                 setTimeout(function () {
-                                    $('.loading-stock').hide();
-                                }, 300);
+                                    top.$("#loading").hide();
+                                }, 500);
                             },
                             error: function (error) {
                                 console.log(error);
-                            }
-                        });
-                    },
-                    searchProductRow: function (input) {
-                        if (!input) input = {};
-                        input["PRO_UUID"] = input.PRO_UUID;
-
-                        $.ajax({
-                            type: "GET",
-                            url: "/stock/get_stock_lists",
-                            data: input,
-                            headers: {
-                                "Content-Type": "application/json;",
-                                "charset": "UTF-8"
-                            },
-                            success: function (result) {
-                                $.each(result.DATA_REC, function (i, v) {
-                                    $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
-                                    $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
-                                    $("#myImage").attr("src", "/images/" + wegarden.comm.null2Void(v.product_image_name));
-                                    $("#pro_category option[data-uuid='" + v.category_uuid + "']").attr("selected", "selected");
-                                });
-                            },
-                            error: function (error) {
-                                console.log(error);
-                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
                             }
                         });
                     },
@@ -431,6 +459,11 @@
                         $("input").focus(function () {
                             $(this).css("background-color", "white");
                         });
+
+                        $(document).on("change", "#eDate input", function () {
+                            _thisPage.fillStockReportBetweenDate();
+                        });
+
                     }
                 }
 
@@ -479,7 +512,6 @@
                 function openReport(pro_uuid) {
                     var input = {};
                     input["STATUS"] = "U";
-                    input["PRO_UUID"] = pro_uuid;
                     open_popup(input);
                 }
 
@@ -487,17 +519,7 @@
                     if(!input_) input_ = {};
                     $('#con-close-modal').modal('show');
 
-                    if(input_.STATUS == "U"){
-                        $("#txtSave").text("Update Product");
-                        $("#txtSave").data("status","U");
-                        $("#txtSave").data("uuid",input_.PRO_UUID);
-                        _thisPage.searchProductRow(input_);
-                    }else{
-                        $('#myImage').attr('src','../images/imageDefault2.svg');
-                        $('input#pro_nm').val('');
-                        $('input#pro_price').val('');
-                        $("#quantityRow").hide();
-                    }
+                    _thisPage.fillStockReportBetweenDate();
                 }
 
                 function fnSearch() {
@@ -506,6 +528,42 @@
                     setTimeout(function () {
                         top.$("#loading").hide();
                     }, 300);
+                }
+
+                function fn_chooseDate(){
+                    $.fn.datepicker.defaults.format = "dd-mm-yyyy";
+                    var today	  = new Date();
+                    var firstDay = new Date(today.getFullYear(), today.getMonth());
+                    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+                    var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+
+                    $('#sDate').datepicker({
+                        format: 'dd-mm-yyyy',
+                        showOtherMonths: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        showWeek: true,
+                        onClose: function(selectedDate, instance){
+                            console.log(true)
+                        }
+                    });
+
+                    $('#eDate').datepicker({
+                        format: 'dd-mm-yyyy'
+                    });
+
+                    $("#sDate input").val(startDate);
+                    $("#eDate input").val(endDate);
+
+                    // $("#sDate").inputmask("dd-mm-yyyy");
+                    // $("#eDate").inputmask("dd-mm-yyyy");
+
+                    function strpad00(s){
+                        s = s + '';
+                        if (s.length === 1) s = '0'+s;
+                        return s;
+                    }
                 }
 
                 function isNumber(evt) {

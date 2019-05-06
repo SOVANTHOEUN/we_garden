@@ -3,6 +3,7 @@ package com.wegarden.web.repositories.impl;
 import com.wegarden.web.model.stock.Category;
 import com.wegarden.web.model.stock.Image;
 import com.wegarden.web.model.stock.Stock;
+import com.wegarden.web.model.stock.StockReport;
 import com.wegarden.web.repositories.StockRepository;
 import org.springframework.stereotype.Repository;
 
@@ -57,6 +58,29 @@ public class StockRepositoryImpl implements StockRepository {
         }
         entityManager.clear();
         return categoryList;
+    }
+
+    @Override
+    public List<StockReport> getReportStockList(String sDate, String eDate) {
+        List<StockReport> stockReportList = new ArrayList<>();
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_report_stock_in_by_date", StockReport.class)
+                .registerStoredProcedureParameter("_from_date", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_to_date", String.class, ParameterMode.IN)
+                .setParameter("_from_date", sDate)
+                .setParameter("_to_date", eDate);
+
+        try{
+            stockReportList = storedProcedureQuery.getResultList();
+        }catch (Exception e){
+
+            System.out.println("Error.....proned.");
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return stockReportList
+                ;
     }
 
     @Override
@@ -198,4 +222,5 @@ public class StockRepositoryImpl implements StockRepository {
 
         return actionCode;
     }
+
 }
