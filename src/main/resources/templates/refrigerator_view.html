@@ -156,17 +156,17 @@
                                                                     <input type="text" maxlength="10" class="form-control input-block input-amt-refri REFRIG_AMT" onkeypress="javascript:return isNumber(event)" onkeyup="javascript:return calculateProductPrice(this)" value="0">
                                                                 </div>
                                                             </td>
-                                                            <td style="line-height: 40px;">60</td>
+                                                            <td style="line-height: 40px;">30</td>
                                                             <td style="line-height: 40px;text-align: center;">
                                                                 <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                                             </td>
                                                         </tr>
-                                                        <tr class="total-price">
+                                                        <!--<tr class="total-price">
                                                             <td colspan="4" styl;="border-right: none;"><label>Total Price</label></td>
                                                             <td style="border-right: none;border-left: none;" colspan="3">
                                                                 <div style="text-align: left;" id="totalPrice"><label>$30</label></div>
                                                             </td>
-                                                        </tr>
+                                                        </tr>-->
                                                     </tbody>
                                                     <div class="panel-disabled loading-stock" style="display: none;">
                                                         <div class="loader-1"></div>
@@ -199,7 +199,8 @@
             <script type="text/javascript">
                 var _page_no = 1;
                 var CATEGORY_REC_ = {};
-                var imageSrc_ = ""
+                var imageSrc_ = "";
+                var _thisPage={};
                 $(function(){
                     _thisPage.onload();
                 });
@@ -234,7 +235,7 @@
 
                 function isNumber(evt) {
                     var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57) )
                         return false;
 
                     return true;
@@ -280,6 +281,125 @@
                         callback(hasEmptyTextbox);
                     }
                 }
+
+
+                _thisPage.fillTable =function (input) {
+                    if (!input) input = {};
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/refrigerator/get_refrigerator_list",
+                        data: input,
+                        headers: {
+                            "Content-Type": "application/json;",
+                            "charset": "UTF-8"
+                        },
+                        success: function (result) {
+                            $("#table_result").empty();
+                            var html;
+                            if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                                $.each(result.DATA_REC, function (i, v) {
+                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                    html+='<tr data-uuid="'+v.product_uuid+'" >';
+                                    html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
+                                    html+='	<td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
+                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                    html+='	<td style="line-height: 40px;">';
+                                    html+='	    <div class="editRefriLayer" style="display:inline-flex;width: 100%;">';
+                                    html+='	        <input type="text" maxlength="10" class="form-control input-block input-amt-refri STOCK_AMT" onkeypress="javascript:return isNumber(event)" onkeyup="javascript:return calculateStockQty(this)" value="0">';
+                                    html+='	    </div>';
+                                    html+='	</td>';
+                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                    html+='	<td style="line-height: 40px;text-align: center;">';
+                                    html+='	    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                    html+='	</td>';
+                                    html+='</tr>';
+                                });
+
+                                $("#table_result").append(html);
+                            } else {
+                                $("#table_result").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                        }
+                    });
+                };
+
+
+                function calculateStockQty(this_){
+                    var newStock  = 0;
+                    var addNewQty = wegarden.comm.null2Void($(this_).val().trim(), 0);
+                    var oldQty    =parseInt(wegarden.comm.null2Void($(this_).closest("td").prev().text(), 0));
+
+                     newStock  =  parseInt(addNewQty)+ parseInt(oldQty);
+                    $(this_).closest("td").next().text(newStock);
+
+                }
+
+
+                _thisPage.onload = function(){
+                    _thisPage.fillTable();
+                };
+
+                $(document).on("click", "#btnSaveStock", function () {
+                    var input = {};
+                    var inRec = [];
+
+                    $("#table_result tr").each(function (i, v) {
+                        var obj = {};
+                        obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
+                        obj["STOCK_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.STOCK_AMT').val(), ''));
+                        inRec.push(obj);
+                    });
+                    input["IN_REC"] = inRec;
+                    _thisPage.saveRefrigerator(input, this);
+
+                });
+
+               _thisPage.saveRefrigerator=function (input, this_) {
+                    if (!input) input = {};
+                    $('.loading-stock').show();
+                    console.log(input);
+                    $.ajax({
+                        type: "POST",
+                        url: "/refrigerator/refrigerator_save",
+                        data: JSON.stringify(input),
+                        headers: {
+                            "Content-Type": "application/json;",
+                            "charset": "UTF-8"
+                        },
+                        success: function (result) {
+                            console.log(result.status);
+                            setTimeout(function () {
+                                $('.loading-stock').hide();
+                                _thisPage.onload();
+                            }, 300);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                };
+
+
+                $("#btnCheckReport").click(function () {
+                    var input = {};
+                    input["STATUS"] = "N";
+                    open_popup(input);
+                });
+
+
+                function open_popup(input_){
+                    if(!input_) input_ = {};
+                    $('#con-close-modal').modal('show');
+
+                    //_thisPage.fillStockReportBetweenDate();
+                }
+
 
             </script>
             <!--</th:block>-->
