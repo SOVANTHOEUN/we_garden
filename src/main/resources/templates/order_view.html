@@ -5,210 +5,383 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8"/>
+
+    <style>
+        table > thead > tr > th{background-color: #ffffff !important;}
+        table tbody > tr > td{font-size: 1.07em;}
+        table thead tr {background-color: #ebeff2;}
+        table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+        table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+        table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+        .action_layer{/* display: none; */position: absolute;top: 70px;right: 166px;border: 1px solid #999;width: 100px;background: #fff;box-shadow: 1px 1px 2px 0 #ccc;-webkit-box-shadow: 0 2px 5px 2px #ccc;}
+
+        .pro-image{border-right: none;line-height: 40px;}
+        .input-amt-stock{width: 100%;height: 30px;padding-left: 8px;}
+        .btn-save-stock{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+        .btn-canc-stock{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+
+        .input-amt-refri{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
+        .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
+        .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
+        .edit-row{font-size: 0.8em;}
+
+        .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+    </style>
 </head>
 <body>
 <!-- Begin page -->
-    <div layout:fragment="content">
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="content-page">
-            <!-- Start content -->
-            <div class="content">
-                <div class="container">
+<div layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container">
 
-                    <!--Custom Toolbar-->
-                    <!--===================================================-->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card-box">
-                                <h4 class="m-t-0 header-title"><b>Custom Toolbar</b></h4>
-                                <p class="text-muted font-13">
-                                    Example of Custom Toolbar (Your text goes here).
-                                </p>
+                <!--Custom Toolbar-->
+                <!--===================================================-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title"><b>Order List</b></h4>
+                            <p class="text-muted font-13">
+                                <label>Function:</label> Read order record and read user's record.
+                            </p>
 
-                                <button id="demo-delete-row" class="btn btn-danger" disabled><i class="fa fa-times m-r-5"></i>Delete</button>
-                                <table id="demo-custom-toolbar"  data-toggle="table"
-                                       data-toolbar="#demo-delete-row"
-                                       data-search="true"
-                                       data-show-refresh="true"
-                                       data-show-toggle="true"
-                                       data-show-columns="true"
-                                       data-sort-name="id"
-                                       data-page-list="[5, 10, 20]"
-                                       data-page-size="5"
-                                       data-pagination="true" data-show-pagination-switch="true" class="table-bordered ">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="state" data-checkbox="true"></th>
-                                        <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">Order ID</th>
-                                        <th data-field="name" data-sortable="true">Name</th>
-                                        <th data-field="date" data-sortable="true" data-formatter="dateFormatter">Order Date</th>
-                                        <th data-field="amount" data-align="center" data-sortable="true" data-sorter="priceSorter">Price</th>
-                                        <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1609</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Unpaid</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1610</td>
-                                        <td>Woldt</td>
-                                        <td>24 Jun 2015</td>
-                                        <td>$ 15.00</td>
-                                        <td>Paid</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1611</td>
-                                        <td>Leonardo</td>
-                                        <td>25 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Shipped</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1612</td>
-                                        <td>Halladay</td>
-                                        <td>27 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Refunded</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1613</td>
-                                        <td>Badgett</td>
-                                        <td>28 Jun 2015</td>
-                                        <td>$ 95.00</td>
-                                        <td>Unpaid</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1614</td>
-                                        <td>Boudreaux</td>
-                                        <td>29 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Paid</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1615</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Shipped</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1616</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Refunded</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1617</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Unpaid</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1618</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Paid</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1619</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Shipped</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1620</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Refunded</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1621</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Unpaid</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1622</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Paid</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1623</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Shipped</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>UB-1624</td>
-                                        <td>Boudreaux</td>
-                                        <td>22 Jun 2015</td>
-                                        <td>$ 35.00</td>
-                                        <td>Refunded</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                    <div class="bars pull-left">
+                                        <!--<button id="btnCheckReport" class="btn btn-info" data-target="#con-close-modal"><i class="fa fa-bar-chart m-r-5"></i>Report</button>-->
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- modal -->
+                            <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg" id="modal_report">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">View Report</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="sDate" class="control-label">Select Date</label>
+                                                        <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                            <input type="text" class="form-control">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                            <input type="text" class="form-control" style="background-color: white;">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="bars pull-left" style="margin-top: 25px;">
+                                                        <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                            <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="fixed-table-body">
+                                                                <table data-toggle="" class="table table-bordered" id="tbl_report">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:450px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                        <col>
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                                        <th style=""><div class="th-inner ">Price</div></th>
+                                                                        <th style=""><div class="th-inner ">In-Stock</div></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="table_report-result">
+                                                                    <tr data-index="0">
+                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                        <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                        <td style="line-height: 40px;">$0.5</td>
+                                                                        <td style="line-height: 40px;">180</td>
+                                                                    </tr>
+                                                                    <tr data-index="0">
+                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                        <td style="border-left: none;line-height: 40px;">Bacchus</td>
+                                                                        <td style="line-height: 40px;">$0.5</td>
+                                                                        <td style="line-height: 40px;">180</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                    <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                        <div class="loader-1"></div>
+                                                                    </div>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.modal -->
+
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                    <div class="fixed-table-body">
+                                        <table data-toggle="" class="table table-bordered" id="tbl_order">
+                                            <colgroup>
+                                                <col style="width:10px;">
+                                                <col style="width:290px;">
+                                                <col style="width:40px;">
+                                                <col style="width:200px;">
+                                                <col style="width:20px;">
+                                                <col style="width:50px">
+                                                <col>
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th style="" colspan="2">
+                                                    <div class="th-inner" style="text-align: center;">Name</div>
+                                                </th>
+                                                <th style="">
+                                                    <div class="th-inner ">Department</div>
+                                                </th>
+                                                <th style="">
+                                                    <div class="th-inner ">Team</div>
+                                                </th>
+                                                <th style="">
+                                                    <div class="th-inner ">Total Price</div>
+                                                </th>
+                                                <th style="text-align: center;">
+                                                    <div class="th-inner ">Action</div>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="table_result">
+                                            <tr data-index="0">
+                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="40px" /></td>
+                                                <td style="border-left: none;line-height: 40px;">Lay Bunnavitou</td>
+                                                <td style="line-height: 40px;">Mobile R&D</td>
+                                                <td style="line-height: 40px;">iOS</td>
+                                                <td style="line-height: 40px;">$20.0</td>
+                                                <td style="text-align: center;line-height: 40px;">
+                                                    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr data-index="0">
+                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="40px" /></td>
+                                                <td style="border-left: none;line-height: 40px;">Lay Mengly</td>
+                                                <td style="line-height: 40px;">B2B R&D</td>
+                                                <td style="line-height: 40px;">Bizplay Contents</td>
+                                                <td style="line-height: 40px;">$15</td>
+                                                <td style="text-align: center;line-height: 40px;">
+                                                    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <div class="panel-disabled loading-stock" style="display: none;">
+                                                <div class="loader-1"></div>
+                                            </div>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
+                </div>
 
 
-                </div> <!-- container -->
+            </div> <!-- container -->
 
-            </div> <!-- content -->
+        </div> <!-- content -->
 
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Right content here -->
-        <!-- ============================================================== -->
     </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+    <script type="text/javascript">
+        $(function(){
+            _thisPage.onload();
+        });
 
-    <footer class="footer">
-        2015 © Ubold.
-    </footer>
+        var _thisPage = {
+            onload: function () {
+                var _this = this;
+                _this.event();
+                fnSearch();
+
+            },
+            fillTable: function (input) {
+                if (!input) input = {};
+
+                $.ajax({
+                    type: "GET",
+                    url: "/order/get_order_list",
+                    data: input,
+                    headers: {
+                        "Content-Type": "application/json;",
+                        "charset": "UTF-8"
+                    },
+                    success: function (result) {
+                        // $("#table_result").empty();
+                        var strHtml = "", usr_image = "";
+                        console.log(result.DATA_REC);
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            // $.each(result.DATA_REC, function (i, v) {
+                            //     usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+                            //
+                            // });
+
+                            // $("#table_result").append(strHtml);
+                        } else {
+                            $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            searchProductRow : function (input) {
+                if(!input) input = {};
+                input["PRO_UUID"] = input.PRO_UUID;
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/product/get_product_list",
+                    data    : input,
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success : function (result) {
+                        $.each(result.DATA_REC, function (i,v) {
+                            $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
+                            $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
+                            $("#pro_quantity").val(wegarden.comm.null2Void(v.quantity_per_box,0));
+                            $("#myImage").attr("src", "/images/"+wegarden.comm.null2Void(v.product_image_name));
+                            $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
+
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            event: function () {
+                $(document).on("click", "#btnReadProduct", function () {
+                    var input = {};
+                    input["STATUS"] = "P";
+                    input["PRO_UUID"] = $(this).closest("tr").data("uuid");
+                    open_popup(input);
+                });
+
+            }
+        }
+
+        function addCurrencySymbol(value_){
+            value_ = wegarden.comm.null2Void(value_, '0');
+            var isEmpty = wegarden.comm.isEmpty(value_);
+            var formatValue = wegarden.comm.formatCurrency(value_);
+
+            if(!isEmpty && value_ != "0"){
+                return formatValue = "$"+formatValue;
+            }else{
+                return formatValue;
+            }
+        }
+
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function open_popup(input_){
+            if(!input_) input_ = {};
+            console.log("input_:::: "+JSON.stringify(input_));
+            $('#con-close-modal').modal('show');
+            if(input_.STATUS == "R"){
+                $("#modal_product").hide();
+                $("#modal_report").show();
+                _thisPage.fillStockReportBetweenDate();
+            }else{
+                $("#modal_report").hide();
+                $("#modal_product").show();
+                _thisPage.searchProductRow(input_);
+            }
+        }
+
+        function fnSearch() {
+            top.$("#loading").show();
+            _thisPage.fillTable();
+            setTimeout(function () {
+                top.$("#loading").hide();
+            }, 300);
+        }
+
+        function validateBorderInputColor(validate, callback) {
+            var hasEmptyTextbox = false;
+
+            $('input').each(function () {
+                if (validate) {
+                    if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                        $(this).css("background-color", "#f9dfd8");
+                        hasEmptyTextbox = true
+                    }else{
+                        $(this).css("background-color", "white");
+                    }
+                }else{
+                    $(this).css("border", "2px solid lightgrey");
+                }
+            });
+
+            if (validate) {
+                callback(hasEmptyTextbox);
+            }
+        }
+
+    </script>
+</div>
+
+<footer class="footer">
+    2015 © Ubold.
+</footer>
 
 </body>
 </html>
