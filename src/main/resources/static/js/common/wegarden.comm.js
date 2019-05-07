@@ -852,8 +852,6 @@ wegarden.comm.getPositionSelect = function(target_id){
  *
  */
 wegarden.comm.inputPhoneKhmer = function (targetId){
-
-
     $("#"+targetId).keydown(function (e) {
         parent.$("#msgErr").hide();
         // Allow: backspace, delete, tab, escape, enter and .
@@ -896,4 +894,80 @@ wegarden.comm.renderIndentityType = function(target_id){
     $("#"+target_id).append("<option value='PASS'>Passport</option>");
     $("#"+target_id).append("<option value='FAMI'>Family Book</option>");
 };
+
+//@@ Add Camma per 3digits
+wegarden.comm.numberWithCommas = function(str) {
+    if(str == null || str == "" ) return "";
+
+    if(str.length>1 && str[0]=="0" && str[1]==".") return str;
+    if(str.length>1 && str[0]=="0") return str[1];
+    //if(str.length>2 && str[0]=="0" && str[1]==".") return str;
+
+    if(str[0]==".") return "0." ;
+    if (str.split(".").lenght>2) return "";
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //return str.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+wegarden.comm.numberWithDot = function(str) {
+    if(str == null || str == "" ) return "";
+
+    if(str.length>1 && str[0]=="0" && str[1]==".") return str;
+    if(str.length>1 && str[0]=="0") return str[1];
+
+    if(str[0]==".") return "0." ;
+
+    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //return str.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, ",");
+};
+
+wegarden.comm.removeAllCommas = function(str){
+    return str.replace(/,/g, "");
+};
+
+wegarden.comm.validateFloatKeyPress = function(el, evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    var number = el.value.split('.');
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    //just one dot
+    if(number.length>1 && charCode == 46){
+        return false;
+    }
+    //get the carat position
+    var caratPos = getSelectionStart(el);
+    var dotPos = el.value.indexOf(".");
+    if( caratPos > dotPos && dotPos>-1 && (number[1].length > 1)){
+        return false;
+    }
+    return true;
+}
+
+//thanks: http://javascript.nwbox.com/cursor_position/
+function getSelectionStart(o) {
+    if (o.createTextRange) {
+        var r = document.selection.createRange().duplicate()
+        r.moveEnd('character', o.value.length)
+        if (r.text == '') return o.value.length
+        return o.value.lastIndexOf(r.text)
+    } else return o.selectionStart
+}
+
+wegarden.comm.numberOnly = function(e){
+    // Allow: backspace, delete, tab, escape, enter and .
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+        // Allow: Ctrl+A, Command+A
+        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        // Allow: home, end, left, right, down, up
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+        // let it happen, don't do anything
+        return;
+    }
+    // Ensure that it is a number and stop the keypress
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) ) {
+        e.preventDefault();
+    }
+}
+
     

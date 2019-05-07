@@ -43,7 +43,9 @@ public class StockController {
             HashMap  objItem = (HashMap)arrIn.get(i);
             String proUuid      = (String)objItem.get("PRO_UUID");
             Integer stockAmt = (Integer)objItem.get("STOCK_AMT");
-            actionCode = stockService.saveProductAmt(proUuid,stockAmt);
+            String proPriceStr = (String)objItem.get("PRO_PRICE");
+            double proPrice   = Double.parseDouble(proPriceStr);
+            actionCode = stockService.saveProductAmt(proUuid,stockAmt, proPrice);
         }
 
         if (actionCode.equals("00000")){
