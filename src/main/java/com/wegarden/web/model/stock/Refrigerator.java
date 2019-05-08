@@ -1,93 +1,139 @@
 package com.wegarden.web.model.stock;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Refrigerator {
+    @Id
 
-    private int id;
-    private int stock_in;
-    private int stock_out;
-    private int quantity;
-    private Date updated_date;
-    private int product_id;
-    private int order_id;
+    @JsonProperty("product_uuid")
+    public String productUuid;
 
-    public Refrigerator(int id, int stock_in, int stock_out, int quantity, Date updated_date, int product_id, int order_id) {
-        this.id = id;
-        this.stock_in = stock_in;
-        this.stock_out = stock_out;
-        this.quantity = quantity;
-        this.updated_date = updated_date;
-        this.product_id = product_id;
-        this.order_id = order_id;
+    @JsonProperty("product_name")
+    public String productName;
+
+    @JsonProperty("product_price")
+    public Double productPrice;
+
+    @JsonProperty("product_image_name")
+    public String productImageName;
+
+    @JsonProperty("product_status")
+    public String productStatus;
+
+    @JsonProperty("categoryUuid")
+    public String categoryUuid;
+
+    @JsonProperty("category_name")
+    public String categoryName;
+
+    @JsonProperty("category_remark")
+    public String categoryRemark;
+
+    @JsonProperty("category_status")
+    public String categoryStatus;
+
+    @JsonProperty("stock_in_quantity")
+    public Integer stockInQuantity;
+
+    public Refrigerator(String productUuid, String productName, Double productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, Integer stockInQuantity) {
+        this.productUuid = productUuid;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImageName = productImageName;
+        this.productStatus = productStatus;
+        this.categoryUuid = categoryUuid;
+        this.categoryName = categoryName;
+        this.categoryRemark = categoryRemark;
+        this.categoryStatus = categoryStatus;
+        this.stockInQuantity = stockInQuantity;
     }
 
-    public int getId() {
-        return id;
+    public Refrigerator() {
+
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getProductUuid() {
+        return productUuid;
     }
 
-    public int getStock_in() {
-        return stock_in;
+    public void setProductUuid(String productUuid) {
+        this.productUuid = productUuid;
     }
 
-    public void setStock_in(int stock_in) {
-        this.stock_in = stock_in;
+    public String getProductName() {
+        return productName;
     }
 
-    public int getStock_out() {
-        return stock_out;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setStock_out(int stock_out) {
-        this.stock_out = stock_out;
+    public Double getProductPrice() {
+        return productPrice;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setProductPrice(Double productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public String getProductImageName() {
+        return productImageName;
     }
 
-    public Date getUpdated_date() {
-        return updated_date;
+    public void setProductImageName(String productImageName) {
+        this.productImageName = productImageName;
     }
 
-    public void setUpdated_date(Date updated_date) {
-        this.updated_date = updated_date;
+    public String getProductStatus() {
+        return productStatus;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public String getCategoryUuid() {
+        return categoryUuid;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public void setCategoryUuid(String categoryUuid) {
+        this.categoryUuid = categoryUuid;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    @Override
-    public String toString() {
-        return "Refrigerator{" +
-                "id=" + id +
-                ", stock_in=" + stock_in +
-                ", stock_out=" + stock_out +
-                ", quantity=" + quantity +
-                ", updated_date=" + updated_date +
-                ", product_id=" + product_id +
-                ", order_id=" + order_id +
-                '}';
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryRemark() {
+        return categoryRemark;
+    }
+
+    public void setCategoryRemark(String categoryRemark) {
+        this.categoryRemark = categoryRemark;
+    }
+
+    public String getCategoryStatus() {
+        return categoryStatus;
+    }
+
+    public void setCategoryStatus(String categoryStatus) {
+        this.categoryStatus = categoryStatus;
+    }
+
+    public Integer getStockInQuantity() {
+        return stockInQuantity;
+    }
+
+    public void setStockInQuantity(Integer stockInQuantity) {
+        this.stockInQuantity = stockInQuantity;
     }
 }

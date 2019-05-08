@@ -23,9 +23,9 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         return refrigeratorRepository.saveQty(proUuid,quantity);
     }
 
-    /*@Override
+     @Override
     public List<Refrigerator> getReportRefrigerator(String sDate, String eDate) {
         return refrigeratorRepository.getReportRefrigerator(sDate,eDate);
-    }*/
+    }
 
 }

@@ -59,24 +59,24 @@
                                     </div>
 
                                     <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog" id="modal_product" style="display: none;">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Product</h4>
+                                                    <h4 class="modal-title" data-status="I" data-uuid="">Product Detail</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_nm" class="control-label">Product Name</label>
-                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name">
+                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name" disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_category" class="control-label">Category</label>
-                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category">
+                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category" disabled="disabled">
                                                                     <option>Food</option>
                                                                     <option>Drink</option>
                                                                     <option>Other</option>
@@ -85,10 +85,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_price" class="control-label">Price</label>
-                                                                <input type="text" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_quantity" class="control-label">Quantity/per box</label>
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity" disabled="disabled">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -97,22 +103,110 @@
                                                         <div class="col-sm-12" style="">
                                                             <img style="object-fit: cover;display: block;border: solid 1px #ddd;margin: 0 auto;border-radius: 50%;margin-bottom: 15px;" id="myImage" class="roundrect" width="130px" height="130px" data-toggle="lightbox" src="../images/imageDefault2.svg">
                                                         </div>
-                                                        <div class="fileUpload btn btn-default" id="myImageFile" style="margin: 0 auto;display: table;border-radius: 26em;">
-                                                            <span>Choose Image</span>
-                                                        </div>
-                                                        <form action="" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
-                                                            <input type="file" name="file" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
-                                                        </form>
                                                     </div>
 
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-info waves-effect waves-light" data-dismiss="modal" id="btnSaveProduct">Save</button>
+                                                <div class="modal-footer" style="text-align: center;">
                                                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!-- /.modal -->
+                                        <div class="modal-dialog modal-lg" id="modal_report">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">View Report</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="sDate" class="control-label">Select Date</label>
+                                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                                    <input type="text" class="form-control">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                                    <input type="text" class="form-control" style="background-color: white;">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="bars pull-left" style="margin-top: 25px;">
+                                                                <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                                    <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12" style="">
+                                                            <div class="bootstrap-table custom-table1">
+                                                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                                    <div class="fixed-table-body">
+                                                                        <table data-toggle="" class="table table-bordered" id="tbl_report">
+                                                                            <colgroup>
+                                                                                <col style="width:10px;">
+                                                                                <col style="width:450px;">
+                                                                                <col style="width:40px;">
+                                                                                <col style="width:40px;">
+                                                                                <col>
+                                                                            </colgroup>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                                                <th style=""><div class="th-inner ">Price</div></th>
+                                                                                <th style=""><div class="th-inner ">In-Stock</div></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody id="table_report-result">
+                                                                            <tr data-index="0">
+                                                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                                <td style="line-height: 40px;">$0.5</td>
+                                                                                <td style="line-height: 40px;">180</td>
+                                                                            </tr>
+                                                                            <tr data-index="0">
+                                                                                <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                <td style="border-left: none;line-height: 40px;">Bacchus</td>
+                                                                                <td style="line-height: 40px;">$0.5</td>
+                                                                                <td style="line-height: 40px;">180</td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                            <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                                <div class="loader-1"></div>
+                                                                            </div>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer" style="text-align: center;">
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- /.modal -->
 
                                     <div class="bootstrap-table">
                                         <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
@@ -241,21 +335,7 @@
                     return true;
                 }
 
-                function open_popup(input_){
-                    $('#con-close-modal').modal('show');
 
-                    if(input_.STATUS == "U"){
-                        $("#txtSave").text("Update Product");
-                        $("#txtSave").data("status","U");
-                        $("#txtSave").data("uuid",input_.PRO_UUID);
-                        _thisPage.searchProductRow(input_);
-                    }else{
-                        $('#myImage').attr('src','../images/imageDefault2.svg');
-                        $('input#pro_nm').val('');
-                        $('input#pro_price').val('');
-                        $("#quantityRow").hide();
-                    }
-                }
 
                 function fnSearch() {
 
@@ -312,7 +392,7 @@
                                     html+='	</td>';
                                     html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
                                     html+='	<td style="line-height: 40px;text-align: center;">';
-                                    html+='	    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                    html+='	    <button type="button" id="btnReadProduct" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
                                     html+='	</td>';
                                     html+='</tr>';
                                 });
@@ -343,6 +423,7 @@
 
                 _thisPage.onload = function(){
                     _thisPage.fillTable();
+
                 };
 
                 $(document).on("click", "#btnSaveStock", function () {
@@ -388,17 +469,147 @@
 
                 $("#btnCheckReport").click(function () {
                     var input = {};
-                    input["STATUS"] = "N";
+                    input["STATUS"] = "R";
+                    _thisPage.fn_chooseDate();
                     open_popup(input);
                 });
 
+                $(document).on("click", "#btnReadProduct", function () {
+                    var input = {};
+                    input["STATUS"] = "P";
+                    input["PRO_UUID"] = $(this).closest("tr").data("uuid");
+                    open_popup(input);
+                });
+
+                $(document).on("change", "#eDate input", function () {
+                    _thisPage.fillRefrigeratorBetweenDate();
+                });
 
                 function open_popup(input_){
                     if(!input_) input_ = {};
+                    console.log("input_:::: "+JSON.stringify(input_));
                     $('#con-close-modal').modal('show');
-
-                    //_thisPage.fillStockReportBetweenDate();
+                    if(input_.STATUS == "R"){
+                        $("#modal_product").hide();
+                        $("#modal_report").show();
+                        _thisPage.fillRefrigeratorBetweenDate(input_);
+                    }else{
+                        $("#modal_report").hide();
+                        $("#modal_product").show();
+                       _thisPage.searchProductRow(input_);
+                    }
                 }
+
+                _thisPage.searchProductRow =function (input) {
+                    if(!input) input = {};
+                    input["PRO_UUID"] = input.PRO_UUID;
+
+                    $.ajax({
+                        type    : "GET",
+                        url       : "/product/get_product_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            $.each(result.DATA_REC, function (i,v) {
+                                $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
+                                $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
+                                $("#pro_quantity").val(wegarden.comm.null2Void(v.quantity_per_box,0));
+                                $("#myImage").attr("src", "/images/"+wegarden.comm.null2Void(v.product_image_name));
+                                $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
+
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                        }
+                    });
+                };
+               _thisPage.fillRefrigeratorBetweenDate= function (input) {
+                    if (!input) input = {};
+                    $(".loading-stock-pop").show();
+                    input["START_DATE"] = $.trim($("#sDate input").val());
+                    input["END_DATE"]    = $.trim($("#eDate input").val());
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/refrigerator/get_report_refrigerator_list",
+                        data: input,
+                        headers: {
+                            "Content-Type": "application/json;",
+                            "charset": "UTF-8"
+                        },
+                        success: function (result) {
+                            $("#tbl_report tbody").empty();
+                            var strReport = "", usr_image = "";
+
+                            if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                $.each(result.DATA_REC, function (i,v) {
+                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                    strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
+                                    strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
+                                    strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                    strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                    strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_in_quantity)+'</td>';
+                                    strReport += '</tr>';
+                                });
+                                $("#tbl_report tbody").html(strReport);
+
+                            }else{
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                            }
+                            setTimeout(function () {
+                                $(".loading-stock-pop").hide();
+                            }, 500);
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                        }
+                    });
+                };
+
+
+                   _thisPage.fn_chooseDate=function(){
+                    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+                    var today	  = new Date();
+                    var firstDay = new Date(today.getFullYear(), today.getMonth());
+                    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+                    var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+
+                    $('#sDate').datepicker({
+                        format: 'yyyy-mm-dd',
+                        showOtherMonths: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        showWeek: true,
+                        onClose: function(selectedDate, instance){
+                            console.log(true)
+                        }
+                    });
+
+                    $('#eDate').datepicker({
+                        format: 'yyyy-mm-dd'
+                    });
+
+                    $("#sDate input").val(startDate);
+                    $("#eDate input").val(endDate);
+
+                    // $("#sDate").inputmask("dd-mm-yyyy");
+                    // $("#eDate").inputmask("dd-mm-yyyy");
+
+                    function strpad00(s){
+                        s = s + '';
+                        if (s.length === 1) s = '0'+s;
+                        return s;
+                    }
+                };
 
 
             </script>

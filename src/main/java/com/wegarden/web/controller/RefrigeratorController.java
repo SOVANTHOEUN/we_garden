@@ -58,7 +58,7 @@ public class RefrigeratorController {
         return response;
     }
 
-    /*@RequestMapping("/get_refrigerator_list")
+    @RequestMapping("/get_report_refrigerator_list")
     @ResponseBody
     public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
         Map<String, Object> response = new HashMap<>();
@@ -68,6 +68,6 @@ public class RefrigeratorController {
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
-    }*/
+    }
 
 }
