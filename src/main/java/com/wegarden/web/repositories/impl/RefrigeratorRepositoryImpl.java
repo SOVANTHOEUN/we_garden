@@ -62,11 +62,11 @@ public class RefrigeratorRepositoryImpl implements RefrigeratorRepository {
         return actionCode;
     }
 
-   /* @Override
+    @Override
     public List<Refrigerator> getReportRefrigerator(String sDate, String eDate) {
         List<Refrigerator> RefrigeratorList = new ArrayList<>();
 
-        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_report_refrigerator_in_by_date")
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_report_refrigerator_in_by_date",Refrigerator.class)
                 .registerStoredProcedureParameter("_from_date", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_to_date", String.class, ParameterMode.IN)
                 .setParameter("_from_date", sDate)
@@ -85,5 +85,5 @@ public class RefrigeratorRepositoryImpl implements RefrigeratorRepository {
         return RefrigeratorList
                 ;
     }
-*/
+
 }
