@@ -1,6 +1,7 @@
 package com.wegarden.web.controller;
 
 import com.wegarden.web.model.order.Order;
+import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.services.OrderService;
@@ -38,13 +39,23 @@ public class OrderController {
         return response;
     }
 
-    @RequestMapping("/order_user_detail")
+    @RequestMapping("/user_order")
     @ResponseBody
     public Map<String, Object> getUserOrderList(@ModelAttribute("USER_UUID") String userUuid){
         Map<String, Object> response = new HashMap<>();
 
         List<UserOrder> userOrderList = orderService.getUserOrderList(userUuid);
         response.put("DATA_REC", userOrderList);
+        return response;
+    }
+
+    @RequestMapping("/order_detail_list")
+    @ResponseBody
+    public Map<String, Object> getOrderDetailList(@ModelAttribute("ORDER_UUID") String orderUuid){
+        Map<String, Object> response = new HashMap<>();
+
+        List<OrderDetail> orderDetailsList = orderService.getOrderDetailList(orderUuid);
+        response.put("DATA_REC", orderDetailsList);
         return response;
     }
 

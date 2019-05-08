@@ -126,11 +126,8 @@ wegarden.comm.formatCurrency = function(val){
 };
 
 wegarden.comm.formatDate = function(val){
-    var dt="";
-    value=val.toString();
 
-    dt=val.substring(0,2)+"-"+val.substring(2,4)+"-"+val.substring(4,8);
-    return dt;
+    return val.split('-')[2]+"-"+val.split('-')[1]+"-"+val.split('-')[0];
 }
 
 /**
@@ -969,5 +966,10 @@ wegarden.comm.numberOnly = function(e){
         e.preventDefault();
     }
 }
+
+wegarden.comm.comma = function(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+};
 
     

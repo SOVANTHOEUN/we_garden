@@ -1,6 +1,7 @@
 package com.wegarden.web.services.impl;
 
 import com.wegarden.web.model.order.Order;
+import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReport;
@@ -27,5 +28,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<UserOrder> getUserOrderList(String userUuid) {
         return orderRepository.getUserOrderList(userUuid);
+    }
+
+    @Override
+    public List<OrderDetail> getOrderDetailList(String orderUuid) {
+        return orderRepository.getOrderDetailList(orderUuid);
     }
 }

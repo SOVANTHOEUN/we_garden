@@ -73,48 +73,30 @@
                                                             <div class="fixed-table-body">
                                                                 <table data-toggle="" class="table table-bordered" id="table_user_order">
                                                                     <colgroup>
-                                                                        <col style="width:10px;">
                                                                         <col style="width:450px;">
                                                                         <col style="width:40px;">
                                                                         <col style="width:40px;">
                                                                         <col style="width:40px;">
-                                                                        <col style="width:20px;">
-                                                                        <col>
                                                                     </colgroup>
                                                                     <thead>
-                                                                    <tr>
-                                                                        <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
-                                                                        <th style=""><div class="th-inner ">Price</div></th>
-                                                                        <th style=""><div class="th-inner ">Quantity</div></th>
-                                                                        <th style=""><div class="th-inner ">Total Price</div></th>
-                                                                        <th style=""><div class="th-inner ">Action</div></th>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <th style=""><div class="th-inner" style="text-align: center;">Order Date</div></th>
+                                                                            <th style=""><div class="th-inner ">Order Total</div></th>
+                                                                            <th style=""><div class="th-inner ">Quantity</div></th>
+                                                                            <th style=""><div class="th-inner ">Action</div></th>
+                                                                        </tr>
                                                                     </thead>
-                                                                    <tbody id="table_order_detail">
-                                                                    <tr data-index="0">
-                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
-                                                                        <td style="border-left: none;line-height: 40px;">Oishi</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="line-height: 40px;">180</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="text-align: center;line-height: 40px;">
-                                                                            <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr data-index="0">
-                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
-                                                                        <td style="border-left: none;line-height: 40px;">Bacchus</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="line-height: 40px;">180</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="text-align: center;line-height: 40px;">
-                                                                            <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                                                        </td>
-                                                                    </tr>
+                                                                    <tbody id="table_order">
+                                                                        <tr data-index="0">
+                                                                            <td style="text-align: center;">01-05-2019</td>
+                                                                            <td style="">$0.5</td>
+                                                                            <td style="">180</td>
+                                                                            <td style="text-align: center;">
+                                                                                <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                                            </td>
+                                                                        </tr>
                                                                     </tbody>
-                                                                    <div class="panel-disabled loading-stock-pop" style="display: none;">
-                                                                        <div class="loader-1"></div>
-                                                                    </div>
+
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -133,7 +115,7 @@
 
                             <!-- modal popup 2 -->
                             <div id="con-close-modal-2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog modal-lg" id="modal-order-detail">
+                                <div class="modal-dialog" id="modal-order-detail">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -151,40 +133,22 @@
                                                                         <col style="width:450px;">
                                                                         <col style="width:40px;">
                                                                         <col style="width:40px;">
-                                                                        <col style="width:40px;">
-                                                                        <col style="width:20px;">
                                                                         <col>
                                                                     </colgroup>
                                                                     <thead>
-                                                                    <tr>
-                                                                        <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
-                                                                        <th style=""><div class="th-inner ">Price</div></th>
-                                                                        <th style=""><div class="th-inner ">Quantity</div></th>
-                                                                        <th style=""><div class="th-inner ">Total Price</div></th>
-                                                                        <th style=""><div class="th-inner ">Action</div></th>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                                            <th style=""><div class="th-inner ">Quantity</div></th>
+                                                                            <th style=""><div class="th-inner ">Price</div></th>
+                                                                        </tr>
                                                                     </thead>
-                                                                    <tbody id="tbl_detail_result">
-                                                                    <tr data-index="0">
-                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
-                                                                        <td style="border-left: none;line-height: 40px;">Oishi</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="line-height: 40px;">180</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="text-align: center;line-height: 40px;">
-                                                                            <button type="button" class="btn btn-primary btn-xs orderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr data-index="0">
-                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
-                                                                        <td style="border-left: none;line-height: 40px;">Bacchus</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="line-height: 40px;">180</td>
-                                                                        <td style="line-height: 40px;">$0.5</td>
-                                                                        <td style="text-align: center;line-height: 40px;">
-                                                                            <button type="button" class="btn btn-primary btn-xs orderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                                                        </td>
-                                                                    </tr>
+                                                                    <tbody id="tbl_resul_detail">
+                                                                        <tr data-index="0">
+                                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                            <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                            <td style="line-height: 40px;">180</td>
+                                                                            <td style="line-height: 40px;">$0.5</td>
+                                                                        </tr>
                                                                     </tbody>
                                                                     <div class="panel-disabled loading-stock-pop" style="display: none;">
                                                                         <div class="loader-1"></div>
@@ -234,16 +198,6 @@
                                                     <td style="line-height: 40px;">Mobile R&D</td>
                                                     <td style="line-height: 40px;">iOS</td>
                                                     <td style="line-height: 40px;">$20.0</td>
-                                                    <td style="text-align: center;line-height: 40px;">
-                                                        <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr data-index="0">
-                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="40px" /></td>
-                                                    <td style="border-left: none;line-height: 40px;">Lay Mengly</td>
-                                                    <td style="line-height: 40px;">B2B R&D</td>
-                                                    <td style="line-height: 40px;">Bizplay Contents</td>
-                                                    <td style="line-height: 40px;">$15</td>
                                                     <td style="text-align: center;line-height: 40px;">
                                                         <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                                     </td>
@@ -326,41 +280,90 @@
             searchUserOrderRow : function (input) {
                 if(!input) input = {};
                 input["USER_UUID"] = input.USER_UUID;
-                console.log(input)
 
                 $.ajax({
                     type    : "GET",
-                    url       : "/order/order_user_detail",
+                    url       : "/order/user_order",
                     data    : input,
                     headers : {
                         "Content-Type"  : "application/json;",
                         "charset"       : "UTF-8"
                     },
                     success: function (result) {
-                        // $("#table_order_detail").empty();
-                        // var strHtml = "", usr_image = "";
-                        //
-                        // if (!wegarden.comm.isEmpty(result.DATA_REC)) {
-                        //     $.each(result.DATA_REC, function (i, v) {
-                        //         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
-                        //
-                        //         strHtml += '<tr data-index="0">';
-                        //         strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
-                        //         strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
-                        //         strHtml += '    <td style="line-height: 40px;">$0.5</td>';
-                        //         strHtml += '    <td style="line-height: 40px;">180</td>';
-                        //         strHtml += '    <td style="line-height: 40px;">$0.5</td>';
-                        //         strHtml += '</tr>';
-                        //     });
-                        //
-                        //     $("#table_order_detail").html(strHtml);
-                        // } else {
-                        //     $("#table_order_detail").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
-                        // }
+                        $("#table_order").empty();
+                        var strHtml = "", usr_image = "", strTotalRow = "", totalPay = 0;
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                strHtml += '<tr data-uuid="'+v.order_uuid+'">';
+                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+'</td>';
+                                strHtml += '    <td style="text-align: center;">'+addCurrencySymbol(Number(v.order_total).toFixed(2))+'</td>';
+                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.null2Void(v.product_count, '')+'</td>';
+                                strHtml += '    <td style="text-align: center;">';
+                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                strHtml += '    </td>';
+                                strHtml += '</tr>';
+                                totalPay += parseFloat(v.order_total);
+                            });
+
+                            strTotalRow += '<tr class="total-price">';
+                            strTotalRow += '    <td styl;="border-right: none;"><label>Total Pay</label></td>';
+                            strTotalRow += '    <td style="border-right: none;border-left: none;" colspan="3">';
+                            strTotalRow += '        <div style="text-align: left;margin-left: 25px;" id="totalPrice"><label>'+addCurrencySymbol(Number(totalPay).toFixed(2))+'</label></div>';
+                            strTotalRow += '    </td>';
+                            strTotalRow += '</tr>';
+
+                            $("#table_order").html(strHtml);
+                            $("#table_order").append(strTotalRow);
+                        } else {
+                            $("#table_order").append("<tr><td class='text-center' colspan='4'>There is no data.</td></tr>");
+                        }
                     },
                     error: function (error) {
                         console.log(error);
-                        $("#table_order_detail").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                        $("#table_order").append("<tr><td class='text-center' colspan='4'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            fillOrderDetail : function (input) {
+                if(!input) input = {};
+                input["ORDER_UUID"] = input.ORDER_UUID;
+                console.log(input)
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/order/order_detail_list",
+                    data    : input,
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        $("#tbl_resul_detail").empty();
+                        var strDetailHtml = "", pro_image = "";
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                strDetailHtml += '<tr data-uuid="'+v.product_uuid+'">';
+                                strDetailHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
+                                strDetailHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name, '')+'</td>';
+                                strDetailHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.order_quantity, '')+'</td>';
+                                strDetailHtml += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                strDetailHtml += '</tr>';
+                            });
+
+                            $("#tbl_resul_detail").html(strDetailHtml);
+                        } else {
+                            $("#tbl_resul_detail").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#tbl_resul_detail").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
                     }
                 });
             },
@@ -372,7 +375,10 @@
                 });
 
                 $(document).on("click", ".btnOrderDetail", function () {
-                    $('#con-close-modal-2').modal('show');
+                    var input = {};
+                    var orderUuid = $(this).closest("tr").data("uuid");
+                    input["ORDER_UUID"] = orderUuid;
+                    open_popup_prodetail(input)
                 });
 
                 $(document).on("click", ".btnPay", function () {
@@ -395,7 +401,6 @@
                             }
                         });
                 });
-
             }
         }
 
@@ -407,20 +412,16 @@
             return true;
         }
 
+        function open_popup_prodetail(input_){
+            if(!input_) input_ = {};
+            $('#con-close-modal-2').modal('show');
+            _thisPage.fillOrderDetail(input_);
+        }
+
         function open_popup(input_){
             if(!input_) input_ = {};
             $('#con-close-modal').modal('show');
             _thisPage.searchUserOrderRow(input_);
-
-            // if(input_.STATUS == "R"){
-            //     $("#modal_product").hide();
-            //     $("#modal_report").show();
-            //     _thisPage.fillStockReportBetweenDate();
-            // }else{
-            //     $("#modal_report").hide();
-            //     $("#modal_product").show();
-            //     _thisPage.searchProductRow(input_);
-            // }
         }
 
         function fnSearch() {

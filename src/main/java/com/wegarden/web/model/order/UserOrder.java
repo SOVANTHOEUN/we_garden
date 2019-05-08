@@ -9,20 +9,17 @@ import javax.persistence.Id;
 public class UserOrder {
 
     @Id
-    @JsonProperty("order_type")
-    private String orderType;
-
     @JsonProperty("order_date")
     private String orderDate;
-
-    @JsonProperty("order_return_date")
-    private String orderReturnDate;
 
     @JsonProperty("order_subtotal")
     private String orderSubtotal;
 
     @JsonProperty("order_total")
     private String orderTotal;
+
+    @JsonProperty("product_count")
+    private String productCount;
 
     @JsonProperty("order_remark")
     private String orderRemark;
@@ -34,22 +31,13 @@ public class UserOrder {
 
     }
 
-    public UserOrder(String orderType, String orderDate, String orderReturnDate, String orderSubtotal, String orderTotal, String orderRemark, String orderUuid) {
-        this.orderType = orderType;
+    public UserOrder(String orderDate, String orderSubtotal, String orderTotal, String productCount, String orderRemark, String orderUuid) {
         this.orderDate = orderDate;
-        this.orderReturnDate = orderReturnDate;
         this.orderSubtotal = orderSubtotal;
         this.orderTotal = orderTotal;
+        this.productCount = productCount;
         this.orderRemark = orderRemark;
         this.orderUuid = orderUuid;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
     }
 
     public String getOrderDate() {
@@ -58,14 +46,6 @@ public class UserOrder {
 
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public String getOrderReturnDate() {
-        return orderReturnDate;
-    }
-
-    public void setOrderReturnDate(String orderReturnDate) {
-        this.orderReturnDate = orderReturnDate;
     }
 
     public String getOrderSubtotal() {
@@ -82,6 +62,14 @@ public class UserOrder {
 
     public void setOrderTotal(String orderTotal) {
         this.orderTotal = orderTotal;
+    }
+
+    public String getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(String productCount) {
+        this.productCount = productCount;
     }
 
     public String getOrderRemark() {

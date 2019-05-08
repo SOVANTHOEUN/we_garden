@@ -1,69 +1,90 @@
 package com.wegarden.web.model.order;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class OrderDetail {
 
-    private int id;
-    private int quantity;
-    private Double unit_price;
-    private int order_id;
-    private int product_id;
+    @Id
+    @JsonProperty("product_uuid")
+    private String productUuid;
 
-    public OrderDetail(int id, int quantity, Double unit_price, int order_id, int product_id) {
-        this.id = id;
-        this.quantity = quantity;
-        this.unit_price = unit_price;
-        this.order_id = order_id;
-        this.product_id = product_id;
+    @JsonProperty("product_name")
+    private String productName;
+
+    @JsonProperty("product_image_name")
+    private String productImageName;
+
+    @JsonProperty("product_status")
+    private String productStatus;
+
+    @JsonProperty("product_price")
+    private Double productPrice;
+
+    @JsonProperty("order_quantity")
+    private Integer orderQuantity;
+
+    public OrderDetail(){
+
     }
 
-    public int getId() {
-        return id;
+    public OrderDetail(String productUuid, String productName, String productImageName, String productStatus, Double productPrice, Integer orderQuantity) {
+        this.productUuid = productUuid;
+        this.productName = productName;
+        this.productImageName = productImageName;
+        this.productStatus = productStatus;
+        this.productPrice = productPrice;
+        this.orderQuantity = orderQuantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getProductUuid() {
+        return productUuid;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setProductUuid(String productUuid) {
+        this.productUuid = productUuid;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public String getProductName() {
+        return productName;
     }
 
-    public Double getUnit_price() {
-        return unit_price;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setUnit_price(Double unit_price) {
-        this.unit_price = unit_price;
+    public String getProductImageName() {
+        return productImageName;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public void setProductImageName(String productImageName) {
+        this.productImageName = productImageName;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public String getProductStatus() {
+        return productStatus;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public Double getProductPrice() {
+        return productPrice;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDetail{" +
-                "id=" + id +
-                ", quantity=" + quantity +
-                ", unit_price=" + unit_price +
-                ", order_id=" + order_id +
-                ", product_id=" + product_id +
-                '}';
+    public void setProductPrice(Double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public Integer getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(Integer orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 }
