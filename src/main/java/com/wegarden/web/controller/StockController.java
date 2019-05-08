@@ -2,6 +2,7 @@ package com.wegarden.web.controller;
 
 import com.wegarden.web.model.stock.StockReport;
 import com.wegarden.web.model.stock.Stock;
+import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,14 +73,22 @@ public class StockController {
         return response;
     }
 
-    @RequestMapping("/get_report_stock_list")
+    @RequestMapping("/get_report_stockin_list")
     @ResponseBody
-    public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
+    public Map<String, Object> getReportStockInList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
         Map<String, Object> response = new HashMap<>();
-        System.out.println("sDate::: "+sDate);
-        System.out.println("eDate::: "+eDate);
 
-        List<StockReport> userList = stockService.getReportStockList(sDate, eDate);
+        List<StockReport> userList = stockService.getReportStockInList(sDate, eDate);
+        response.put("DATA_REC", userList);
+        return response;
+    }
+
+    @RequestMapping("/get_report_stockout_list")
+    @ResponseBody
+    public Map<String, Object> getReportStockOutList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
+        Map<String, Object> response = new HashMap<>();
+
+        List<StockReportOut> userList = stockService.getReportStockOutList(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
     }
