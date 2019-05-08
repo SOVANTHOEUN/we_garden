@@ -1,6 +1,7 @@
 package com.wegarden.web.repositories.impl;
 
 import com.wegarden.web.model.order.Order;
+import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.repositories.OrderRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +31,23 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         entityManager.clear();
         return orderReportList;
+    }
+
+    @Override
+    public List<UserOrder> getUserOrderList(String userUuid) {
+        List<UserOrder> userOrderList = new ArrayList<>();
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_report_debt_order_by_user", UserOrder.class)
+                .registerStoredProcedureParameter("_user_uuid", String.class, ParameterMode.IN)
+                .setParameter("_user_uuid", userUuid);
+        try{
+            userOrderList = storedProcedureQuery.getResultList();
+            System.out.println("USER_UUID:: " +userUuid);
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return userOrderList;
     }
 }

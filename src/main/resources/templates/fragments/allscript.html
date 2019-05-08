@@ -54,33 +54,29 @@
         // $(".knob").knob();
 
         $("#sidebar-menu li.has_sub").each(function(){
-            // var liString = $(this).find('span').text().find('span').text().toLowerCase();
             var this_ = this;
-            console.log($(this).data("url"))
             var liString = $(this).data("url");
             var urlHref = window.location.pathname;
 
             if(urlHref.indexOf(liString.trim()) >= 0){
-                $("#sidebar-menu li a").removeClass('active');
+                $("#sidebar-menu li.has_sub").find('a').removeClass('active');
                 $(this).find('a').addClass('active');
-            }else if(liString.trim() == "/stock/refrigerator"){
-                if(urlHref.indexOf($(this_).find('li.sub:eq(0)').data("url")) >= 0){
-                    $(this).find('li.sub:eq(0)').addClass('active');
-                }
-
-                if(urlHref.indexOf($(this_).find('li.sub:eq(1)').data("url")) >= 0){
-                    $(this).find('li.sub:eq(1)').addClass('active');
-                }
-
-                $("#sidebar-menu li a").removeClass('active');
-                $(this_).find('a').addClass('active');
-                $( ".product_tap").next().slideDown();
+            }else if(urlHref.trim() == "/stock/index"){
+                $("#sidebar-menu li.has_sub").find('a').removeClass('active');
+                $("#sidebar-menu li.has_sub").find('.stock_tap').addClass('active');
+                $("#sidebar-menu li.has_sub").find('.stock_tap_sub').addClass('active');
+                $( ".stock_tap").next().slideDown();
+            }else if(urlHref.trim() == "/refrigerator/index"){
+                $("#sidebar-menu li.has_sub").find('a').removeClass('active');
+                $("#sidebar-menu li.has_sub").find('.stock_tap').addClass('active');
+                $("#sidebar-menu li.has_sub").find('.refrig_tap').addClass('active');
+                $( ".stock_tap").next().slideDown();
             }else if(liString.trim() == "dashboard"){
                 $("#sidebar-menu li:eq(1) a").addClass('active');
             }
         });
 
-        $(document).on("click", ".product_tap", function () {
+        $(document).on("click", ".stock_tap", function () {
             $(this).next().slideToggle();
         });
     });

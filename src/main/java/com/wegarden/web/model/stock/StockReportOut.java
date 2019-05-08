@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class StockReport {
+public class StockReportOut {
     @Id
     @JsonProperty("product_uuid")
     private String productUuid;
@@ -35,15 +35,21 @@ public class StockReport {
     @JsonProperty("category_status")
     private String categoryStatus;
 
-    @JsonProperty("stock_in_quantity")
-    private String stockInQuantity;
+    @JsonProperty("stock_out_quantity")
+    private String stockOutQuantity;
 
-    @JsonProperty("stock_in_expend")
-    private String stockInExpend;
+    @JsonProperty("tea_time_quantity")
+    private String teaTimeQuantity;
 
-    public StockReport(){ }
+    @JsonProperty("bronze_master_quantity")
+    private String bronzeMasterQuantity;
 
-    public StockReport(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String stockInQuantity, String stockInExpend) {
+    @JsonProperty("total_income")
+    private String totalIncome;
+
+    public StockReportOut(){ }
+
+    public StockReportOut(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String stockOutQuantity, String teaTimeQuantity, String bronzeMasterQuantity, String totalIncome) {
         this.productUuid = productUuid;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -53,8 +59,10 @@ public class StockReport {
         this.categoryName = categoryName;
         this.categoryRemark = categoryRemark;
         this.categoryStatus = categoryStatus;
-        this.stockInQuantity = stockInQuantity;
-        this.stockInExpend = stockInExpend;
+        this.stockOutQuantity = stockOutQuantity;
+        this.teaTimeQuantity = teaTimeQuantity;
+        this.bronzeMasterQuantity = bronzeMasterQuantity;
+        this.totalIncome = totalIncome;
     }
 
     public String getProductUuid() {
@@ -129,19 +137,35 @@ public class StockReport {
         this.categoryStatus = categoryStatus;
     }
 
-    public String getStockInQuantity() {
-        return stockInQuantity;
+    public String getStockOutQuantity() {
+        return stockOutQuantity;
     }
 
-    public void setStockInQuantity(String stockInQuantity) {
-        this.stockInQuantity = stockInQuantity;
+    public void setStockOutQuantity(String stockOutQuantity) {
+        this.stockOutQuantity = stockOutQuantity;
     }
 
-    public String getStockInExpend() {
-        return stockInExpend;
+    public String getTeaTimeQuantity() {
+        return teaTimeQuantity;
     }
 
-    public void setStockInExpend(String stockInExpend) {
-        this.stockInExpend = stockInExpend;
+    public void setTeaTimeQuantity(String teaTimeQuantity) {
+        this.teaTimeQuantity = teaTimeQuantity;
+    }
+
+    public String getBronzeMasterQuantity() {
+        return bronzeMasterQuantity;
+    }
+
+    public void setBronzeMasterQuantity(String bronzeMasterQuantity) {
+        this.bronzeMasterQuantity = bronzeMasterQuantity;
+    }
+
+    public String getTotalIncome() {
+        return totalIncome;
+    }
+
+    public void setTotalIncome(String totalIncome) {
+        this.totalIncome = totalIncome;
     }
 }
