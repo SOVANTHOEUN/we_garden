@@ -121,8 +121,8 @@
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="sDate" class="control-label" data-date-end-date="0d">Select Date</label>
-                                                                <div class="input-group date" id="sDate"  >
+                                                                <label for="sDate" class="control-label">Select Date</label>
+                                                                <div class="input-group date" id="sDate" data-provide="datepicker">
                                                                     <input type="text" class="form-control">
                                                                     <div class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-th"></span>
@@ -134,7 +134,7 @@
 
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <div class="input-group date" id="eDate" data-date-end-date="0d" style="margin-top: 25px;">
+                                                                <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
                                                                     <input type="text" class="form-control" style="background-color: white;">
                                                                     <div class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-th"></span>
@@ -585,10 +585,11 @@
 
                     $('#sDate').datepicker({
                         format: 'yyyy-mm-dd',
-                        showOtherMonths: true,
-                        changeMonth:false,
-                        stepMonths:0,
+                        showOtherMonths: false,
+                        changeMonth: true,
                         changeYear: true,
+                       // showWeek: true,
+                        showAnim: 'slide',
                         onClose: function(selectedDate, instance){
                             console.log(true)
                         }
@@ -618,8 +619,6 @@
                 $('#eDate').on('changeDate', function(ev){
                     $(this).datepicker('hide');
                 });
-
-
 
             </script>
             <!--</th:block>-->
