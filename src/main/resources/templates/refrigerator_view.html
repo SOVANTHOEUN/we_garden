@@ -121,8 +121,8 @@
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="sDate" class="control-label">Select Date</label>
-                                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                                <label for="sDate" class="control-label " >Select Date</label>
+                                                                <div class="input-group date" id="sDate" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" >
                                                                     <input type="text" class="form-control">
                                                                     <div class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-th"></span>
@@ -134,7 +134,8 @@
 
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
-                                                                <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                                <div class="input-group date" id="eDate" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="margin-top: 25px;">
+
                                                                     <input type="text" class="form-control" style="background-color: white;">
                                                                     <div class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-th"></span>
@@ -576,28 +577,12 @@
 
 
                    _thisPage.fn_chooseDate=function(){
-                    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
+                    //$.fn.datepicker.defaults.format = "yyyy-mm-dd";
                     var today	  = new Date();
                     var firstDay = new Date(today.getFullYear(), today.getMonth());
                     var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
                     var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
                     var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
-
-                    $('#sDate').datepicker({
-                        format: 'yyyy-mm-dd',
-                        showOtherMonths: false,
-                        changeMonth: true,
-                        changeYear: true,
-                       // showWeek: true,
-                        showAnim: 'slide',
-                        onClose: function(selectedDate, instance){
-                            console.log(true)
-                        }
-                    });
-
-                    $('#eDate').datepicker({
-                        format: 'yyyy-mm-dd'
-                    });
 
                     $("#sDate input").val(startDate);
                     $("#eDate input").val(endDate);
@@ -612,12 +597,30 @@
                     }
                 };
 
-                $('#sDate').on('changeDate', function(ev){
-                    $(this).datepicker('hide');
+
+
+                $('#sDate').datetimepicker({
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    showOtherMonths: true,
+                    selectOtherMonths: true
                 });
 
-                $('#eDate').on('changeDate', function(ev){
-                    $(this).datepicker('hide');
+                $('#eDate').datetimepicker({
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    showOtherMonths: true,
+                    selectOtherMonths: true
                 });
 
             </script>
