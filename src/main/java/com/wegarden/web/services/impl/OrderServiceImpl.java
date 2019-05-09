@@ -34,4 +34,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDetail> getOrderDetailList(String orderUuid) {
         return orderRepository.getOrderDetailList(orderUuid);
     }
+
+    @Override
+    public String payOrderItem(String orderUuid) {
+        return orderRepository.payOrderItem(orderUuid);
+    }
 }

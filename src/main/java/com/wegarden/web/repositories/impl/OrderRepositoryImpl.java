@@ -67,4 +67,24 @@ public class OrderRepositoryImpl implements OrderRepository {
         entityManager.clear();
         return orderDetailsList;
     }
+
+    @Override
+    public String payOrderItem(String orderUuid) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_return_debt_money")
+                .registerStoredProcedureParameter("_order_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+                .setParameter("_order_uuid", orderUuid);
+
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
 }

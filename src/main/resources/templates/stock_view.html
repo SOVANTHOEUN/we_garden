@@ -604,9 +604,6 @@
                     var qtyPerBox       = parseInt(wegarden.comm.null2Void($(this_).next("input.qtyPerBox").val(), 0));
                     var currentPrice    = wegarden.comm.null2Void($(this_).closest("tr").find("input.PRODUCT_PRICE").val(), 0);
                     var newQty           = wegarden.comm.null2Void($(this_).closest("tr").find("input.STOCK_AMT").val().trim(), 0);
-                    console.log("currentPrice:: "+currentPrice)
-                    console.log("qtyPerBox:: "+qtyPerBox)
-                    console.log("newQty:: "+newQty)
 
                     // newPrice  = (parseInt(qtyPerBox) * parseInt(newQty)) * parseFloat(currentPrice);
                     newPrice  = parseFloat(newQty) * parseFloat(currentPrice);
@@ -676,13 +673,24 @@
                         changeMonth: true,
                         changeYear: true,
                         showWeek: true,
-                        onClose: function(selectedDate, instance){
-                            console.log(true)
-                        }
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        minView: 2,
+                        forceParse: 0
                     });
 
                     $('#eDate').datepicker({
-                        format: 'yyyy-mm-dd'
+                        format: 'yyyy-mm-dd',
+                        language:  'fr',
+                        weekStart: 1,
+                        showWeek: true,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        minView: 2,
+                        forceParse: 0
                     });
 
                     $("#sDate input").val(startDate);

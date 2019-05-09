@@ -222,7 +222,6 @@
     <!-- ============================================================== -->
     <script type="text/javascript">
         $(function(){
-            console.log("first onload")
             _thisPage.onload();
         });
 
@@ -230,7 +229,6 @@
             onload: function () {
                 var _this = this;
                 _this.event();
-                console.log("onload")
                 fnSearch();
 
             },
@@ -297,7 +295,7 @@
                             $.each(result.DATA_REC, function (i, v) {
                                 usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
 
-                                strHtml += '<tr data-uuid="'+v.order_uuid+'">';
+                                strHtml += '<tr data-uuid="'+v.order_uuid+'" class="order_row">';
                                 strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+'</td>';
                                 strHtml += '    <td style="text-align: center;">'+addCurrencySymbol(Number(v.order_total).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;">'+wegarden.comm.null2Void(v.product_count, '')+'</td>';
@@ -330,7 +328,6 @@
             fillOrderDetail : function (input) {
                 if(!input) input = {};
                 input["ORDER_UUID"] = input.ORDER_UUID;
-                console.log(input)
 
                 $.ajax({
                     type    : "GET",
@@ -367,6 +364,51 @@
                     }
                 });
             },
+            payMoney: function (input) {
+                if(!input) input = {};
+                var inRec = [];
+                $.each($("#table_order tr.order_row"), function (i,v) {
+                    var obj = {};
+                    obj["ORDER_UUID"] = $(v).data("uuid");
+                    inRec.push(obj);
+                });
+                input["IN_REC"] = inRec;
+                console.log(input)
+
+                $.ajax({
+                    type    : "POST",
+                    url       : "/order/order_pay_money",
+                    data    : JSON.stringify(input),
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        if(result.status){
+                            swal({
+                                title: "Successful",
+                                text: "Your transaction has been successfully processed!",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            $('#con-close-modal').modal('hide');
+                            _thisPage.fillTable();
+                        }else{
+                            swal({
+                                title: "Failed",
+                                text: "Your transaction cannot be completed!",
+                                type: "error",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            },
             event: function () {
                 $(document).on("click", ".btnUserOrder", function () {
                     var input = {};
@@ -382,8 +424,6 @@
                 });
 
                 $(document).on("click", ".btnPay", function () {
-                    // var input = {};
-                    // input["PRO_UUID"] = proUuid;
                     swal({
                             title               : "Do you want to pay now ?",
                             text                : "The order will pay for all at the same time !!",
@@ -397,7 +437,7 @@
                         },
                         function(isConfirm) {
                             if (isConfirm) {
-                                alert("Action pay is called....");
+                                _thisPage.payMoney();
                             }
                         });
                 });

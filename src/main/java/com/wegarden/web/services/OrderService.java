@@ -12,4 +12,5 @@ public interface OrderService {
     List<Order> getOrderList();
     List<UserOrder> getUserOrderList(String userUuid);
     List<OrderDetail> getOrderDetailList(String orderUuid);
+    String payOrderItem(String orderUuid);
 }
