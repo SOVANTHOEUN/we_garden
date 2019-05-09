@@ -295,8 +295,7 @@
             <!-- ============================================================== -->
             <!--<th:block layout:fragment="myscript">-->
             <script type="text/javascript">
-                var CATEGORY_REC_ = {};
-                var imageSrc_ = ""
+                var _reportStatus = ""
                 $(function(){
                     _thisPage.onload();
                 });
@@ -493,7 +492,7 @@
                                     $("#tbl_report tbody").append(strTotalRow);
 
                                 }else{
-                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="6">There is no data.</td></tr>');
                                 }
                                 setTimeout(function () {
                                     $(".loading-stock-pop").hide();
@@ -502,7 +501,7 @@
                             },
                             error: function (error) {
                                 console.log(error);
-                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="6">There is no data.</td></tr>');
                             }
                         });
                     },
@@ -537,7 +536,8 @@
                     event: function () {
                         $("#btnReportStockIn").click(function () {
                             var input = {};
-                            input["STATUS"] = "R";
+                            input["STATUS"] = "RI";
+                            _reportStatus   = "RI";
                             open_popup(input);
                         });
 
@@ -551,6 +551,7 @@
                         $("#btnReportStockOut").click(function () {
                             var input = {};
                             input["STATUS"] = "RO";
+                            _reportStatus   = "RO";
                             open_popup(input);
                         });
 
@@ -571,7 +572,11 @@
                         });
 
                         $(document).on("change", "#sDate input, #eDate input", function () {
-                            _thisPage.fillStockReportInBetweenDate();
+                            if(_reportStatus == "RI"){
+                                _thisPage.fillStockReportInBetweenDate();
+                            }else if(_reportStatus == "RO"){
+                                _thisPage.fillStockReportOutBetweenDate();
+                            }
                         });
 
                         $(document).on("keyup", ".PRODUCT_PRICE", function (e) {
@@ -633,15 +638,15 @@
                 function open_popup(input_){
                     if(!input_) input_ = {};
                     $('#con-close-modal').modal('show');
-                    if(input_.STATUS == "R"){
+                    if(input_.STATUS == "RI"){
                         $("#modal_product").hide();
                         $("#modal_report").show();
-                        $("#txtTitle").text("View Stock Out Report");
+                        $("#txtTitle").text("View Stock  In Report");
                         _thisPage.fillStockReportInBetweenDate();
                     }else if(input_.STATUS == "RO"){
                         $("#modal_product").hide();
                         $("#modal_report").show();
-                        $("#txtTitle").text("View Stock In Report");
+                        $("#txtTitle").text("View Stock Out Report");
                         _thisPage.fillStockReportOutBetweenDate();
                     }else{
                         $("#modal_report").hide();
@@ -660,41 +665,40 @@
                 }
 
                 function fn_chooseDate(){
-                    $.fn.datepicker.defaults.format = "yyyy-mm-dd";
                     var today	  = new Date();
                     var firstDay = new Date(today.getFullYear(), today.getMonth());
                     var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
                     var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
                     var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
 
-                    $('#sDate').datepicker({
-                        format: 'yyyy-mm-dd',
-                        showOtherMonths: true,
-                        changeMonth: true,
-                        changeYear: true,
-                        showWeek: true,
-                        weekStart: 1,
-                        todayBtn:  1,
-                        autoclose: 1,
-                        todayHighlight: 1,
-                        minView: 2,
-                        forceParse: 0
-                    });
-
-                    $('#eDate').datepicker({
-                        format: 'yyyy-mm-dd',
-                        language:  'fr',
-                        weekStart: 1,
-                        showWeek: true,
-                        todayBtn:  1,
-                        autoclose: 1,
-                        todayHighlight: 1,
-                        minView: 2,
-                        forceParse: 0
-                    });
-
                     $("#sDate input").val(startDate);
                     $("#eDate input").val(endDate);
+
+                    $('#sDate').datetimepicker({
+                        format: "yyyy-mm-dd",
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: 0,
+                        showOtherMonths: true,
+                        selectOtherMonths: true
+                    });
+
+                    $('#eDate').datetimepicker({
+                        format: "yyyy-mm-dd",
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: 0,
+                        showOtherMonths: true,
+                        selectOtherMonths: true
+                    });
 
                     function strpad00(s){
                         s = s + '';

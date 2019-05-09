@@ -65,10 +65,13 @@ public class ProductController {
     @ResponseBody
     public Map<String, Object> saveProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
                                                @ModelAttribute("PRO_QTY_BOX") Integer proQtyBox, @ModelAttribute("CATE_UUID") String catUuid,
-                                               @ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
+                                               @ModelAttribute("FILE_NAME") String filename, @ModelAttribute("EXTENSION") String extension,
+                                               @ModelAttribute("IMG_UUID") String imgUuid){
         Map<String, Object> response = new HashMap<>();
 
         String imageUuid = productService.saveProImg(filename, extension);
+        System.out.println("imageUuid:: "+imageUuid);
+        System.out.println("imgUuid:: "+imgUuid);
         String actionCode = productService.saveProductData(proNm, proPrice, proQtyBox, catUuid, imageUuid);
         if (actionCode.equals("00000")){
             response.put("status",true);
