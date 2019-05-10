@@ -400,6 +400,7 @@
 
                 _thisPage.onload = function(){
                     _thisPage.fillTable();
+
                 };
 
                 $(document).on("click", "#btnSaveRefrigerator", function () {
@@ -409,7 +410,7 @@
                     $("#table_result tr").each(function (i, v) {
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
-                        obj["STOCK_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.refri').val(), ''));
+                        obj["STOCK_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), ''));
                         inRec.push(obj);
                     });
                     input["IN_REC"] = inRec;
@@ -468,6 +469,10 @@
 
                 function open_popup(input_){
                     if(!input_) input_ = {};
+                    $('#con-close-modal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     $('#con-close-modal').modal('show');
                     if(input_.STATUS == "R"){
                         $("#modal_product").hide();
@@ -557,47 +562,46 @@
 
 
                _thisPage.fn_chooseDate=function(){
-                var today	    = new Date();
-                var firstDay    = new Date(today.getFullYear(), today.getMonth());
-                var lastDay     = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-                var startDate   = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
-                var endDate     = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
 
-                $("#sDate input").val(startDate);
-                $("#eDate input").val(endDate);
+                        var today	    = new Date();
+                        var firstDay    = new Date(today.getFullYear(), today.getMonth());
+                        var lastDay     = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                        var startDate   = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+                        var endDate     = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
 
-                    function strpad00(s){
-                        s = s + '';
-                        if (s.length === 1) s = '0'+s;
-                        return s;
-                    }
+                        $("#sDate input").val(startDate);
+                        $("#eDate input").val(endDate);
+                       $('#sDate').datetimepicker({
+                           weekStart: 1,
+                           todayBtn:  1,
+                           autoclose: 1,
+                           todayHighlight: 1,
+                           startView: 2,
+                           minView: 2,
+                           forceParse: 0,
+                           showOtherMonths: true,
+                           selectOtherMonths: true
+                       });
+                       $('#eDate').datetimepicker({
+                           weekStart: 1,
+                           todayBtn:  1,
+                           autoclose: 1,
+                           todayHighlight: 1,
+                           startView: 2,
+                           minView: 2,
+                           forceParse: 0,
+                           showOtherMonths: true,
+                           selectOtherMonths: true
+                       });
+
+
+                       function strpad00(s){
+                            s = s + '';
+                            if (s.length === 1) s = '0'+s;
+                            return s;
+                        }
                 };
 
-
-
-                $('#sDate').datetimepicker({
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 2,
-                    minView: 2,
-                    forceParse: 0,
-                    showOtherMonths: true,
-                    selectOtherMonths: true
-                });
-
-                $('#eDate').datetimepicker({
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 2,
-                    minView: 2,
-                    forceParse: 0,
-                    showOtherMonths: true,
-                    selectOtherMonths: true
-                });
 
                 function fnExcelReport(){
                     var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
@@ -611,8 +615,8 @@
                     }
 
                     tab_text=tab_text+"</table>";
-                    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-                    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+                    /*tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+                    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table*/
                     tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
                     var ua = window.navigator.userAgent;
@@ -635,6 +639,9 @@
                 $("#btnDownloadExcel").on("click",function () {
                     fnExcelReport();
                 });
+
+
+
             </script>
             <!--</th:block>-->
         </div>
