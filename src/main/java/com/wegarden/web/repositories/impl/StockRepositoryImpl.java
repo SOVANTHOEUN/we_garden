@@ -179,12 +179,12 @@ public class StockRepositoryImpl implements StockRepository {
     }
 
     @Override
-    public String saveProductAmt(String proUuid, Integer quantity, Double proPrice) {
+    public String saveProductAmt(String proUuid, Double quantity, Double proPrice) {
         String actionCode = "";
 
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_add_to_stock")
                 .registerStoredProcedureParameter("_product_uuid", String.class, ParameterMode.IN)
-                .registerStoredProcedureParameter("_stock_in_qty", Integer .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_stock_in_qty", Double .class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_total_expend", Double .class, ParameterMode.IN)
                 .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
                 .setParameter("_product_uuid", proUuid)

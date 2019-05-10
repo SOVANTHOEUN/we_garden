@@ -247,7 +247,7 @@
                                                         <tr>
                                                             <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
                                                             <th style=""><div class="th-inner ">In-Stock</div></th>
-                                                            <th style=""><div class="th-inner ">Price</div></th>
+                                                            <th style=""><div class="th-inner ">Price<span style="opacity: 0.4;">/perbox</span></div></th>
                                                             <th style=""><div class="th-inner ">Add Stock</div></th>
                                                             <th style=""><div class="th-inner ">Product Price</div></th>
                                                             <th style="text-align: center;"><div class="th-inner ">Action</div></th>
@@ -573,7 +573,7 @@
                                 var proPrice =  Number($(this).find('td.productPrice').text().replace('$', ''));
                                 obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), 0);
                                 obj["PRO_PRICE"]  = Number(proPrice).toFixed(2);
-                                obj["STOCK_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.STOCK_AMT').val(), 0));
+                                obj["STOCK_AMT"] = wegarden.comm.null2Void($(this).find('input.STOCK_AMT').val(), 0);
                                 inRec.push(obj);
                             });
                             input["IN_REC"] = inRec;

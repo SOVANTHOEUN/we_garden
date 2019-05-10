@@ -10,6 +10,6 @@ public interface StockService {
     List<Stock> getStockList(String srch_wd, String status, String pro_uuid);
     List<StockReport> getReportStockInList(String sDate, String eDate);
     List<StockReportOut> getReportStockOutList(String sDate, String eDate);
-    String saveProductAmt(String proUuid, Integer quantity, Double proPrice);
+    String saveProductAmt(String proUuid, Double quantity, Double proPrice);
     String saveRefrigeratorAmt(String proUuid, Integer quantity);
 }
