@@ -271,7 +271,7 @@
                                             </div>
                                             <div class="fixed-table-pagination" style="display: block;">
                                                 <div class="pull-right search" style="display: inline-flex;">
-                                                    <button id="_imageApiUrl" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Stock</i></button>
+                                                    <button id="btnSaveRefrigerator" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Refrigerator</i></button>
                                                 </div>
                                             </div>
 
@@ -402,7 +402,7 @@
                     _thisPage.fillTable();
                 };
 
-                $(document).on("click", "#", function () {
+                $(document).on("click", "#btnSaveRefrigerator", function () {
                     var input = {};
                     var inRec = [];
 
@@ -488,6 +488,7 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
+
                             $.each(result.DATA_REC, function (i,v) {
                                 $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
                                 $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
@@ -521,7 +522,6 @@
                         success: function (result) {
                             $("#tbl_report tbody").empty();
                             var strReport = "", usr_image = "";
-
                             if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                 $.each(result.DATA_REC, function (i,v) {
                                     usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
