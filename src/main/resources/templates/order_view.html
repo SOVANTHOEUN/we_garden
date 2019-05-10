@@ -118,7 +118,7 @@
                                 <div class="modal-dialog" id="modal-order-detail">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <button type="button" class="close btnDetailClose" data-dismiss="modal" aria-hidden="true">×</button>
                                             <h4 class="modal-title" id="" data-status="I" data-uuid="">User Order Detail</h4>
                                         </div>
                                         <div class="modal-body">
@@ -162,7 +162,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer" style="text-align: center;">
-                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-default waves-effect btnDetailClose" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.team_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;line-height: 40px;">';
-                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder"><i class="fa fa-money" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
                                 strHtml += '    </td>';
                                 strHtml += '</tr>';
                             });
@@ -300,7 +300,7 @@
                                 strHtml += '    <td style="text-align: center;">'+addCurrencySymbol(Number(v.order_total).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;">'+wegarden.comm.null2Void(v.product_count, '')+'</td>';
                                 strHtml += '    <td style="text-align: center;">';
-                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnOrderDetail" data-target="#con-close-modal-2" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-eye" aria-hidden="true"></i></button>';
                                 strHtml += '    </td>';
                                 strHtml += '</tr>';
                                 totalPay += parseFloat(v.order_total);
@@ -420,7 +420,13 @@
                     var input = {};
                     var orderUuid = $(this).closest("tr").data("uuid");
                     input["ORDER_UUID"] = orderUuid;
+
+                    $("#con-close-modal").css("opacity","0.3");
                     open_popup_prodetail(input)
+                });
+
+                $(document).on("click", ".btnDetailClose", function () {
+                    $("#con-close-modal").css("opacity","unset");
                 });
 
                 $(document).on("click", ".btnPay", function () {
