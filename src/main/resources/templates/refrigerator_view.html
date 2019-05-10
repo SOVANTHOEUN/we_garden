@@ -550,7 +550,7 @@
 
                             if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                 $.each(result.DATA_REC, function (i,v) {
-                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                     strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
                                     strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
