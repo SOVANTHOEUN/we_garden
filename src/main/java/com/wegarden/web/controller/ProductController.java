@@ -87,7 +87,7 @@ public class ProductController {
     public Map<String, Object> updateProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
                                                  @ModelAttribute("PRO_QTY_BOX") Integer proQtyBox,
                                                  @ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("CATE_UUID") String catUuid,
-                                                 @ModelAttribute("FILENAME") String filename, @ModelAttribute("EXTENSION") String extension){
+                                                 @ModelAttribute("FILE_NAME") String filename, @ModelAttribute("EXTENSION") String extension){
         Map<String, Object> response = new HashMap<>();
 
         String imageUuid = productService.saveProImg(filename, extension);

@@ -343,7 +343,7 @@
 
                         if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                             $.each(result.DATA_REC, function (i, v) {
-                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                 strDetailHtml += '<tr data-uuid="'+v.product_uuid+'">';
                                 strDetailHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
