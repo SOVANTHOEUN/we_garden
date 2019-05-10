@@ -467,6 +467,10 @@
             }
 
             function open_popup(input_){
+                $('#con-close-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
                 $('#con-close-modal').modal('show');
                 $(".btnCardClick").removeClass('card-selected');
                 var input = {};

@@ -637,6 +637,10 @@
 
                 function open_popup(input_){
                     if(!input_) input_ = {};
+                    $('#con-close-modal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     $('#con-close-modal').modal('show');
                     if(input_.STATUS == "RI"){
                         $("#modal_product").hide();

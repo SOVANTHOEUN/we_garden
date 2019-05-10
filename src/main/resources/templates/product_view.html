@@ -56,7 +56,7 @@
                                         <div class="bars pull-left">
                                             <div class="bars pull-left">
                                                 <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
-                                                <button id="btnAddPro" class="btn btn-info" data-target="#con-close-modal"><i class="fa fa-plus m-r-5"></i>Add</button>
+                                                <button type="button" id="btnAddPro" class="btn btn-info"><i class="fa fa-plus m-r-5"></i>Add</button>
                                             </div>
                                         </div>
                                         <div class="pull-right search" style="display: inline-flex;">
@@ -607,6 +607,7 @@
                     var input = {};
                     input["STATUS"] = "U";
                     input["PRO_UUID"] = pro_uuid;
+
                     open_popup(input);
                 }
 
@@ -632,6 +633,10 @@
                 }
 
                 function open_popup(input_){
+                    $('#con-close-modal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     $('#con-close-modal').modal('show');
 
                     if(input_.STATUS == "U"){
