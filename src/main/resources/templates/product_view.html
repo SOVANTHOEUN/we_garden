@@ -5,6 +5,8 @@
       layout:decorate="~{layout/layout}">
     <head>
         <meta charset="UTF-8"/>
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
         <title th:text="Product-List"></title>
 
         <style>
@@ -111,8 +113,8 @@
                                                         <div class="fileUpload btn btn-default" id="myImageFile" style="margin: 0 auto;display: table;border-radius: 26em;">
                                                             <span>Choose Image</span>
                                                         </div>
-                                                        <form action="" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
-                                                            <input type="file" name="file" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
+                                                        <form action="http://192.168.178.130:1124/file_upload" id="myForm" method="POST" enctype="multipart/form-data" style="display: none;">
+                                                            <input type="file" name="files" class="upload" id="myFile" accept="image/*" placeholder="" style="background-color: white;border: 2px solid lightgrey;">
                                                         </form>
                                                     </div>
 
@@ -259,7 +261,7 @@
 
                                         strHtml +='<tr data-uuid="'+v.product_uuid+'">';
                                         strHtml +='    <td class="user-image pro-image">';
-                                        strHtml +='    	<img src="/images/'+usr_image+'" alt="user-img" class="img-circle" width="40px" />';
+                                        strHtml +='    	<img src="'+_imageApiUrl+usr_image+'" alt="user-img" class="img-circle" width="40px" />';
                                         strHtml +='    </td>';
                                         strHtml +='    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         strHtml +='    <td style="line-height: 40px;">'+addCurrencySymbol(v.product_price)+'</td>';
@@ -362,14 +364,14 @@
                     saveProduct : function(input){
                         if(!input) input = {};
                         top.$("#loading").show();
-                        console.log("save is called...."+input.EXTENSION)
 
                         input["PRO_NM"]      = $.trim($("#pro_nm").val());
                         input["PRO_PRICE"]  = parseFloat($.trim($("#pro_price").val()).replace("$",""));
                         input["PRO_QTY_BOX"]  = parseFloat($.trim($("#pro_quantity").val()));
                         input["CATE_UUID"]  = $("#pro_category option:selected").data("uuid");
-                        input["FILENAME"]   = input.FILENAME;
+                        input["FILE_NAME"]   = input.FILE_NAME;
                         input["EXTENSION"] = input.EXTENSION;
+                        input["IMG_UUID"]   = input.IMG_UUID;
                         input["PRO_UUID"]   = $("#txtSave").data("uuid");
 
                         var requestUrl = "";
@@ -410,7 +412,7 @@
                                     $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
                                     $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
                                     $("#pro_quantity").val(wegarden.comm.null2Void(v.quantity_per_box,0));
-                                    $("#myImage").attr("src", "/images/"+wegarden.comm.null2Void(v.product_image_name));
+                                    $("#myImage").attr("src", _imageApiUrl+wegarden.comm.null2Void(v.product_image_name));
                                     $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
 
                                 });
@@ -540,22 +542,28 @@
                                 if (!hasEmptyTextbox) {
                                     if ($("#myFile").val()) {
                                         var xhr = new XMLHttpRequest();
-                                        xhr.open("POST", "/image/uploadimg");
-                                        // xhr.open("POST", "http://192.168.178.131:8762/image/file_upload");
+                                        // xhr.open("POST", "/image/uploadimg");
+                                        xhr.open("POST", "http://192.168.178.130:1124/file_upload");
                                         xhr.send(new FormData($('#myForm')[0]));
-
                                         xhr.onload = function() {
                                             if (this.readyState === 4 && this.status === 200) {
+                                                // var dataPicture  = JSON.parse(this.responseText);
+                                                var input = {};
                                                 var dataPicture  = JSON.parse(this.responseText);
-                                                _thisPage.saveProduct(dataPicture);
+                                                var jsonData      = JSON.stringify(dataPicture.data);
+                                                var jsonPicture  = JSON.parse(jsonData.replace("[","").replace("]",""));
+
+                                                input["FILE_NAME"] = jsonPicture.file_name.split('.').slice(0, -1).join('.');
+                                                input["EXTENSION"] = "."+/[^.]+$/.exec(jsonPicture.file_name)[0];
+                                                input["IMG_UUID"]   = jsonPicture.image_uuid;
+
+                                                _thisPage.saveProduct(input);
                                             }
                                         }
-
-                                        xhr.onerror = function() {
-                                            console.log('There was an error!'+xhr.messages);
+                                        xhr.onerror = function(error) {
+                                            console.log('There was an error!'+  JSON.stringify(error));
                                         };
-                                    }
-                                    else {
+                                    }else {
                                         var dataPicture  = {};
                                          var file = /[^/]+$/.exec($("#myImage").attr("src"))[0];
                                         dataPicture["FILENAME"]   = file.split('.').slice(0, -1).join('.');
