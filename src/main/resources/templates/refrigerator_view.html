@@ -232,6 +232,9 @@
                                                                 <div class="th-inner ">In-Stock</div>
                                                             </th>
                                                             <th style="">
+                                                                <div class="th-inner ">In-Inrefrigerator</div>
+                                                            </th>
+                                                            <th style="">
                                                                 <div class="th-inner ">Add Stock</div>
                                                             </th>
                                                             <th style="">
@@ -362,6 +365,7 @@
                                     html+='<tr data-uuid="'+v.product_uuid+'" >';
                                     html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';
                                     html+='	<td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
+                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
                                     html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
                                     html+='	<td style="line-height: 40px;">';
                                     html+='	    <div class="editRefriLayer" style="display:inline-flex;width: 100%;">';
@@ -498,7 +502,6 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
-
                             $.each(result.DATA_REC, function (i,v) {
                                 $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
                                 $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
@@ -578,9 +581,8 @@
                            todayHighlight: 1,
                            startView: 2,
                            minView: 2,
-                           forceParse: 0,
-                           showOtherMonths: true,
-                           selectOtherMonths: true
+                           forceParse: 0
+
                        });
                        $('#eDate').datetimepicker({
                            weekStart: 1,
@@ -589,9 +591,8 @@
                            todayHighlight: 1,
                            startView: 2,
                            minView: 2,
-                           forceParse: 0,
-                           showOtherMonths: true,
-                           selectOtherMonths: true
+                           forceParse: 0
+
                        });
 
 
@@ -615,8 +616,8 @@
                     }
 
                     tab_text=tab_text+"</table>";
-                    /*tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-                    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table*/
+                     tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+                    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
                     tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
                     var ua = window.navigator.userAgent;
