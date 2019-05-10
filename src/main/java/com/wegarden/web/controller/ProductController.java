@@ -69,10 +69,8 @@ public class ProductController {
                                                @ModelAttribute("IMG_UUID") String imgUuid){
         Map<String, Object> response = new HashMap<>();
 
-        String imageUuid = productService.saveProImg(filename, extension);
-        System.out.println("imageUuid:: "+imageUuid);
-        System.out.println("imgUuid:: "+imgUuid);
-        String actionCode = productService.saveProductData(proNm, proPrice, proQtyBox, catUuid, imageUuid);
+//        String imageUuid = productService.saveProImg(filename, extension);
+        String actionCode = productService.saveProductData(proNm, proPrice, proQtyBox, catUuid, imgUuid);
         if (actionCode.equals("00000")){
             response.put("status",true);
         }else {
@@ -85,13 +83,13 @@ public class ProductController {
     @RequestMapping("/update_product_data")
     @ResponseBody
     public Map<String, Object> updateProductData(@ModelAttribute("PRO_NM") String proNm, @ModelAttribute("PRO_PRICE") Double proPrice,
-                                                 @ModelAttribute("PRO_QTY_BOX") Integer proQtyBox,
-                                                 @ModelAttribute("PRO_UUID") String proUuid, @ModelAttribute("CATE_UUID") String catUuid,
-                                                 @ModelAttribute("FILE_NAME") String filename, @ModelAttribute("EXTENSION") String extension){
+                                                 @ModelAttribute("PRO_QTY_BOX") Integer proQtyBox, @ModelAttribute("PRO_UUID") String proUuid,
+                                                 @ModelAttribute("CATE_UUID") String catUuid, @ModelAttribute("FILE_NAME") String filename,
+                                                 @ModelAttribute("EXTENSION") String extension, @ModelAttribute("IMG_UUID") String imgUuid){
         Map<String, Object> response = new HashMap<>();
 
-        String imageUuid = productService.saveProImg(filename, extension);
-        String actionCode = productService.updateProductData(proNm, proPrice, proQtyBox, catUuid, imageUuid, proUuid);
+//        String imageUuid = productService.saveProImg(filename, extension);
+        String actionCode = productService.updateProductData(proNm, proPrice, proQtyBox, catUuid, imgUuid, proUuid);
         if (actionCode.equals("00000")){
             response.put("status",true);
         }else {

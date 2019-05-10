@@ -127,6 +127,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         try{
             actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+            System.out.println("actionCode:: "+actionCode);
         }catch (Exception e){
             System.out.println("Error.....proned.");
             e.printStackTrace();
