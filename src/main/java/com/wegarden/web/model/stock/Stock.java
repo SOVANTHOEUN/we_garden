@@ -24,6 +24,9 @@ public class Stock {
     @JsonProperty("product_image_name")
     private String productImageName;
 
+    @JsonProperty("product_image_uuid")
+    private String productImageUuid;
+
     @JsonProperty("product_status")
     private String productStatus;
 
@@ -46,16 +49,19 @@ public class Stock {
 
     }
 
-    public Stock(String productUuid, String productName, String productPrice, Integer quantityPerBox, String imagePath, String productStatus, String categoryUuid, String categoryName, String categoryStatus) {
+    public Stock(String productUuid, String productName, String productPrice, Integer quantityPerBox, String productImageName, String productImageUuid, String productStatus, String categoryUuid, String categoryName, String categoryStatus, String stockQuantity, String refrigeratorQuantity) {
         this.productUuid = productUuid;
         this.productName = productName;
         this.productPrice = productPrice;
         this.quantityPerBox = quantityPerBox;
         this.productImageName = productImageName;
+        this.productImageUuid = productImageUuid;
         this.productStatus = productStatus;
         this.categoryUuid = categoryUuid;
         this.categoryName = categoryName;
         this.categoryStatus = categoryStatus;
+        this.stockQuantity = stockQuantity;
+        this.refrigeratorQuantity = refrigeratorQuantity;
     }
 
     public String getProductUuid() {
@@ -82,12 +88,28 @@ public class Stock {
         this.productPrice = productPrice;
     }
 
+    public Integer getQuantityPerBox() {
+        return quantityPerBox;
+    }
+
+    public void setQuantityPerBox(Integer quantityPerBox) {
+        this.quantityPerBox = quantityPerBox;
+    }
+
     public String getProductImageName() {
         return productImageName;
     }
 
     public void setProductImageName(String productImageName) {
         this.productImageName = productImageName;
+    }
+
+    public String getProductImageUuid() {
+        return productImageUuid;
+    }
+
+    public void setProductImageUuid(String productImageUuid) {
+        this.productImageUuid = productImageUuid;
     }
 
     public String getProductStatus() {
@@ -136,13 +158,5 @@ public class Stock {
 
     public void setRefrigeratorQuantity(String refrigeratorQuantity) {
         this.refrigeratorQuantity = refrigeratorQuantity;
-    }
-
-    public Integer getQuantityPerBox() {
-        return quantityPerBox;
-    }
-
-    public void setQuantityPerBox(Integer quantityPerBox) {
-        this.quantityPerBox = quantityPerBox;
     }
 }
