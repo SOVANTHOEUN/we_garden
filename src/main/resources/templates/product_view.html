@@ -343,11 +343,10 @@
                             },
                             success : function (result) {
                                 if(result.status){
-                                    console.log(true)
                                     fnSearch();
+                                    $("#myFile").val("");
                                     $('#con-close-modal').modal('hide');
                                 }else{
-                                    console.log(false)
                                     $('#con-close-modal').modal('show');
                                 }
                             },
@@ -473,11 +472,8 @@
                         $("#btnSaveProduct").click(function () {
                             var input = {};
                             validateBorderInputColor(true, function (hasEmptyTextbox) {
-                                console.log("1")
                                 if (!hasEmptyTextbox) {
-                                    console.log("2")
                                     if ($("#myFile").val()) {
-                                        console.log("3")
                                         var xhr = new XMLHttpRequest();
                                         // xhr.open("POST", "/image/uploadimg");
                                         xhr.open("POST", "http://192.168.178.130:1234/image/stock/file_upload");
@@ -500,7 +496,6 @@
                                             console.log('There was an error!'+  JSON.stringify(error));
                                         };
                                     }else {
-                                        console.log("4")
                                         input["IMG_UUID"]   = $("#proImUuid").val();
                                         _thisPage.saveProduct(input);
                                     }

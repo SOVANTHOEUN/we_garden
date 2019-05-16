@@ -43,9 +43,10 @@ public class StockController {
         for(int i = 0; i < arrIn.size()-1; i++){
             HashMap  objItem = (HashMap)arrIn.get(i);
             String proUuid      = (String)objItem.get("PRO_UUID");
-            Integer stockAmt = (Integer)objItem.get("STOCK_AMT");
-            String proPriceStr = (String)objItem.get("PRO_PRICE");
-            double proPrice   = Double.parseDouble(proPriceStr);
+            String stockAmtStr = (String) objItem.get("STOCK_AMT");
+            String proPriceStr   = (String)objItem.get("PRO_PRICE");
+            double proPrice    = Double.parseDouble(proPriceStr);
+            double stockAmt   = Double.parseDouble(stockAmtStr);
             actionCode = stockService.saveProductAmt(proUuid,stockAmt, proPrice);
         }
 

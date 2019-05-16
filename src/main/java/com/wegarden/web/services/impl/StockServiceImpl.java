@@ -15,7 +15,7 @@ public class StockServiceImpl implements StockService {
     private StockRepository stockRepository;
 
     @Override
-    public String saveProductAmt(String proUuid, Integer quantity, Double proPrice) {
+    public String saveProductAmt(String proUuid, Double quantity, Double proPrice) {
         return stockRepository.saveProductAmt(proUuid, quantity, proPrice);
     }
     @Override
