@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
+    <title>LOGIN</title>
+
+    <link th:replace="fragments/allstyle"/>
+    <style>
+        table > thead > tr > th{background-color: #ffffff !important;}
+        table tbody > tr > td{font-size: 1.07em;}
+        table thead tr {background-color: #ebeff2;}
+        table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+        table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+        table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+    </style>
+    <script th:replace="fragments/allscript"></script>
+</head>
+
+<body class="widescreen">
+<!-- Begin page -->
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+
+    <div class="account-pages"></div>
+    <div class="clearfix"></div>
+
+    <!-- HOME -->
+    <section class="home bg-dark" id="home">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <div class="home-wrapper wrapper-page">
+                        <h1 class="icon-main text-custom"><i class="md md-album"></i></h1>
+                        <h1 class="home-text"><span class="rotate" style="display: inline; opacity: 0.881221;">We Garden Login</span></h1>
+                        <!-- COUNTDOWN -->
+
+                        <!-- /COUNTDOWN -->
+                        <div class="card-box">
+
+
+                            <div class="panel-body">
+                                <form class="form-horizontal m-t-20" action="index.html">
+
+                                    <div class="form-group ">
+                                        <div class="col-xs-12">
+                                            <input class="form-control" type="text" required="" placeholder="Username">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <input class="form-control" type="password" required="" placeholder="Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group text-left">
+                                        <div class="col-xs-12">
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox-signup" type="checkbox">
+                                                <label for="checkbox-signup"> Remember me </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group text-center m-t-40">
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-pink btn-block text-uppercase waves-effect waves-light" type="submit">
+                                                Log In
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group m-t-20 m-b-0">
+                                        <div class="col-sm-12">
+                                            <a href="page-recoverpw.html" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function(){
+                _thisPage.onload();
+            });
+
+            var _thisPage = {
+                onload: function () {
+                    var _this = this;
+                    _this.event();
+                },
+                fillTable: function (input) {
+                    if (!input) input = {};
+
+                    // $.ajax({
+                    //     type  : "GET",
+                    //     url     : "",
+                    //     data  : '',
+                    //     headers: {
+                    //         "Content-Type": "application/json;",
+                    //         "charset": "UTF-8"
+                    //     },
+                    //     success: function (result) {
+                    //
+                    //     },
+                    //     error: function (error) {
+                    //         console.log(error);
+                    //     }
+                    // });
+                },
+                event: function () {
+
+                }
+            }
+
+        </script>
+    </section>
+    <!-- END HOME -->
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+</body>
+</html>
