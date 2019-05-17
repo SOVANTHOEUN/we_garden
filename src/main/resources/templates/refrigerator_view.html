@@ -426,7 +426,7 @@
                     $("#table_result tr").each(function (i, v) {
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
-                        obj["STOCK_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), ''));
+                        obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), ''));
                         inRec.push(obj);
                     });
                     input["IN_REC"] = inRec;
