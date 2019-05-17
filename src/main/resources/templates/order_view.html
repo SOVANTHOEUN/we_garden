@@ -52,10 +52,120 @@
                             <div class="fixed-table-toolbar">
                                 <div class="bars pull-left">
                                     <div class="bars pull-left">
-
+                                        <div class="form-group">
+                                            <div class="input-group date">
+                                                <button id="btnReportStockOut" class="btn btn-warning" data-target="#con-close-modal-0">
+                                                    <i class="fa fa-bar-chart m-r-5"></i>Stock-out
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!--modal stock-out-->
+                            <div id="con-close-modal-0" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-left: 17px;">
+                                <div class="modal-dialog modal-lg" id="report_stockout">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtTitle" data-status="I" data-uuid="">View Stock Out Report</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="sDate" class="control-label">Select Date</label>
+                                                        <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                            <input type="text" class="form-control">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                            <input type="text" class="form-control" style="background-color: white;">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="bars pull-left" style="margin-top: 25px;">
+                                                        <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                            <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="fixed-table-body">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_report">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:450px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                        <col class="brownMaster" style="width: 40px;">
+                                                                        <col class="teaTime" style="width: 40px;">
+                                                                        <col>
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th colspan="2" rowspan="2"><div class="th-inner" style="text-align: center;line-height: 60px;">Product Name</div></th>
+                                                                            <th class="txtInOutAmt" rowspan="2"><div class="th-inner" style="line-height: 60px;">Out-Stock</div></th>
+                                                                            <th class="brownMaster" rowspan="2"><div class="th-inner" style="line-height: 60px;">Brown-Master</div></th>
+                                                                            <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Tea-time</div></th>
+                                                                            <th colspan="2"><div class="th-inner" style="text-align: center;line-height: 10px;">Payment</div></th>
+                                                                            <th rowspan="2"><div class="th-inner" style="line-height: 60px;">Total Income</div></th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Credit</div></th>
+                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Debit</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_report_result">
+                                                                        <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
+                                                                            <td style="border-left: none;line-height: 40px;">Zummers</td>
+                                                                            <td style="line-height: 40px;">7</td>
+                                                                            <td style="line-height: 40px;text-align: center;">0</td>
+                                                                            <td style="line-height: 40px;text-align: center;">0</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--//modal stock-out-->
 
                             <!-- modal -->
                             <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -230,6 +340,7 @@
                 var _this = this;
                 _this.event();
                 fnSearch();
+                fn_chooseDate();
 
             },
             fillTable: function (input) {
@@ -408,6 +519,12 @@
                 });
             },
             event: function () {
+                $("#btnReportStockOut").click(function () {
+                    var input = {};
+                    input["STATUS"] = "RO";
+                    open_popup_stockout(input);
+                });
+
                 $(document).on("click", ".btnUserOrder", function () {
                     var input = {};
                     input["USER_UUID"] = $(this).closest("tr").data("uuid");
@@ -456,6 +573,16 @@
             return true;
         }
 
+        function open_popup_stockout(input_){
+            if(!input_) input_ = {};
+            $('#con-close-modal-0').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#con-close-modal-0').modal('show');
+            // _thisPage.searchUserOrderRow(input_);
+        }
+
         function open_popup_prodetail(input_){
             if(!input_) input_ = {};
             $('#con-close-modal-2').modal('show');
@@ -474,6 +601,48 @@
             setTimeout(function () {
                 $("#loading").hide();
             }, 300);
+        }
+
+        function fn_chooseDate(){
+            var today	  = new Date();
+            var firstDay = new Date(today.getFullYear(), today.getMonth());
+            var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+            var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+
+            $("#sDate input").val(startDate);
+            $("#eDate input").val(endDate);
+
+            $('#sDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $('#eDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+            function strpad00(s){
+                s = s + '';
+                if (s.length === 1) s = '0'+s;
+                return s;
+            }
         }
 
         function validateBorderInputColor(validate, callback) {
