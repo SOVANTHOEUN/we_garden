@@ -23,6 +23,8 @@ public class OrderController {
 
     @RequestMapping("/select")
     public String home(){
+
+
         System.out.println("order is called...");
         return "order_view";
     }
