@@ -47,10 +47,12 @@ public class RefrigeratorController {
         ArrayList arrIn = (ArrayList) inRec.get("IN_REC");
         String actionCode = "";
 
-        for (int i = 0; i <= arrIn.size() - 1; i++) {
+        for (int i = 0; i < arrIn.size(); i++) {
+
+            System.out.println( "hththth"+arrIn.size());
             HashMap objItem = (HashMap) arrIn.get(i);
             String proUuid = (String) objItem.get("PRO_UUID");
-            Integer stockAmt = (Integer) objItem.get("STOCK_AMT");
+            Integer stockAmt = (Integer) objItem.get("REFRI_AMT");
             actionCode = refrigeratorService.saveQty(proUuid, stockAmt);
         }
 
