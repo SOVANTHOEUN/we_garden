@@ -11,6 +11,26 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private Boolean status;
+    private String role;
+
+    private  String image_name;
+
+    public String getImage_name() {
+        return image_name;
+    }
+
+    public void setImage_name(String image_name) {
+        this.image_name = image_name;
+    }
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     private List<Role> roles;
 
@@ -23,14 +43,18 @@ public class User implements UserDetails {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
+                ", role='" + role + '\'' +
+                ", image_name='" + image_name + '\'' +
                 ", roles=" + roles +
                 '}';
     }
 
-    public User(String username, String password, Boolean status, List<Role> roles) {
+    public User(String username, String password, Boolean status, String role, String image_name, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.status = status;
+        this.role = role;
+        this.image_name = image_name;
         this.roles = roles;
     }
 
