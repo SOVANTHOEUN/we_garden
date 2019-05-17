@@ -76,23 +76,5 @@ public class RefrigeratorController {
     }
 
 
-    @PostMapping("/login/submit")
-    public String loginSumit(@ModelAttribute User user) {
-        User getUser = new User();
-
-        System.out.println("========="+user.getStatus());
-        if (user.getStatus()==true) {
-
-            Authentication auth = new UsernamePasswordAuthenticationToken(getUser, null, null);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            return "redirect:/";
-        }
-
-        else
-            return "redirect:/";
-
-    }
-
-
 
 }

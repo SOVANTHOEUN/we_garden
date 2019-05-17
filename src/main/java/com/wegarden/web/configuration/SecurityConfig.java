@@ -22,14 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**","/fonts/**","/images/**"); // #3
+                .antMatchers("/js/**","/css/**","/fonts/**","/images/**"); // #3
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                  .authorizeRequests()
-                 .antMatchers( "/refrigerator/login/**","/login/**").permitAll()
+                 .antMatchers( "/login/**").permitAll()
                  .anyRequest().authenticated()
                  .and()
                 .formLogin()
