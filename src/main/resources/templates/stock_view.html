@@ -343,7 +343,7 @@
 
                                         strHtml += '<tr data-uuid="'+v.product_uuid+'">';
                                         strHtml += '    <td class="user-image" style="width: 10px;border-right: none;">';
-                                        strHtml += '    	<img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                        strHtml += '    	<img src="'+usr_image+'" alt="image" class="img-circle" width="40px" height="40px" /></td>';
                                         strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
                                         strHtml += '    <td style="line-height: 40px;">';
@@ -432,7 +432,7 @@
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
-                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
                                         strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_in_quantity)+'</td>';
                                         strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.stock_in_expend).toFixed(2))+'</td>';
@@ -481,7 +481,7 @@
                                         pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
-                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
                                         strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_out_quantity)+'</td>';
                                         strReport += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';

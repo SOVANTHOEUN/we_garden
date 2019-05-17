@@ -233,7 +233,6 @@
 
             },
             fillTable: function (input) {
-                console.log(true)
                 if (!input) input = {};
 
                 $.ajax({
@@ -296,7 +295,7 @@
                                 usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
 
                                 strHtml += '<tr data-uuid="'+v.order_uuid+'" class="order_row">';
-                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+'</td>';
+                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+"&nbsp;&nbsp;"+timeConvert(v.order_date.substr(10,6).trim())+'</td>';
                                 strHtml += '    <td style="text-align: center;">'+addCurrencySymbol(Number(v.order_total).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;">'+wegarden.comm.null2Void(v.product_count, '')+'</td>';
                                 strHtml += '    <td style="text-align: center;">';
@@ -373,7 +372,6 @@
                     inRec.push(obj);
                 });
                 input["IN_REC"] = inRec;
-                console.log(input)
 
                 $.ajax({
                     type    : "POST",
@@ -509,6 +507,18 @@
             }else{
                 return formatValue;
             }
+        }
+        function timeConvert(time) {
+            // Check correct time format and split into components
+            time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+            if (time.length > 1) { // If time format correct
+
+                time = time.slice (1);  // Remove full string match value
+                time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+                time[0] = +time[0] % 12 || 12; // Adjust hours
+            }
+            return time.join (''); // return adjusted time or original string
         }
 
     </script>
