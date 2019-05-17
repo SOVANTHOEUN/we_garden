@@ -117,11 +117,9 @@
                        contentType: "application/json; charset=utf-8",
                        dataType: "json",
                        success: function (data) {
-
                            if (data.status==false){
                                $("#error").css({"display":"block"});
-                           }
-                           else {
+                           }else {
                                $("#status").val(data.status);
                                $("#frm").submit();
                            }
