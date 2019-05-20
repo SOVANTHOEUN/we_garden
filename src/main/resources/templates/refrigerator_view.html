@@ -395,6 +395,7 @@
                                 });
 
                                 $("#table_result").append(html);
+
                             } else {
                                 $("#table_result").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
                             }
@@ -434,6 +435,7 @@
                     });
                     input["IN_REC"] = inRec;
                     _thisPage.saveRefrigerator(input, this);
+                     notification();
 
                 });
 
@@ -656,6 +658,24 @@
                     fnExcelReport();
                 });
 
+                function notification() {
+                    var input={"title":"Refrigerator In","message":"New Product has been added, please visit ទូទឹកកក😀😀😀 "};
+                    $.ajax({
+                        type    : "POST",
+                        url     : "http://192.168.178.130:1234/notification/send_all",
+                        data    : JSON.stringify(input),
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            console.log("it's done")
+                        },
+                        error: function (error) {
+                            console.log(error.message);
+                        }
+                    });
+                }
 
 
             </script>
