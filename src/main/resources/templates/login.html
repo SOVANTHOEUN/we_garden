@@ -104,15 +104,13 @@
        <script type="text/javascript">
 
            $(function(){
-               var hostname_ = 'http://192.168.178.130:1234';
+               var hostname_ = 'http://192.168.178.130:1234/';
                var url_, user_, pass_;
 
-               $("#btnLogin").click(function (event) {
-                   event.preventDefault();
+               $("#btnLogin").click(function () {
                    user_ = $("#username").val();
                    pass_ = $("#password").val();
-                   url_  = hostname_ +'/wegarden_login?username='+ user_ +'&password=' + pass_;
-
+                   url_  = hostname_ +'wegarden_login?username='+ user_ +'&password=' + pass_;
                    $.ajax({
                        url  : url_,
                        type : "POST",
@@ -129,7 +127,7 @@
                            }
                        },
                        error: function () {
-
+                                console.log("ERROR")
                        }
 
                    });
