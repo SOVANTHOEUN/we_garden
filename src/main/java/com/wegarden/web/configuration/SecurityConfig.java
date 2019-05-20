@@ -14,11 +14,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements ApplicationContextAware {
-
-
    @Autowired
    private LogoutSuccessHandler logoutSuccessHandler;
-
    @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -31,7 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Appl
         http
                 .csrf().disable()
                  .authorizeRequests()
-
                  .antMatchers(  "/login/**").permitAll()
                  .anyRequest().authenticated()
                  .and()
@@ -41,18 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Appl
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessHandler(logoutSuccessHandler);
-
-
-
-
-
-//        http.logout().logoutSuccessUrl("/login");
-//                .defaultSuccessUrl("/",true)
-////                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
     }
 
 }
