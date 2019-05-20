@@ -54,7 +54,7 @@
                         <!--===================================================-->
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card-box" style="height: 48em;">
+                                <div class="card-box" >
                                     <h4 class="m-t-0 header-title"><b>Refrigerator List</b></h4>
                                     <p class="text-muted font-13">
                                         <label>Function: </label> Add product to sell on refrigerator.
@@ -244,10 +244,10 @@
                                                                 <div class="th-inner ">In-Stock</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">In-Inrefrig</div>
+                                                                <div class="th-inner ">In-Refrigerator</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Add Stock</div>
+                                                                <div class="th-inner ">Add to Refrigerator</div>
                                                             </th>
                                                             <th style="">
                                                                 <div class="th-inner ">Qty on Hand</div>
@@ -312,7 +312,6 @@
                 var _this = this;
                 $(function(){
                     _thisPage.onload();
-
                 });
 
                 function addCurrencySymbol(value_){
@@ -373,28 +372,31 @@
                             var html;
                             if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                                 $.each(result.DATA_REC, function (i, v) {
-                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                    if(v.stock_quantity!=0){
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
-                                    html+='<tr data-uuid="'+v.product_uuid+'" >';
-                                    html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
-                                    html+='	<td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
-                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
-                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
-                                    html+='	<td style="line-height: 40px;">';
-                                    html+='	    <div class="editRefriLayer" style="display:inline-flex;width: 100%;">';
-                                    html+='	        <input type="text" maxlength="10" class="form-control input-block input-amt-refri REFRI_AMT" onkeydown="wegarden.comm.numberOnly(event)" onkeyup="javascript:return calculateStockQty(this)" value="0">';
-                                    html+='	    </div>';
-                                    html+='	</td>';
-                                    html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
-                                    html+='	<td style="line-height: 40px;text-align: center;">';
-                                    html+='	    <button type="button" id="btnReadProduct" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
-                                    html+='	</td>';
-                                    html+='</tr>';
+                                        html+='<tr id="tr_refrig" data-uuid="'+v.product_uuid+'" >';
+                                        html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                        html+='	<td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
+                                        html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
+                                        html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                        html+='	<td style="line-height: 40px;">';
+                                        html+='	    <div class="editRefriLayer" style="display:inline-flex;width: 100%;">';
+                                        html+='	        <input type="text" maxlength="10" class="form-control input-block input-amt-refri REFRI_AMT" onkeydown="wegarden.comm.numberOnly(event)" onkeyup="javascript:return calculateStockQty(this)" value="0">';
+                                        html+='	    </div>';
+                                        html+='	</td>';
+                                        html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
+                                        html+='	<td style="line-height: 40px;text-align: center;">';
+                                        html+='	    <button type="button" id="btnReadProduct" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                        html+='	</td>';
+                                        html+='</tr>';
+                                    }
+
                                 });
 
                                 $("#table_result").append(html);
                             } else {
-                                $("#table_result").append("<tr><td class='text-center' colspan='7'>There is no data.</td></tr>");
+                                $("#table_result").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
                             }
                         },
                         error: function (error) {
@@ -416,11 +418,7 @@
                 }
 
                 _thisPage.onload = function(){
-                    top.$("#loading").show();
                     _thisPage.fillTable();
-                    setTimeout(function () {
-                        top.$("#loading").hide();
-                    }, 300);
 
                 };
 
@@ -431,7 +429,7 @@
                     $("#table_result tr").each(function (i, v) {
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
-                        obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(),0));
+                        obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), ''));
                         inRec.push(obj);
                     });
                     input["IN_REC"] = inRec;
