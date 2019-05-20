@@ -372,7 +372,7 @@
                             var html;
                             if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                                 $.each(result.DATA_REC, function (i, v) {
-                                    if(v.stock_quantity!=0){
+                                    if(v.stock_quantity!=0 || v.refrigerator_quantity!=0){
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         html+='<tr id="tr_refrig" data-uuid="'+v.product_uuid+'" >';
@@ -429,7 +429,7 @@
                     $("#table_result tr").each(function (i, v) {
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
-                        obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), ''));
+                        obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), 0));
                         inRec.push(obj);
                     });
                     input["IN_REC"] = inRec;
