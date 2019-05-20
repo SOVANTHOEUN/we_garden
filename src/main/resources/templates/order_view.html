@@ -127,6 +127,7 @@
                                                                     <thead>
                                                                         <tr>
                                                                             <th colspan="2" rowspan="2"><div class="th-inner" style="text-align: center;line-height: 60px;">Product Name</div></th>
+                                                                            <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Price</div></th>
                                                                             <th class="txtInOutAmt" rowspan="2"><div class="th-inner" style="line-height: 60px;">Out-Stock</div></th>
                                                                             <th class="brownMaster" rowspan="2"><div class="th-inner" style="line-height: 60px;">Brown-Master</div></th>
                                                                             <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Tea-time</div></th>
@@ -142,6 +143,7 @@
                                                                         <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
                                                                             <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
                                                                             <td style="border-left: none;line-height: 40px;">Zummers</td>
+                                                                            <td style="line-height: 40px;">$0.5</td>
                                                                             <td style="line-height: 40px;">7</td>
                                                                             <td style="line-height: 40px;text-align: center;">0</td>
                                                                             <td style="line-height: 40px;text-align: center;">0</td>
@@ -546,23 +548,25 @@
                                 strHtml += '<tr data-row="'+v.product_uuid+'">';
                                 strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px"></td>';
                                 strHtml += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(v.product_price)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.tea_time_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.credit_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.debit_quantity)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(Number(parseFloat(v.product_price) * parseFloat(v.order_quantity)).toFixed(2))+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(Number(v.product_price) * Number(v.order_quantity))+'</td>';
                                 strHtml += '</tr>';
 
                                 brownTotal     += Number(v.bronze_master_quantity) * Number(v.product_price);
                                 teaTimeTotal  += Number(v.tea_time_quantity) * Number(v.product_price);
                                 creditTotal      += Number(v.credit_quantity) * Number(v.product_price);
                                 debitTotal       += Number(v.debit_quantity) * Number(v.product_price);
-                                totalPrice        += Number(parseFloat(v.product_price) * parseFloat(v.order_quantity)).toFixed(2);
+                                totalPrice        += Number(v.product_price) * Number(v.order_quantity);
                             });
 
                             strTotal += '<tr>';
                             strTotal += '	<td style="line-height: 40px;border-right: none;" colspan="2"><label>Total Pay</label></td>';
+                            strTotal += '	<td style="border-left: none;border-right: none;"></td>';
                             strTotal += '	<td style="border-left: none;"></td>';
                             strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(brownTotal)+'</label></td>';
                             strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(teaTimeTotal)+'</label></td>';
