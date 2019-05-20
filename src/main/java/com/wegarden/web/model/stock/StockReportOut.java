@@ -35,8 +35,14 @@ public class StockReportOut {
     @JsonProperty("category_status")
     private String categoryStatus;
 
-    @JsonProperty("stock_out_quantity")
-    private String stockOutQuantity;
+    @JsonProperty("order_quantity")
+    private String orderQuantity;
+
+    @JsonProperty("credit_quantity")
+    private String creditQuantity;
+
+    @JsonProperty("debit_quantity")
+    private String debitQuantity;
 
     @JsonProperty("tea_time_quantity")
     private String teaTimeQuantity;
@@ -44,12 +50,9 @@ public class StockReportOut {
     @JsonProperty("bronze_master_quantity")
     private String bronzeMasterQuantity;
 
-    @JsonProperty("total_income")
-    private String totalIncome;
-
     public StockReportOut(){ }
 
-    public StockReportOut(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String stockOutQuantity, String teaTimeQuantity, String bronzeMasterQuantity, String totalIncome) {
+    public StockReportOut(String productUuid, String productName, String productPrice, String productImageName, String productStatus, String categoryUuid, String categoryName, String categoryRemark, String categoryStatus, String orderQuantity, String creditQuantity, String debitQuantity, String teaTimeQuantity, String bronzeMasterQuantity) {
         this.productUuid = productUuid;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -59,10 +62,11 @@ public class StockReportOut {
         this.categoryName = categoryName;
         this.categoryRemark = categoryRemark;
         this.categoryStatus = categoryStatus;
-        this.stockOutQuantity = stockOutQuantity;
+        this.orderQuantity = orderQuantity;
+        this.creditQuantity = creditQuantity;
+        this.debitQuantity = debitQuantity;
         this.teaTimeQuantity = teaTimeQuantity;
         this.bronzeMasterQuantity = bronzeMasterQuantity;
-        this.totalIncome = totalIncome;
     }
 
     public String getProductUuid() {
@@ -137,12 +141,28 @@ public class StockReportOut {
         this.categoryStatus = categoryStatus;
     }
 
-    public String getStockOutQuantity() {
-        return stockOutQuantity;
+    public String getOrderQuantity() {
+        return orderQuantity;
     }
 
-    public void setStockOutQuantity(String stockOutQuantity) {
-        this.stockOutQuantity = stockOutQuantity;
+    public void setOrderQuantity(String orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
+
+    public String getCreditQuantity() {
+        return creditQuantity;
+    }
+
+    public void setCreditQuantity(String creditQuantity) {
+        this.creditQuantity = creditQuantity;
+    }
+
+    public String getDebitQuantity() {
+        return debitQuantity;
+    }
+
+    public void setDebitQuantity(String debitQuantity) {
+        this.debitQuantity = debitQuantity;
     }
 
     public String getTeaTimeQuantity() {
@@ -159,13 +179,5 @@ public class StockReportOut {
 
     public void setBronzeMasterQuantity(String bronzeMasterQuantity) {
         this.bronzeMasterQuantity = bronzeMasterQuantity;
-    }
-
-    public String getTotalIncome() {
-        return totalIncome;
-    }
-
-    public void setTotalIncome(String totalIncome) {
-        this.totalIncome = totalIncome;
     }
 }

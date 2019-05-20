@@ -63,14 +63,14 @@
                                     <div class="fixed-table-toolbar">
                                         <div class="bars pull-left">
                                             <div class="form-group">
-                                                <label for="sDate" class="control-label">Report</label>
+                                                <!--<label for="sDate" class="control-label">Report</label>-->
                                                 <div class="input-group date">
                                                     <button id="btnReportStockIn" class="btn btn-info" data-target="#con-close-modal">
                                                         <i class="fa fa-bar-chart m-r-5"></i>Stock-In
                                                     </button>
-                                                    <button id="btnReportStockOut" class="btn btn-warning" data-target="#con-close-modal" style="margin-left: 10px;">
+                                                    <!--<button id="btnReportStockOut" class="btn btn-warning" data-target="#con-close-modal" style="margin-left: 10px;">
                                                         <i class="fa fa-bar-chart m-r-5"></i>Stock-out
-                                                    </button>
+                                                    </button>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -374,12 +374,12 @@
                                     $("#table_result").append(strHtml);
                                     $("#table_result").append(strTotalRow);
                                 } else {
-                                    $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                                    $("#table_result").append("<tr><td class='text-center' colspan='7'>There is no data.</td></tr>");
                                 }
                             },
                             error: function (error) {
                                 console.log(error);
-                                $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                                $("#table_result").append("<tr><td class='text-center' colspan='7'>There is no data.</td></tr>");
                             }
                         });
                     },
@@ -501,7 +501,7 @@
                                     $("#tbl_report tbody").append(strTotalRow);
 
                                 }else{
-                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="6">There is no data.</td></tr>');
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="7">There is no data.</td></tr>');
                                 }
                                 setTimeout(function () {
                                     $(".loading-stock-pop").hide();
@@ -510,7 +510,7 @@
                             },
                             error: function (error) {
                                 console.log(error);
-                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="6">There is no data.</td></tr>');
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="7">There is no data.</td></tr>');
                             }
                         });
                     },

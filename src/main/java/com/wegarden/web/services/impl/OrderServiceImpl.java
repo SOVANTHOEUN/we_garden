@@ -5,6 +5,7 @@ import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReport;
+import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.repositories.OrderRepository;
 import com.wegarden.web.repositories.StockRepository;
 import com.wegarden.web.services.OrderService;
@@ -38,5 +39,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String payOrderItem(String orderUuid) {
         return orderRepository.payOrderItem(orderUuid);
+    }
+
+    @Override
+    public List<StockReportOut> getReportStockOutList(String sDate, String eDate) {
+        return orderRepository.getReportStockOutList(sDate,eDate);
     }
 }

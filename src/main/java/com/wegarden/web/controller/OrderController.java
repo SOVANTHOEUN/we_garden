@@ -4,6 +4,7 @@ import com.wegarden.web.model.order.Order;
 import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Stock;
+import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -24,8 +25,6 @@ public class OrderController {
 
     @RequestMapping("/select")
     public String home(){
-
-
         System.out.println("order is called...");
         return "order_view";
     }
@@ -79,6 +78,16 @@ public class OrderController {
             response.put("status",false);
         }
 
+        return response;
+    }
+
+    @RequestMapping("/order_stock_out")
+    @ResponseBody
+    public Map<String, Object> getReportStockOutList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
+        Map<String, Object> response = new HashMap<>();
+
+        List<StockReportOut> stockOutList = orderService.getReportStockOutList(sDate, eDate);
+        response.put("DATA_REC", stockOutList);
         return response;
     }
 

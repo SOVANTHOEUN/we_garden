@@ -6,6 +6,7 @@ import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Category;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReport;
+import com.wegarden.web.model.stock.StockReportOut;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface OrderRepository {
     List<UserOrder> getUserOrderList(String userUuid);
     List<OrderDetail> getOrderDetailList(String orderUuid);
     String payOrderItem(String orderUuid);
+    List<StockReportOut> getReportStockOutList(String sDate, String eDate);
 }

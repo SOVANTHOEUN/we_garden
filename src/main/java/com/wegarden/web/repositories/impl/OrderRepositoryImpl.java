@@ -3,6 +3,7 @@ package com.wegarden.web.repositories.impl;
 import com.wegarden.web.model.order.Order;
 import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
+import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.repositories.OrderRepository;
 import org.springframework.stereotype.Repository;
 
@@ -86,5 +87,25 @@ public class OrderRepositoryImpl implements OrderRepository {
         entityManager.clear();
 
         return actionCode;
+    }
+
+    @Override
+    public List<StockReportOut> getReportStockOutList(String sDate, String eDate) {
+        List<StockReportOut> stockReportList = new ArrayList<>();
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_report_order_by_date", StockReportOut.class)
+                .registerStoredProcedureParameter("_from_date", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_to_date", String.class, ParameterMode.IN)
+                .setParameter("_from_date", sDate)
+                .setParameter("_to_date", eDate);
+
+        try{
+            stockReportList = storedProcedureQuery.getResultList();
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return stockReportList;
     }
 }
