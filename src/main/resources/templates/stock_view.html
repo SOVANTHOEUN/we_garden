@@ -15,6 +15,8 @@
             table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
             table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
             .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
 
             .input-amt-stock{width: 100%;height: 30px;padding-left: 8px;}
             .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
@@ -117,12 +119,12 @@
                                                                             </colgroup>
                                                                             <thead>
                                                                             <tr>
-                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
                                                                                 <!--<th style=""><div class="th-inner ">Price</div></th>-->
                                                                                 <th style="" class="txtInOutAmt"><div class="th-inner ">In-Stock</div></th>
                                                                                 <th style="display: none;" class="brownMaster"><div class="th-inner ">Brown-Master</div></th>
                                                                                 <th style="display:none;" class="teaTime"><div class="th-inner ">Tea-time</div></th>
-                                                                                <th style="" class="txtInOutPrice"><div class="th-inner ">Stock-In Expense</div></th>
+                                                                                <th style="" class="txtInOutPrice"><div class="th-inner ">Expense</div></th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody id="table_report-result">
@@ -167,7 +169,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_nm" class="control-label">Product Name</label>
+                                                                <label for="pro_nm" class="control-label">Item</label>
                                                                 <input type="text" class="form-control" id="pro_nm" placeholder="product name" disabled="disabled">
                                                             </div>
                                                         </div>
@@ -185,13 +187,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_price" class="control-label">Price</label>
+                                                                <label for="pro_price" class="control-label">Unit Price</label>
                                                                 <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price" disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_quantity" class="control-label">Quantity/per box</label>
+                                                                <label for="pro_quantity" class="control-label">Quantity<span style="opacity: 0.4;">/perbox</span></label>
                                                                 <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity" disabled="disabled">
                                                             </div>
                                                         </div>
@@ -227,11 +229,11 @@
                                                     </colgroup>
                                                     <thead>
                                                         <tr>
-                                                            <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
+                                                            <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
                                                             <th style=""><div class="th-inner ">In-Stock</div></th>
-                                                            <th style=""><div class="th-inner ">Price<span style="opacity: 0.4;">/perbox</span></div></th>
-                                                            <th style=""><div class="th-inner ">Add Stock</div></th>
-                                                            <th style=""><div class="th-inner ">Product Price</div></th>
+                                                            <th style=""><div class="th-inner ">Unit Price<span style="opacity: 0.4;">/perbox</span></div></th>
+                                                            <th style=""><div class="th-inner ">Add Stock<span style="opacity: 0.4;">/perbox</span></div></th>
+                                                            <th style=""><div class="th-inner ">Total Price</div></th>
                                                             <th style="text-align: center;"><div class="th-inner ">Action</div></th>
                                                         </tr>
                                                     </thead>
@@ -407,7 +409,7 @@
                                 var strReport = "", usr_image = "";
                                 $(".brownMaster, .teaTime").hide();
                                 $(".txtInOutAmt div").text("In-Stock");
-                                $(".txtInOutPrice div").text("Stock-In Expense");
+                                $(".txtInOutPrice div").text("Expense");
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i,v) {

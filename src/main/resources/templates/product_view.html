@@ -17,6 +17,8 @@
             table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
             table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
             .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
 
             .pro-image{border-right: none;line-height: 40px;}
         </style>
@@ -38,7 +40,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-box" style="">
-                                    <h4 class="m-t-0 header-title"><b>Product List</b></h4>
+                                    <h4 class="m-t-0 header-title"><b>Items List</b></h4>
                                     <p class="text-muted font-13">
                                         <label>Function: </label> Search, Create , Update and Delete product.
                                     </p>
@@ -48,7 +50,7 @@
                                         <div class="bars pull-left">
                                             <div class="bars pull-left">
                                                 <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
-                                                <button type="button" id="btnAddPro" class="btn btn-info btn-custom-color"><i class="fa fa-plus m-r-5"></i>Add</button>
+                                                <button type="button" id="btnAddPro" class="btn btn-info btn-custom-color"><i class="fa fa-plus m-r-5"></i>Add Item</button>
                                             </div>
                                         </div>
                                         <div class="pull-right search" style="display: inline-flex;">
@@ -62,13 +64,13 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Product</h4>
+                                                    <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Item</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_nm" class="control-label">Product Name</label>
+                                                                <label for="pro_nm" class="control-label">Item</label>
                                                                 <input type="text" class="form-control" id="pro_nm" placeholder="product name">
                                                             </div>
                                                         </div>
@@ -86,13 +88,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_price" class="control-label">Price</label>
+                                                                <label for="pro_price" class="control-label">Unit Price</label>
                                                                 <input type="text" onkeydown="wegarden.comm.numberOnly(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_quantity" class="control-label">Quantity/per box</label>
+                                                                <label for="pro_quantity" class="control-label">Quantity<span style="opacity: 0.4;">/perbox</span></label>
                                                                 <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity">
                                                             </div>
                                                         </div>
@@ -137,19 +139,19 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="" colspan="2">
-                                                                <div class="th-inner" style="text-align: center;">Product Name</div>
+                                                                <div class="th-inner" style="text-align: center;">Item</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Price</div>
+                                                                <div class="th-inner ">Unit Price</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Stock</div>
+                                                                <div class="th-inner ">Stock Qty</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Refrigerator</div>
+                                                                <div class="th-inner ">WeGarden Qty</div>
                                                             </th>
                                                             <th style="text-align: center;">
-                                                                <div class="th-inner ">Status</div>
+                                                                <div class="th-inner ">Action</div>
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -554,7 +556,7 @@
                     $('#con-close-modal').modal('show');
 
                     if(input_.STATUS == "U"){
-                        $("#txtSave").text("Update Product");
+                        $("#txtSave").text("Update Item");
                         $("#txtSave").data("status","U");
                         $("#txtSave").data("uuid",input_.PRO_UUID);
                         _thisPage.searchProductRow(input_);
