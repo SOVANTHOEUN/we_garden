@@ -64,7 +64,7 @@
                                         <div class="bars pull-left">
                                             <div class="bars pull-left">
                                                 <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
-                                                <button id="btnCheckReport" class="btn btn-info" data-target="#con-close-modal"><i class="fa fa-bar-chart m-r-5"></i>Report</button>
+                                                <button id="btnCheckReport" class="btn btn-info" style="background-color: #5fbeaa !important; border: 1px solid #5fbeaa !important;" data-target="#con-close-modal"><i class="fa fa-bar-chart m-r-5"></i>Report</button>
                                             </div>
                                         </div>
                                     </div>
@@ -286,7 +286,7 @@
                                             </div>
                                             <div class="fixed-table-pagination" style="display: block;">
                                                 <div class="pull-right search" style="display: inline-flex;">
-                                                    <button id="btnSaveRefrigerator" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Refrigerator</i></button>
+                                                    <button id="btnSaveRefrigerator" class="btn btn-success  " style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Refrigerator</i></button>
                                                 </div>
                                             </div>
 
@@ -659,7 +659,7 @@
                 });
 
                 function notification() {
-                    var input={"title":"Refrigerator In","message":"New Product has been added, please visit ទូទឹកកក😀😀😀 "};
+                    var input={"title":"Refrigerator In","message":"New Product has been added, please visit ទូទឹកកក😀😀😀"};
                     $.ajax({
                         type    : "POST",
                         url     : "http://192.168.178.130:1234/notification/send_all",
