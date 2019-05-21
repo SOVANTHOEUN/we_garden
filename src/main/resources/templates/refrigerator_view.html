@@ -5,7 +5,7 @@
       layout:decorate="~{layout/layout}">
     <head>
         <meta charset="UTF-8"/>
-        <title th:text="Stock-List"></title>
+        <title th:text="Refrigerator-List"></title>
         <style>
             table > thead > tr > th{background-color: #ffffff !important;}
             table tbody > tr > td{font-size: 1.07em;}
@@ -80,7 +80,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_nm" class="control-label">Product Name</label>
+                                                                <label for="pro_nm" class="control-label">Items</label>
                                                                 <input type="text" class="form-control" id="pro_nm" placeholder="product name" disabled="disabled">
                                                             </div>
                                                         </div>
@@ -98,7 +98,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="pro_price" class="control-label">Price</label>
+                                                                <label for="pro_price" class="control-label">Unit-Price</label>
                                                                 <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price" disabled="disabled">
                                                             </div>
                                                         </div>
@@ -180,8 +180,8 @@
                                                                             </colgroup>
                                                                             <thead>
                                                                             <tr>
-                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Product Name</div></th>
-                                                                                <th style=""><div class="th-inner ">Price</div></th>
+                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Items</div></th>
+                                                                                <th style=""><div class="th-inner ">Unit-Price</div></th>
                                                                                 <th style=""><div class="th-inner ">In-Stock</div></th>
                                                                             </tr>
                                                                             </thead>
@@ -238,19 +238,19 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="" colspan="2">
-                                                                <div class="th-inner" style="text-align: center;">Product Name</div>
+                                                                <div class="th-inner" style="text-align: center;">Items</div>
                                                             </th>
                                                             <th style="">
                                                                 <div class="th-inner ">In-Stock</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">In-Refrigerator</div>
+                                                                <div class="th-inner ">WeGarden</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Add to Refrigerator</div>
+                                                                <div class="th-inner ">Add to WeGarden</div>
                                                             </th>
                                                             <th style="">
-                                                                <div class="th-inner ">Qty on Hand</div>
+                                                                <div class="th-inner ">WeGarden Qty</div>
                                                             </th>
                                                             <th style="text-align: center;">
                                                                 <div class="th-inner ">Action</div>
