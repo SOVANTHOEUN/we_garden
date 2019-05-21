@@ -16,17 +16,9 @@
             table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
             table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
             table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
-            .action_layer{/* display: none; */position: absolute;top: 70px;right: 166px;border: 1px solid #999;width: 100px;background: #fff;box-shadow: 1px 1px 2px 0 #ccc;-webkit-box-shadow: 0 2px 5px 2px #ccc;}
+            .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
 
             .pro-image{border-right: none;line-height: 40px;}
-            .input-amt-stock{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
-            .btn-save-stock{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
-            .btn-canc-stock{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
-
-            .input-amt-refri{width: 100%;height: 30px;margin-left: -10px;padding-left: 8px;}
-            .btn-save-refrig{float: right;margin-top: -5px;margin-left: 11px;color: #008000;}
-            .btn-canc-refrig{float: right;margin-left: 5px;margin-top: -5px;color: #FF0000;}
-            .edit-row{font-size: 0.8em;}
         </style>
 
     </head>
@@ -56,12 +48,12 @@
                                         <div class="bars pull-left">
                                             <div class="bars pull-left">
                                                 <!--<button id="btnDeletePro" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
-                                                <button type="button" id="btnAddPro" class="btn btn-info"><i class="fa fa-plus m-r-5"></i>Add</button>
+                                                <button type="button" id="btnAddPro" class="btn btn-info btn-custom-color"><i class="fa fa-plus m-r-5"></i>Add</button>
                                             </div>
                                         </div>
                                         <div class="pull-right search" style="display: inline-flex;">
                                             <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
-                                            <button id="demo-search-row" class="btn btn-warning" style="margin-left: -5px;" onclick="fnSearch();"><i class="fa fa-search m-r-5"></i></button>
+                                            <button id="demo-search-row" class="btn btn-warning btn-custom-color" style="margin-left: -5px;" onclick="fnSearch();"><i class="fa fa-search m-r-5"></i></button>
                                         </div>
                                     </div>
 
