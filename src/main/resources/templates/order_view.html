@@ -132,7 +132,7 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbl_report_result">
-                                                                        <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                        <!--<tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
                                                                             <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
                                                                             <td style="border-left: none;line-height: 40px;">Zummers</td>
                                                                             <td style="line-height: 40px;">$0.5</td>
@@ -142,10 +142,12 @@
                                                                             <td style="line-height: 40px;">$3.5</td>
                                                                             <td style="line-height: 40px;">$3.5</td>
                                                                             <td style="line-height: 40px;">$3.5</td>
-                                                                        </tr>
+                                                                        </tr>-->
                                                                     </tbody>
                                                                 </table>
-
+                                                                <div class="panel-disabled loading-stock-out" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -191,14 +193,14 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="table_order">
-                                                                        <tr data-index="0">
+                                                                        <!--<tr data-index="0">
                                                                             <td style="text-align: center;">01-05-2019</td>
                                                                             <td style="">$0.5</td>
                                                                             <td style="">180</td>
                                                                             <td style="text-align: center;">
                                                                                 <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                                                             </td>
-                                                                        </tr>
+                                                                        </tr>-->
                                                                     </tbody>
 
                                                                 </table>
@@ -247,12 +249,12 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbl_resul_detail">
-                                                                        <tr data-index="0">
+                                                                        <!--<tr data-index="0">
                                                                             <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
                                                                             <td style="border-left: none;line-height: 40px;">Oishi</td>
                                                                             <td style="line-height: 40px;">180</td>
                                                                             <td style="line-height: 40px;">$0.5</td>
-                                                                        </tr>
+                                                                        </tr>-->
                                                                     </tbody>
                                                                     <div class="panel-disabled loading-stock-pop" style="display: none;">
                                                                         <div class="loader-1"></div>
@@ -296,7 +298,7 @@
                                             </tr>
                                             </thead>
                                             <tbody id="table_result">
-                                                <tr data-index="0">
+                                                <!--<tr data-index="0">
                                                     <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="40px" /></td>
                                                     <td style="border-left: none;line-height: 40px;">Lay Bunnavitou</td>
                                                     <td style="line-height: 40px;">Mobile R&D</td>
@@ -305,7 +307,7 @@
                                                     <td style="text-align: center;line-height: 40px;">
                                                         <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                                     </td>
-                                                </tr>
+                                                </tr>-->
                                             </tbody>
                                             <div class="panel-disabled loading-stock" style="display: none;">
                                                 <div class="loader-1"></div>
@@ -365,6 +367,7 @@
                                 strHtml += '    <td style="line-height: 40px;text-align: center">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;line-height: 40px;">';
                                 strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay"><i class="md md-settings-backup-restore" aria-hidden="true"></i></button>';
                                 strHtml += '    </td>';
                                 strHtml += '</tr>';
 
@@ -533,7 +536,30 @@
 
                 $.ajax({
                     type    : "POST",
-                    url       : "http://192.168.178.130:1234/notification/send",
+                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                    data    : JSON.stringify(input),
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        console.log("result:: "+result);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            },
+            notificationAlertPayment: function (input) {
+                if(!input) input = {};
+                // input["user_uuid"] = input.user_uuid;
+                input["title"]          = "Hello";
+                input["message"]   = "Please purchase your ordering.\nThank You !";
+                console.log("alert payment:: ",input);
+
+                $.ajax({
+                    type    : "POST",
+                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
                     data    : JSON.stringify(input),
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -549,7 +575,7 @@
             },
             fillStockReportOutBetweenDate: function (input) {
                 if(!input) input = {};
-                $(".loading-stock-pop").show();
+                $('.loading-stock-out').show();
                 input["START_DATE"] = $.trim($("#sDate input").val());
                 input["END_DATE"]    = $.trim($("#eDate input").val());
 
@@ -562,7 +588,6 @@
                         "charset"       : "UTF-8"
                     },
                     success: function (result) {
-                        $(".loading-stock-pop").hide();
                         $("#tbl_report_result").empty();
                         var strHtml = "", pro_image = "", strTotal = "";
                         var brownTotal = 0, teaTimeTotal = 0, creditTotal = 0, debitTotal = 0, totalPrice = 0;
@@ -603,11 +628,35 @@
 
                             $("#tbl_report_result").html(strHtml);
                             $("#tbl_report_result").append(strTotal);
+                            setTimeout(function () {top.$('.loading-stock-out').hide(); }, 300);
                         } else {
-                            $("#tbl_report_result").append("<tr><td class='text-center' colspan='8'>There is no data.</td></tr>");
+                            $("#tbl_report_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            $('.loading-stock-out').hide();
                         }
                     },
                     error: function (error) {
+                        $('.loading-stock-out').hide();
+                        console.log(error);
+                    }
+                });
+            },
+            downloadExcelstockReportOut: function (input) {
+                console.log("download.....");
+
+                if(!input) input = {};
+                $("#loading").show();
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/order/download/stock_out",
+                    data    : {},
+                    // datatype: 'text',
+                    success: function (result) {
+                        $("#loading").hide();
+                    },
+                    error: function (error) {
+                        $("#loading").hide();
+                        console.log("error");
                         console.log(error);
                     }
                 });
@@ -617,6 +666,10 @@
                     var input = {};
                     input["STATUS"] = "RO";
                     open_popup_stockout(input);
+                });
+
+                $("#btnDownloadExcel").click(function () {
+                    _thisPage.downloadExcelstockReportOut();
                 });
 
                 $(document).on("click", ".btnUserOrder", function () {
@@ -660,6 +713,12 @@
                                 _thisPage.payMoney();
                             }
                         });
+                });
+
+                $(document).on("click", ".btnAlertPay", function () {
+                    var userUuid = {};
+                    userUuid.user_uuid = $(this).closest("tr").data("uuid");
+                    _thisPage.notificationAlertPayment(userUuid);
                 });
             }
         }

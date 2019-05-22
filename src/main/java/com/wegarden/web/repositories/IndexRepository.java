@@ -11,4 +11,8 @@ public interface IndexRepository {
     Integer countEmployee(String type);
     Integer countStock();
     Integer countRefrigerator();
+    Integer countTeaTimeOrder();
+    Integer countBronzeMasterOrder();
+    Integer countTotalExpend();
+    Integer countTotalIncome();
 }

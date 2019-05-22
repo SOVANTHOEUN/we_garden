@@ -6,11 +6,17 @@ import com.wegarden.web.model.order.UserOrder;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.services.OrderService;
+import com.wegarden.web.util.ExcelGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +95,24 @@ public class OrderController {
         List<StockReportOut> stockOutList = orderService.getReportStockOutList(sDate, eDate);
         response.put("DATA_REC", stockOutList);
         return response;
+    }
+
+    @GetMapping(value = "/download/stock_out")
+    public ResponseEntity<InputStreamResource> excelCustomersReport(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate) throws IOException {
+        sDate = "2019-05-01";
+        eDate = "2019-05-31";
+        List<StockReportOut> stockOut = (List<StockReportOut>) orderService.getReportStockOutList(sDate, eDate);
+
+        ByteArrayInputStream in = ExcelGenerator.customersToExcel(stockOut);
+        // return IOUtils.toByteArray(in);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=stockout.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new InputStreamResource(in));
     }
 
 }

@@ -4,10 +4,16 @@ import com.wegarden.web.model.stock.StockReport;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.services.StockService;
+import com.wegarden.web.util.ExcelGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
 
 @Controller

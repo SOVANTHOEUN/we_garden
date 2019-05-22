@@ -90,4 +90,70 @@ public class IndexRepositoryImpl implements IndexRepository {
         entityManager.clear();
         return countRefrigerator;
     }
+
+    @Override
+    public Integer countTeaTimeOrder() {
+        Integer countTeaTime = 0;
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_count_tea_time_order")
+                .registerStoredProcedureParameter("total_order", Integer.class, ParameterMode.OUT);
+        try{
+            countTeaTime = (Integer) storedProcedureQuery.getOutputParameterValue("total_order");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return countTeaTime;
+    }
+
+    @Override
+    public Integer countBronzeMasterOrder() {
+        Integer countBrozneMaster = 0;
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_count_bronze_master_order")
+                .registerStoredProcedureParameter("total_order", Integer.class, ParameterMode.OUT);
+        try{
+            countBrozneMaster = (Integer) storedProcedureQuery.getOutputParameterValue("total_order");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return countBrozneMaster;
+    }
+
+    @Override
+    public Integer countTotalIncome() {
+        Integer countTotalIncome = 0;
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_report_total_income")
+                .registerStoredProcedureParameter("total_expend", Integer.class, ParameterMode.OUT);
+        try{
+            countTotalIncome = (Integer) storedProcedureQuery.getOutputParameterValue("total_expend");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return countTotalIncome;
+    }
+
+    @Override
+    public Integer countTotalExpend() {
+        Integer countTotalExpend = 0;
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_sum_total_expend")
+                .registerStoredProcedureParameter("total_expend", Integer.class, ParameterMode.OUT);
+        try{
+            countTotalExpend = (Integer) storedProcedureQuery.getOutputParameterValue("total_expend");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return countTotalExpend;
+    }
+
+
 }

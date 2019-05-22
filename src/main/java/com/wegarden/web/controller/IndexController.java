@@ -31,6 +31,7 @@ public class IndexController {
         int countEmployee    = indexService.countEmployee(type);
         int countStock           = indexService.countStock();
         int countRefrigerator = indexService.countRefrigerator();
+//        int countTeaTimeOrder = indexService.();
 
         response.put("COUNT_ORDER", countOrder);
         response.put("COUNT_EMPLOYEE", countEmployee);
