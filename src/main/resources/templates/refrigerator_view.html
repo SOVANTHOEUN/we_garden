@@ -616,7 +616,6 @@
                            startView: 2,
                            minView: 2,
                            forceParse: 0
-
                        });
 
 
@@ -631,7 +630,9 @@
                 function fnExcelReport(){
                     var tab_text="<table border='2px' ><tr>";
                     var textRange; var j=0;
+
                     tab = document.getElementById('tbl_report'); // id of table
+                    $(tab).find('th').css({'background-color':'#87AFC6'});
 
                     for(j = 0 ; j < tab.rows.length ; j++)
                     {
@@ -643,6 +644,7 @@
                      tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
                     tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
                     tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+                    // tab_text= tab_text.find(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
                     var ua = window.navigator.userAgent;
                     var msie = ua.indexOf("MSIE ");
