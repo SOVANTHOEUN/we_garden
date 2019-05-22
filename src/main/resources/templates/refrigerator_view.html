@@ -377,7 +377,7 @@
 
                                         html+='<tr id="tr_refrig" data-uuid="'+v.product_uuid+'" >';
                                         html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
-                                        html+='	<td style="line-height: 40px;border-left: none;"><a href="javascript:" class="btn-link">'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
+                                        html+='	<td style="line-height: 40px;border-left: none;"><a   >'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
                                         html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
                                         html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
                                         html+='	<td style="line-height: 40px;">';
@@ -666,7 +666,7 @@
                 });
 
                 function notification() {
-                    var input={"title":"Refrigerator In","message":"New Product has been added, please visit ទូទឹកកក😀😀😀"};
+                    var input={"title":"ITEM ADDED","message":"WeGarden has been added new item!"};
                     $.ajax({
                         type    : "POST",
                         url     : "http://192.168.178.162:8080/wegarden/notification/send",
