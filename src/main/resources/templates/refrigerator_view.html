@@ -431,7 +431,11 @@
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
                         obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), 0));
-                        inRec.push(obj);
+
+                        if (obj.REFRI_AMT!=0){
+                            inRec.push(obj);
+                            console.log(inRec);
+                        }
                     });
                     input["IN_REC"] = inRec;
                     _thisPage.saveRefrigerator(input, this);
