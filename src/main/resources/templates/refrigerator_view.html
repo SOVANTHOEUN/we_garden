@@ -286,7 +286,7 @@
                                             </div>
                                             <div class="fixed-table-pagination" style="display: block;">
                                                 <div class="pull-right search" style="display: inline-flex;">
-                                                    <button id="btnSaveRefrigerator" class="btn btn-success  " style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Refrigerator</i></button>
+                                                    <button id="btnSaveRefrigerator" class="btn btn-success  " style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save WeGarden</i></button>
                                                 </div>
                                             </div>
 
@@ -431,7 +431,11 @@
                         var obj = {};
                         obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
                         obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), 0));
-                        inRec.push(obj);
+
+                        if (obj.REFRI_AMT!=0){
+                            inRec.push(obj);
+                            console.log(inRec);
+                        }
                     });
                     input["IN_REC"] = inRec;
                     _thisPage.saveRefrigerator(input, this);
