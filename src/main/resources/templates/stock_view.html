@@ -121,6 +121,7 @@
                                                                             <tr>
                                                                                 <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
                                                                                 <!--<th style=""><div class="th-inner ">Price</div></th>-->
+                                                                                <th style="" class="txtUnitPrice"><div class="th-inner ">Unit Price</div></th>
                                                                                 <th style="" class="txtInOutAmt"><div class="th-inner ">In-Stock</div></th>
                                                                                 <th style="display: none;" class="brownMaster"><div class="th-inner ">Brown-Master</div></th>
                                                                                 <th style="display:none;" class="teaTime"><div class="th-inner ">Tea-time</div></th>
@@ -418,6 +419,7 @@
                                         strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
                                         strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
                                         strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strReport += '    <td style="border-left: none;line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
                                         strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_in_quantity)+'</td>';
                                         strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.stock_in_expend).toFixed(2))+'</td>';
                                         strReport += '</tr>';
@@ -425,7 +427,7 @@
                                     $("#tbl_report tbody").html(strReport);
 
                                 }else{
-                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="5">There is no data.</td></tr>');
                                 }
                                 setTimeout(function () {
                                     $(".loading-stock-pop").hide();
@@ -434,7 +436,7 @@
                             },
                             error: function (error) {
                                 console.log(error);
-                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="4">There is no data.</td></tr>');
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="5">There is no data.</td></tr>');
                             }
                         });
                     },
@@ -558,7 +560,9 @@
                                 obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), 0);
                                 obj["PRO_PRICE"]  = Number(proPrice).toFixed(2);
                                 obj["STOCK_AMT"] = wegarden.comm.null2Void($(this).find('input.STOCK_AMT').val(), 0);
-                                inRec.push(obj);
+                                if(proPrice != "0" || $(this).find('input.STOCK_AMT').val() != "0"){
+                                    inRec.push(obj);
+                                }
                             });
                             input["IN_REC"] = inRec;
                             _thisPage.saveStockAmt(input, this);

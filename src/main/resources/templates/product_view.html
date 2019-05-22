@@ -95,7 +95,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_quantity" class="control-label">Quantity<span style="opacity: 0.4;">/perbox</span></label>
-                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity">
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product quantity">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -214,9 +214,8 @@
             <!-- ============================================================== -->
             <!--<th:block layout:fragment="myscript">-->
             <script type="text/javascript">
-                var _page_no = 1;
-                var CATEGORY_REC_ = {};
-                var imageSrc_ = ""
+                var imageSrc_ = "";
+                var categoryrec_ = [];
                 $(function(){
                     _thisPage.onload();
                 });
@@ -227,12 +226,10 @@
                         _this.event();
                         _this.getCategoryList();
                         fnSearch();
-                        wegarden.comm.checkAllTblChk("btSelectAll", "tbl_stock", "bs-checkbox");
-
+                        console.log("cat length:: "+categoryrec_)
                     },
                     fillTable : function (input) {
                         if(!input) input = {};
-
                         input["SRCH_WD"] = $("#srch_wd").val().toString().trim();
 
                         $.ajax({
@@ -248,11 +245,21 @@
                                 $(".bs-checkbox").show();
                                 $("#page_layer").show();
                                 $(".bs-checkbox").attr("checked", false);
-                                var strHtml = "", strCate = "", usr_image = "";
+                                var strHtml = "", usr_image = "", arrCate = [];
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i, v) {
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
+
+                                        console.log("length:: "+categoryrec_.length)
+                                        for(var i = 0; i < categoryrec_.length; i++){
+                                            console.log(1)
+                                            if(v.category_name == categoryrec_[i] && arrCate[i] != categoryrec_[i]){
+                                                console.log(2)
+                                                arrCate.push(categoryrec_[i]);
+                                                strHtml += '<tr  class="cat'+v.category_name+'" style="background-color: #f1f1f1;"><td style="border-left: none;font-style: italic;padding: 10px 12px !important;" colspan="6"><b>'+categoryrec_[i]+'</b></td></tr>';
+                                            }
+                                        }
 
                                         strHtml +='<tr data-uuid="'+v.product_uuid+'">';
                                         strHtml +='    <td class="user-image pro-image">';
@@ -267,6 +274,7 @@
                                         strHtml +='      <button type="button" class="btn btn-danger btn-xs" onclick=deleteProduct("'+v.product_uuid+'");><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
                                         strHtml +='    </td>';
                                         strHtml +='</tr>';
+
                                     });
                                     $("#table_result").append(strHtml);
                                 }else{
@@ -296,11 +304,13 @@
                             },
                             success : function (result) {
 
-                                CATEGORY_REC_ = result.DATA_REC;
                                 $("#pro_category").empty();
                                 var catHtml = "";
+                                console.log("category is called....")
+                                categoryrec_ = []
                                 $.each(result.DATA_REC, function (i,v) {
                                     catHtml += '<option data-uuid="'+v.uuid+'">'+wegarden.comm.null2Void(v.name)+'</option>';
+                                    categoryrec_.push(v.name);
                                 });
                                 $("#pro_category").html(catHtml);
 
