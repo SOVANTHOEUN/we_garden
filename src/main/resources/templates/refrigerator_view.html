@@ -178,11 +178,11 @@
                                                                                 <col style="width:40px;">
                                                                                 <col>
                                                                             </colgroup>
-                                                                            <thead>
+                                                                            <thead style="background-color: #788496">
                                                                             <tr>
-                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Items</div></th>
-                                                                                <th style=""><div class="th-inner ">Unit-Price</div></th>
-                                                                                <th style=""><div class="th-inner ">In-Stock</div></th>
+                                                                                <th colspan="2"><div class="th-inner" style="text-align: center;">Items</div></th>
+                                                                                <th><div class="th-inner ">Unit-Price</div></th>
+                                                                                <th><div class="th-inner ">In-Stock</div></th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody id="table_report-result">
@@ -419,7 +419,11 @@
                 }
 
                 _thisPage.onload = function(){
+                    top.$("#loading").show();
                     _thisPage.fillTable();
+                    setTimeout(function () {
+                        top.$("#loading").hide();
+                    }, 300);
 
                 };
 
@@ -439,7 +443,6 @@
                     });
                     input["IN_REC"] = inRec;
                     _thisPage.saveRefrigerator(input, this);
-                     notification();
 
                 });
 
@@ -456,7 +459,7 @@
                             "charset": "UTF-8"
                         },
                         success: function (result) {
-                            console.log(result.status);
+                            notification();
                             setTimeout(function () {
                                 $('.loading-stock').hide();
                                 _thisPage.onload();
@@ -626,7 +629,7 @@
 
 
                 function fnExcelReport(){
-                    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+                    var tab_text="<table border='2px' ><tr>";
                     var textRange; var j=0;
                     tab = document.getElementById('tbl_report'); // id of table
 
@@ -666,7 +669,7 @@
                     var input={"title":"Refrigerator In","message":"New Product has been added, please visit ទូទឹកកក😀😀😀"};
                     $.ajax({
                         type    : "POST",
-                        url     : "http://192.168.178.130:1234/notification/send_all",
+                        url     : "http://192.168.178.162:8080/wegarden/notification/send",
                         data    : JSON.stringify(input),
                         headers : {
                             "Content-Type"  : "application/json;",
