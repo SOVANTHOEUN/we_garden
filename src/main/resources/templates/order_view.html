@@ -364,7 +364,7 @@
                                 strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.department_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.team_name)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center" class="cashToPay">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;line-height: 40px;">';
                                 strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
                                 strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay"><i class="md md-settings-backup-restore" aria-hidden="true"></i></button>';
@@ -550,12 +550,12 @@
                     }
                 });
             },
-            notificationAlertPayment: function (input) {
+            notificationAlertPayment: function (input, moneyToPay) {
                 if(!input) input = {};
                 // input["user_uuid"] = input.user_uuid;
-                input["title"]          = "Hello";
-                input["message"]   = "Please purchase your ordering.\nThank You !";
-                console.log("alert payment:: ",input);
+                input["title"]          = "INFORMATION";
+                input["message"]   = "Please come and pay your order at GM Team! TOTAL PRICE "+moneyToPay+".\nThank You !";
+                console.log(input)
 
                 $.ajax({
                     type    : "POST",
@@ -718,7 +718,8 @@
                 $(document).on("click", ".btnAlertPay", function () {
                     var userUuid = {};
                     userUuid.user_uuid = $(this).closest("tr").data("uuid");
-                    _thisPage.notificationAlertPayment(userUuid);
+                    var moneyToPay = $(this).closest("tr").find("td.cashToPay").text();
+                    _thisPage.notificationAlertPayment(userUuid, moneyToPay);
                 });
             }
         }
