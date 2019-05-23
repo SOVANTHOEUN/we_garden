@@ -89,7 +89,8 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="pro_price" class="control-label">Unit Price</label>
-                                                                <input type="text" onkeydown="wegarden.comm.numberOnly(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
+                                                                <!--onkeydown="wegarden.comm.numberOnly(event)"-->
+                                                                <input type="text" class="form-control" id="pro_price" maxlength="4" placeholder="product price">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -470,7 +471,7 @@
                         });
 
                         $(document).on("keyup", "#pro_price", function (e) {
-                            $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
+                            // $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
                         });
 
                         $("#btnSaveProduct").click(function () {

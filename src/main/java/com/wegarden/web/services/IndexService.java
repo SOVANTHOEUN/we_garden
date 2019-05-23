@@ -1,5 +1,6 @@
 package com.wegarden.web.services;
 
+import com.wegarden.web.model.CountTotalIncome;
 import com.wegarden.web.model.order.Order;
 import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
@@ -11,4 +12,7 @@ public interface IndexService {
     Integer countEmployee(String type);
     Integer countStock();
     Integer countRefrigerator();
+
+    Double countTotalExpend();
+    List<CountTotalIncome> countTotalIncome();
 }

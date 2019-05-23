@@ -1,10 +1,7 @@
 package com.wegarden.web.repositories.impl;
 
-import com.wegarden.web.model.order.Order;
-import com.wegarden.web.model.order.OrderDetail;
-import com.wegarden.web.model.order.UserOrder;
+import com.wegarden.web.model.CountTotalIncome;
 import com.wegarden.web.repositories.IndexRepository;
-import com.wegarden.web.repositories.OrderRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -92,61 +89,13 @@ public class IndexRepositoryImpl implements IndexRepository {
     }
 
     @Override
-    public Integer countTeaTimeOrder() {
-        Integer countTeaTime = 0;
-
-        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_count_tea_time_order")
-                .registerStoredProcedureParameter("total_order", Integer.class, ParameterMode.OUT);
-        try{
-            countTeaTime = (Integer) storedProcedureQuery.getOutputParameterValue("total_order");
-        }catch (Exception e){
-            System.out.println("Error.....proned.");
-            e.printStackTrace();
-        }
-        entityManager.clear();
-        return countTeaTime;
-    }
-
-    @Override
-    public Integer countBronzeMasterOrder() {
-        Integer countBrozneMaster = 0;
-
-        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_count_bronze_master_order")
-                .registerStoredProcedureParameter("total_order", Integer.class, ParameterMode.OUT);
-        try{
-            countBrozneMaster = (Integer) storedProcedureQuery.getOutputParameterValue("total_order");
-        }catch (Exception e){
-            System.out.println("Error.....proned.");
-            e.printStackTrace();
-        }
-        entityManager.clear();
-        return countBrozneMaster;
-    }
-
-    @Override
-    public Integer countTotalIncome() {
-        Integer countTotalIncome = 0;
-
-        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_report_total_income")
-                .registerStoredProcedureParameter("total_expend", Integer.class, ParameterMode.OUT);
-        try{
-            countTotalIncome = (Integer) storedProcedureQuery.getOutputParameterValue("total_expend");
-        }catch (Exception e){
-            System.out.println("Error.....proned.");
-            e.printStackTrace();
-        }
-        entityManager.clear();
-        return countTotalIncome;
-    }
-
-    @Override
-    public Integer countTotalExpend() {
-        Integer countTotalExpend = 0;
+    public Double countTotalExpend() {
+        double countTotalExpend = 0;
 
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"stock\".fn_sum_total_expend")
-                .registerStoredProcedureParameter("total_expend", Integer.class, ParameterMode.OUT);
+                .registerStoredProcedureParameter("total_expend", Double.class, ParameterMode.OUT);
         try{
-            countTotalExpend = (Integer) storedProcedureQuery.getOutputParameterValue("total_expend");
+            countTotalExpend = (Double) storedProcedureQuery.getOutputParameterValue("total_expend");
         }catch (Exception e){
             System.out.println("Error.....proned.");
             e.printStackTrace();
@@ -155,5 +104,36 @@ public class IndexRepositoryImpl implements IndexRepository {
         return countTotalExpend;
     }
 
+    @Override
+    public List<CountTotalIncome> countTotalIncome() {
+        List<CountTotalIncome> countTotalIncomeData = new ArrayList<>();
+        CountTotalIncome countObj = new CountTotalIncome();
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"order\".fn_report_total_income")
+                .registerStoredProcedureParameter("credit_income", Double.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("cash_income", Double.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("debt_income", Double.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("bronze_master_income", Double.class, ParameterMode.OUT)
+                .registerStoredProcedureParameter("tea_time_income", Double.class, ParameterMode.OUT);
+        try{
+            double creditIncome                = (Double) storedProcedureQuery.getOutputParameterValue("credit_income");
+            double cashIncome                  = (Double) storedProcedureQuery.getOutputParameterValue("cash_income");
+            double debtIncome                  = (Double) storedProcedureQuery.getOutputParameterValue("debt_income");
+            double bronzeMasterIncome   = (Double) storedProcedureQuery.getOutputParameterValue("bronze_master_income");
+            double teaTimeIncome            = (Double) storedProcedureQuery.getOutputParameterValue("tea_time_income");
+            countObj.setCreditIncome(creditIncome);
+            countObj.setCashIncome(cashIncome);
+            countObj.setDebtIncome(debtIncome);
+            countObj.setBronzeMasterIncome(bronzeMasterIncome);
+            countObj.setTeaTimeIncome(teaTimeIncome);
+
+            countTotalIncomeData.add(countObj);
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return countTotalIncomeData;
+    }
 
 }

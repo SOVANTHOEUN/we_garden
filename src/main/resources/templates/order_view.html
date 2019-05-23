@@ -361,13 +361,13 @@
 
                                 strHtml += '<tr data-uuid="'+v.user_uuid+'">';
                                 strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
-                                strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
+                                strHtml += '    <td class="orderName" style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.department_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.team_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center" class="cashToPay">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;line-height: 40px;">';
                                 strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
-                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay"><i class="md md-settings-backup-restore" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay" onclick="fn_alertPayMsg(this)"><i class="md md-settings-backup-restore" aria-hidden="true"></i></button>';
                                 strHtml += '    </td>';
                                 strHtml += '</tr>';
 
@@ -722,6 +722,14 @@
                     _thisPage.notificationAlertPayment(userUuid, moneyToPay);
                 });
             }
+        }
+
+        function  fn_alertPayMsg(this_) {
+            var userName = $(this_).closest('tr').find('.orderName').text();
+            $.Notification.autoHideNotify(
+                'success',
+                'bottom right',
+                '<h4 style="font-style: italic;color: #fff;">Message has been reached to <b style="color: #0b0b0b">'+userName+'</b></h4>');
         }
 
         function isNumber(evt) {

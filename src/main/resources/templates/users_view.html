@@ -19,6 +19,8 @@
         .btn-topup{width: 100%;background-color: #b5f5ff !important;border: 1px solid #b5f5ff !important;color: #444 !important;font-weight: 900;height: 40px}
 
         .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
     </style>
 </head>
 <body>
@@ -372,7 +374,6 @@
                 saveTopupAmount : function (input) {
                     $("#loading").show();
 
-                    console.log(input);
                     $.ajax({
                         type    : "GET",
                         url       : "/users/user_update_balance",
@@ -382,12 +383,41 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
+                            swal({
+                                title: "Successful",
+                                text: "Your transaction has been topup successfully !",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                             _thisPage.fillTable();
+                            _thisPage.notificationTopUpMoney(input);
                             setTimeout(function () {
                                 $("#loading").hide();
                             }, 300);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                notificationTopUpMoney: function (input) {
+                    if(!input) input = {};
+                    input["user_uuid"] = input.USER_UUID;
+                    input["title"]          = "MOENY TOP UP";
+                    input["message"]   = "$"+input.TRANSACTION_AMOUNT+" has been topped up to your account !";
+                    console.log(input)
 
-
+                    $.ajax({
+                        type    : "POST",
+                        url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                        data    : JSON.stringify(input),
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            console.log("result:: "+result);
                         },
                         error: function (error) {
                             console.log(error);

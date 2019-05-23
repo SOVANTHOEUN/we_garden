@@ -1,5 +1,6 @@
 package com.wegarden.web.services.impl;
 
+import com.wegarden.web.model.CountTotalIncome;
 import com.wegarden.web.model.order.Order;
 import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
@@ -19,25 +20,32 @@ public class IndexServiceImpl implements IndexService {
     private IndexRepository indexRepository;
 
     @Override
-    public Integer countOrder(String type) {
+    public Integer countOrder(String type){
         return indexRepository.countOrder(type);
     }
 
     @Override
     public Integer countEmployee(String type) {
         return indexRepository.countEmployee(type);
-
     }
 
     @Override
     public Integer countStock() {
         return indexRepository.countStock();
-
     }
 
     @Override
     public Integer countRefrigerator() {
         return indexRepository.countRefrigerator();
+    }
 
+    @Override
+    public Double countTotalExpend() {
+        return indexRepository.countTotalExpend();
+    }
+
+    @Override
+    public List<CountTotalIncome> countTotalIncome() {
+        return indexRepository.countTotalIncome();
     }
 }

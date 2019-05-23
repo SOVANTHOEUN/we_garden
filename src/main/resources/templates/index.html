@@ -165,6 +165,11 @@
                         $("#txtCntEmployee").text(wegarden.comm.comma(result.COUNT_EMPLOYEE));
                         $("#txtCntStock").text(wegarden.comm.comma(result.COUNT_STOCK));
                         $("#txtCntRefrig").text(wegarden.comm.comma(result.COUNT_REFRIGERATOR));
+
+                        $("#txtCntPurchase").text(addCurrencySymbol(Number(result.TOTAL_EXPEND).toFixed(2)));
+                        $("#txtCntSale").text(addCurrencySymbol(Number(result.TOTAL_INCOME).toFixed(2)));
+                        $("#txtCntCoupon").text(addCurrencySymbol(Number(result.TOTAL_TEATIME_ORDER).toFixed(2)));
+                        $("#txtCntBronze").text(addCurrencySymbol(Number(result.TOTAL_BRONZEMASTER_ORDER).toFixed(2)));
                     },
                     error: function (error) {
                         console.log(error);

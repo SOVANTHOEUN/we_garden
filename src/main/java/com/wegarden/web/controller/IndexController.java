@@ -1,10 +1,7 @@
 package com.wegarden.web.controller;
 
-import com.wegarden.web.model.order.Order;
-import com.wegarden.web.model.order.OrderDetail;
-import com.wegarden.web.model.order.UserOrder;
+import com.wegarden.web.model.CountTotalIncome;
 import com.wegarden.web.services.IndexService;
-import com.wegarden.web.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,12 +28,29 @@ public class IndexController {
         int countEmployee    = indexService.countEmployee(type);
         int countStock           = indexService.countStock();
         int countRefrigerator = indexService.countRefrigerator();
-//        int countTeaTimeOrder = indexService.();
+
+        List<CountTotalIncome> totalIncomesObj = indexService.countTotalIncome();
+        double totalIncomes   = 0;
+        double totalTeaTimeOrder = totalIncomesObj.get(0).getTeaTimeIncome();
+        double bronzeMasterOrder  = totalIncomesObj.get(0).getBronzeMasterIncome();
+        double totalExpend     = indexService.countTotalExpend();
+
+        double creditIncome     = totalIncomesObj.get(0).getCreditIncome();
+        double cashIncome       = totalIncomesObj.get(0).getCashIncome();
+        totalIncomes                  = creditIncome + cashIncome;
+
+        System.out.println("creditIncome:: "+ creditIncome);
+        System.out.println("cashIncome:: "+ cashIncome);
 
         response.put("COUNT_ORDER", countOrder);
         response.put("COUNT_EMPLOYEE", countEmployee);
         response.put("COUNT_STOCK", countStock);
         response.put("COUNT_REFRIGERATOR", countRefrigerator);
+
+        response.put("TOTAL_EXPEND", totalExpend);
+        response.put("TOTAL_INCOME", totalIncomes);
+        response.put("TOTAL_TEATIME_ORDER", totalTeaTimeOrder);
+        response.put("TOTAL_BRONZEMASTER_ORDER", bronzeMasterOrder);
         return response;
     }
 
