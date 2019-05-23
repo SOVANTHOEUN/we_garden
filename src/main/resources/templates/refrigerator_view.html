@@ -26,7 +26,9 @@
             .edit-row{font-size: 0.8em;}
 
             .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
-
+            .bootstrap-table .table, .bootstrap-table .table > tbody > tr > td, .bootstrap-table .table > tbody > tr > th, .bootstrap-table .table > tfoot > tr > td, .bootstrap-table .table > tfoot > tr > th, .bootstrap-table .table > thead > tr > td {
+                padding: 8px 5px !important;
+            }
             /*.table-fixed tbody {*/
             /*height: 230px;*/
             /*overflow-y: auto;*/
@@ -156,8 +158,13 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <div class="bars pull-left" style="margin-top: 25px;">
+                                                             <a  style="color: black"  th:href="@{/refrigerator/download}">
                                                                 <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
-                                                                    <i class="fa fa-download m-r-5"></i>Excel</button>
+
+                                                                    <i class="fa fa-download m-r-5" id="download"></i>
+                                                                    Excel
+                                                                </button>
+                                                             </a>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
@@ -377,7 +384,7 @@
 
                                         html+='<tr id="tr_refrig" data-uuid="'+v.product_uuid+'" >';
                                         html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
-                                        html+='	<td style="line-height: 40px;border-left: none;"><a   >'+wegarden.comm.null2Void(v.product_name)+'</a></td>';
+                                        html+='	<td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
                                         html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.refrigerator_quantity)+'</td>';
                                         html+='	<td style="line-height: 40px;">';
@@ -424,16 +431,14 @@
                     setTimeout(function () {
                         top.$("#loading").hide();
                     }, 300);
-
                 };
 
                 $(document).on("click", "#btnSaveRefrigerator", function () {
                     var input = {};
                     var inRec = [];
-
                     $("#table_result tr").each(function (i, v) {
                         var obj = {};
-                        obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), '');
+                        obj["PRO_UUID"]  = wegarden.comm.null2Void($(this).data('uuid'), '');
                         obj["REFRI_AMT"] = parseFloat(wegarden.comm.null2Void($(this).find('input.REFRI_AMT').val(), 0));
 
                         if (obj.REFRI_AMT!=0){
@@ -626,52 +631,11 @@
                         }
                 };
 
-
-                function fnExcelReport(){
-                    var tab_text="<table border='2px' ><tr>";
-                    var textRange; var j=0;
-
-                    tab = document.getElementById('tbl_report'); // id of table
-                    $(tab).find('th').css({'background-color':'#87AFC6'});
-
-                    for(j = 0 ; j < tab.rows.length ; j++)
-                    {
-                        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-                        //tab_text=tab_text+"</tr>";
-                    }
-
-                    tab_text=tab_text+"</table>";
-                     tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-                    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-                    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-                    // tab_text= tab_text.find(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-
-                    var ua = window.navigator.userAgent;
-                    var msie = ua.indexOf("MSIE ");
-
-                    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-                    {
-                        txtArea1.document.open("txt/html","replace");
-                        txtArea1.document.write(tab_text);
-                        txtArea1.document.close();
-                        txtArea1.focus();
-                        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
-                    }
-                    else                 //other browser not tested on IE 11
-                        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-
-                    return (sa);
-                }
-
-                $("#btnDownloadExcel").on("click",function () {
-                    fnExcelReport();
-                });
-
                 function notification() {
                     var input={"title":"ITEM ADDED","message":"WeGarden has been added new item!"};
                     $.ajax({
                         type    : "POST",
-                        url     : "http://192.168.178.162:8080/wegarden/notification/send",
+                        url     : "http://192.168.178.162:8080/wegarden/notification/send_all",
                         data    : JSON.stringify(input),
                         headers : {
                             "Content-Type"  : "application/json;",

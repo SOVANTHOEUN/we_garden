@@ -136,4 +136,20 @@ public class Refrigerator {
     public void setStockInQuantity(Integer stockInQuantity) {
         this.stockInQuantity = stockInQuantity;
     }
+
+    @Override
+    public String toString() {
+        return "Refrigerator{" +
+                "productUuid='" + productUuid + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productImageName='" + productImageName + '\'' +
+                ", productStatus='" + productStatus + '\'' +
+                ", categoryUuid='" + categoryUuid + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryRemark='" + categoryRemark + '\'' +
+                ", categoryStatus='" + categoryStatus + '\'' +
+                ", stockInQuantity=" + stockInQuantity +
+                '}';
+    }
 }
