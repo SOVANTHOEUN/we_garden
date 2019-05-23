@@ -1,11 +1,16 @@
 package com.wegarden.web.controller;
 
+import com.wegarden.web.model.stock.DownloadRefrig;
+import com.wegarden.web.model.stock.ExcelGenerator;
 import com.wegarden.web.model.stock.Refrigerator;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.userData.User;
 import com.wegarden.web.services.RefrigeratorService;
 import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +30,9 @@ import java.util.Map;
 public class RefrigeratorController {
     @Autowired
     private RefrigeratorService refrigeratorService;
+
+    String startDate;
+    String endDate;
 
     @RequestMapping("/index")
     public String home() {
@@ -65,18 +75,51 @@ public class RefrigeratorController {
         return response;
     }
 
+
     @RequestMapping("/get_report_refrigerator_list")
     @ResponseBody
     public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate) {
         Map<String, Object> response = new HashMap<>();
         System.out.println("sDate::: " + sDate);
         System.out.println("eDate::: " + eDate);
+        startDate=sDate;
+        endDate=eDate;
 
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
     }
 
+    @GetMapping(value = "/download")
+    public ResponseEntity<InputStreamResource> excelCustomersReport () throws IOException {
 
+        List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(startDate, endDate);
+
+        DownloadRefrig downloadRefrig = null;
+        List<DownloadRefrig> list = new ArrayList<>();
+
+
+        for (int i=0;i<userList.size();i++){
+            downloadRefrig = new DownloadRefrig();
+            downloadRefrig.setItem(userList.get(i).productName.toString());
+            downloadRefrig.setPrice("$"+userList.get(i).productPrice.toString());
+            downloadRefrig.setInStock(userList.get(i).stockInQuantity.toString());
+
+            System.out.println(downloadRefrig);
+            list.add(downloadRefrig);
+
+        }
+
+        ByteArrayInputStream in = ExcelGenerator.customersToExcel(list);
+        // return IOUtils.toByteArray(in);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=refrigerator.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new InputStreamResource(in));
+    }
 
 }
