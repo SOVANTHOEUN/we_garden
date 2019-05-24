@@ -331,7 +331,6 @@
 
                 function validateBorderInputColor(validate, callback) {
                     var hasEmptyTextbox = false;
-
                     $('input').each(function () {
                         if (validate) {
                             if ($.trim($(this).val()) == "" && $(this).prop('required')) {
@@ -350,10 +349,8 @@
                     }
                 }
 
-
                 _thisPage.fillTable =function (input) {
                     if (!input) input = {};
-
                     $.ajax({
                         type    : "GET",
                         url     : "/refrigerator/get_refrigerator_list",
@@ -370,7 +367,7 @@
                                     if(v.stock_quantity!=0 || v.refrigerator_quantity!=0){
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
-                                        html+='<tr id="tr_refrig" data-uuid="'+v.product_uuid+'" >';
+                                        html+='<tr class="tr_refrig" data-uuid="'+v.product_uuid+'" >';
                                         html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
                                         html+='	<td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
                                         html+='	<td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
@@ -407,10 +404,8 @@
                     var newStock  = 0;
                     var addNewQty = wegarden.comm.null2Void($(this_).val().trim(), 0);
                     var oldQty    =parseInt(wegarden.comm.null2Void($(this_).closest("td").prev().text(), 0));
-
                      newStock  =  parseInt(addNewQty)+ parseInt(oldQty);
                     $(this_).closest("td").next().text(newStock);
-
                 }
 
                 _thisPage.onload = function(){
@@ -479,6 +474,13 @@
                     open_popup(input);
                 });
 
+                $(document).on("click", ".tr_refrig", function () {
+                    var input = {};
+                    input["STATUS"] = "P";
+                    input["PRO_UUID"] = $(this).closest("tr").data("uuid");
+                    open_popup(input);
+                });
+
                 $(document).on("change", "#eDate input", function () {
                     _thisPage.fillRefrigeratorBetweenDate();
                 });
@@ -509,7 +511,6 @@
                 _thisPage.searchProductRow =function (input) {
                     if(!input) input = {};
                     input["PRO_UUID"] = input.PRO_UUID;
-
                     $.ajax({
                         type    : "GET",
                         url       : "/product/get_product_list",
@@ -637,6 +638,13 @@
                         }
                     });
                 }
+
+                    $(document).on("keyup",function (e) {
+                        if (e.key === "Escape") {
+                            $(".close").trigger("click");
+                        }
+
+                    });
 
 
             </script>

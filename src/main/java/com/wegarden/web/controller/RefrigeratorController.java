@@ -28,7 +28,6 @@ public class RefrigeratorController {
 
     @RequestMapping("/index")
     public String home() {
-        System.out.println("refrigerator is called...");
         return "refrigerator_view";
     }
 
@@ -50,8 +49,6 @@ public class RefrigeratorController {
         String actionCode = "";
 
         for (int i = 0; i < arrIn.size(); i++) {
-
-            System.out.println( "hththth"+arrIn.size());
             HashMap objItem = (HashMap) arrIn.get(i);
             String proUuid = (String) objItem.get("PRO_UUID");
             Integer stockAmt = (Integer) objItem.get("REFRI_AMT");
@@ -72,11 +69,8 @@ public class RefrigeratorController {
     @ResponseBody
     public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate) {
         Map<String, Object> response = new HashMap<>();
-        System.out.println("sDate::: " + sDate);
-        System.out.println("eDate::: " + eDate);
         startDate=sDate;
         endDate=eDate;
-
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
@@ -89,7 +83,6 @@ public class RefrigeratorController {
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(startDate, endDate);
         String[] header             = {"ITEMS", "UNIT-PRICE", "IN-STOCK"};
         List<String[]> list         = new ArrayList<>();
-
         for (int i = 0;i < userList.size();i++){
             String[] arr = {
                     userList.get(i).productName.toString(),
@@ -97,10 +90,8 @@ public class RefrigeratorController {
                     userList.get(i).stockInQuantity.toString()};
             list.add(arr);
         }
-
         ByteArrayInputStream in = ExcelGenerator.customersToExcel(list,header);
         // return IOUtils.toByteArray(in);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=Report_WeGaden_in.xlsx");
         return ResponseEntity

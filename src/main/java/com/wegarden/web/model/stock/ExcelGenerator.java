@@ -13,7 +13,6 @@ import java.util.*;
 public class ExcelGenerator {
 
     public static ByteArrayInputStream customersToExcel(List<String[]> list, String[] header) throws IOException {
-        //String[] header = {"ITEMS", "UNIT-PRICE", "IN-STOCK"};
         try(
                 Workbook workbook = new XSSFWorkbook();
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
