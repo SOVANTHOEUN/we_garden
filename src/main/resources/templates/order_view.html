@@ -16,8 +16,27 @@
         .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
         .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
         .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
-
         .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+
+        .modal-custom {display: none;position: fixed;z-index: 9999999;padding-top: 75px;left: 0;top: 0;width: 100%;height: 100%;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.3); }
+        /* Modal Content (image) */
+        .modal-content-custom { margin: auto;display: block;width: 100%;max-width: 700px;height: 95%; }
+        /* Caption of Modal Image */
+        #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
+        /* Add Animation */
+        .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
+        .close-custom { position: absolute;top: 65px;right: 460px;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
     </style>
 </head>
 <body>
@@ -128,7 +147,7 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Credit</div></th>
-                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Debit</div></th>
+                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Cash</div></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbl_report_result">
@@ -202,7 +221,6 @@
                                                                             </td>
                                                                         </tr>-->
                                                                     </tbody>
-
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -281,8 +299,8 @@
                                         <table data-toggle="" class="table table-bordered" id="tbl_order">
                                             <colgroup>
                                                 <col style="width:10px;">
-                                                <col style="width:290px;">
-                                                <col style="width:40px;">
+                                                <col style="width:210px;">
+                                                <col style="width:80px;">
                                                 <col style="width:200px;">
                                                 <col style="width:20px;">
                                                 <col style="width:50px">
@@ -313,6 +331,17 @@
                                                 <div class="loader-1"></div>
                                             </div>
                                         </table>
+                                    </div>
+                                    <div class="fixed-table-pagination" style="display: block;">
+                                        <div class="pull-right search" style="display: inline-flex;">
+                                            <button id="btnSendAll" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="icon-bell"></i> Send All</button>
+                                        </div>
+                                    </div>
+                                    <!-- The Modal -->
+                                    <div id="myModalShowImg" class="modal-custom">
+                                        <span class="close-custom">&times;</span>
+                                        <img class="modal-content-custom img-responsive img-thumbnail" id="img01" />
+                                        <div id="caption"></div>
                                     </div>
                                 </div>
                             </div>
@@ -359,15 +388,15 @@
                             $.each(result.DATA_REC, function (i, v) {
                                 usr_image = wegarden.comm.isEmpty(v.user_image) ? "/images/default_user.png" : _imageApiUrl +wegarden.comm.null2Void(v.user_image, '');
 
-                                strHtml += '<tr data-uuid="'+v.user_uuid+'">';
-                                strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                strHtml += '<tr data-uuid="'+v.user_uuid+'" class="userOrder">';
+                                strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
                                 strHtml += '    <td class="orderName" style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.department_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.team_name)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center" class="cashToPay">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
                                 strHtml += '    <td style="text-align: center;line-height: 40px;">';
                                 strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
-                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay" onclick="fn_alertPayMsg(this)"><i class="md md-settings-backup-restore" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay" onclick="fn_alertPayMsg(this, false)"><i class="icon-bell" aria-hidden="true"></i></button>';
                                 strHtml += '    </td>';
                                 strHtml += '</tr>';
 
@@ -543,7 +572,7 @@
                         "charset"       : "UTF-8"
                     },
                     success: function (result) {
-                        console.log("result:: "+result);
+                        // console.log("result:: "+result);
                     },
                     error: function (error) {
                         console.log(error);
@@ -555,7 +584,6 @@
                 // input["user_uuid"] = input.user_uuid;
                 input["title"]          = "INFORMATION";
                 input["message"]   = "Please come and pay your order at GM Team! TOTAL PRICE "+moneyToPay+".\nThank You !";
-                console.log(input)
 
                 $.ajax({
                     type    : "POST",
@@ -566,7 +594,7 @@
                         "charset"       : "UTF-8"
                     },
                     success: function (result) {
-                        console.log("result:: "+result);
+                        // console.log("result:: "+result);
                     },
                     error: function (error) {
                         console.log(error);
@@ -599,13 +627,13 @@
                                 strHtml += '<tr data-row="'+v.product_uuid+'">';
                                 strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px"></td>';
                                 strHtml += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(v.product_price)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.tea_time_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.credit_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.debit_quantity)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(Number(v.product_price) * Number(v.order_quantity))+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol((Number(v.product_price) * Number(v.order_quantity)).toFixed(2))+'</td>';
                                 strHtml += '</tr>';
 
                                 brownTotal     += Number(v.bronze_master_quantity) * Number(v.product_price);
@@ -635,14 +663,12 @@
                         }
                     },
                     error: function (error) {
-                        $('.loading-stock-out').hide();
                         console.log(error);
+                        $('.loading-stock-out').hide();
                     }
                 });
             },
             downloadExcelstockReportOut: function (input) {
-                console.log("download.....");
-
                 if(!input) input = {};
                 $("#loading").show();
 
@@ -656,7 +682,6 @@
                     },
                     error: function (error) {
                         $("#loading").hide();
-                        console.log("error");
                         console.log(error);
                     }
                 });
@@ -672,6 +697,17 @@
                     _thisPage.downloadExcelstockReportOut();
                 });
 
+                $("#btnSendAll").click(function () {
+                    $("#table_result tr.userOrder").each(function (i, v) {
+                        var obj = {};
+                        var debtPrice          =  Number($(this).find('td.cashToPay').text().replace('$', ''));
+                        obj["user_uuid"]    = wegarden.comm.null2Void($(this).data('uuid'), 0);
+
+                        _thisPage.notificationAlertPayment(obj, debtPrice);
+                    });
+                    fn_alertPayMsg(this,true);
+                });
+
                 $(document).on("click", ".btnUserOrder", function () {
                     var input = {};
                     _userUuidPay           = $(this).closest("tr").data("uuid");
@@ -679,9 +715,25 @@
                     open_popup(input);
                 });
 
+                $(document).on("dblclick", "#table_result tr.userOrder", function () {
+                    var input = {};
+                    _userUuidPay           = $(this).data("uuid");
+                    input["USER_UUID"] = $(this).data("uuid");
+                    open_popup(input);
+                });
+
                 $(document).on("click", ".btnOrderDetail", function () {
                     var input = {};
                     var orderUuid = $(this).closest("tr").data("uuid");
+                    input["ORDER_UUID"] = orderUuid;
+
+                    $("#con-close-modal").css("opacity","0.3");
+                    open_popup_prodetail(input)
+                });
+
+                $(document).on("dblclick", "#table_order tr.order_row", function () {
+                    var input = {};
+                    var orderUuid = $(this).data("uuid");
                     input["ORDER_UUID"] = orderUuid;
 
                     $("#con-close-modal").css("opacity","0.3");
@@ -721,11 +773,49 @@
                     var moneyToPay = $(this).closest("tr").find("td.cashToPay").text();
                     _thisPage.notificationAlertPayment(userUuid, moneyToPay);
                 });
+
+                $(document).keydown(function(e) {
+                    if (e.keyCode === 27) {
+                        if($("#con-close-modal-2").is(":visible")){
+                            $("#con-close-modal").css("opacity","unset");
+                            $('#con-close-modal-2').modal('hide');
+                        }else{
+                            $("#con-close-modal").css("opacity","unset");
+                            $('#con-close-modal').modal('hide');
+                        }
+                        $('#con-close-modal-0').modal('hide');
+                        $('#myModalShowImg').hide();
+                    }
+                });
+
+                $(document).on("click", ".orderUsrImage", function () {
+                    // Get the modal
+                    var modal = document.getElementById("myModalShowImg");
+
+                    // Get the image and insert it inside the modal - use its "alt" text as a caption
+                    var img             = document.getElementById("myImg");
+                    var modalImg   = document.getElementById("img01");
+                    var captionText = document.getElementById("caption");
+                    if(this.src.indexOf("default_user.png") != -1) return;
+
+                    modal.style.display = "block";
+                    modalImg.src            = this.src;
+                    captionText.innerHTML = this.alt;
+                });
+
+                $(document).on("click", ".close-custom", function () {
+                    $("#myModalShowImg").hide();
+                });
+
             }
         }
 
-        function  fn_alertPayMsg(this_) {
-            var userName = $(this_).closest('tr').find('.orderName').text();
+        function  fn_alertPayMsg(this_,isAll) {
+            if(!isAll){
+                var userName = $(this_).closest('tr').find('.orderName').text();
+            }else{
+                var userName = "All Customer";
+            }
             $.Notification.autoHideNotify(
                 'success',
                 'bottom right',
@@ -752,12 +842,20 @@
 
         function open_popup_prodetail(input_){
             if(!input_) input_ = {};
+            $('#con-close-modal-2').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
             $('#con-close-modal-2').modal('show');
             _thisPage.fillOrderDetail(input_);
         }
 
         function open_popup(input_){
             if(!input_) input_ = {};
+            $('#con-close-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
             $('#con-close-modal').modal('show');
             _thisPage.searchUserOrderRow(input_);
         }
@@ -775,7 +873,7 @@
             var firstDay = new Date(today.getFullYear(), today.getMonth());
             var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
             var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
-            var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+            var endDate   = (lastDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
 
             $("#sDate input").val(startDate);
             $("#eDate input").val(endDate);

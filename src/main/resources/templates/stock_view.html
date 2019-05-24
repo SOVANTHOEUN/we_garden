@@ -326,7 +326,7 @@
                                         proPrice = v.product_price * v.stock_quantity;
                                         totalPrice += proPrice;
 
-                                        strHtml += '<tr data-uuid="'+v.product_uuid+'">';
+                                        strHtml += '<tr data-uuid="'+v.product_uuid+'" class="proView">';
                                         strHtml += '    <td class="user-image" style="width: 10px;border-right: none;">';
                                         strHtml += '    	<img src="'+usr_image+'" alt="image" class="img-circle" width="40px" height="40px" /></td>';
                                         strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
@@ -543,6 +543,13 @@
                             open_popup(input);
                         });
 
+                        $(document).on("dblclick", "#table_result tr.proView", function () {
+                            var input = {};
+                            input["STATUS"] = "P";
+                            input["PRO_UUID"] = $(this).data("uuid");
+                            open_popup(input);
+                        });
+
                         $("#btnReportStockOut").click(function () {
                             var input = {};
                             input["STATUS"] = "RO";
@@ -584,6 +591,12 @@
                         $(document).on("keyup", ".STOCK_AMT", function (e) {
                             calculateProductPrice(this);
                             $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
+                        });
+
+                        $(document).keydown(function(e) {
+                            if (e.keyCode === 27) {
+                                $('#con-close-modal').modal('hide');
+                            }
                         });
 
                     }

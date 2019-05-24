@@ -262,7 +262,7 @@
                                             }
                                         }
 
-                                        strHtml +='<tr data-uuid="'+v.product_uuid+'">';
+                                        strHtml +='<tr data-uuid="'+v.product_uuid+'" ondblclick=editProduct("'+v.product_uuid+'")>';
                                         strHtml +='    <td class="user-image pro-image">';
                                         strHtml +='    	<img src="'+_imageApiUrl+usr_image+'" alt="item-img" class="img-circle" width="40px" height="40px" />';
                                         strHtml +='    </td>';
@@ -472,6 +472,12 @@
 
                         $(document).on("keyup", "#pro_price", function (e) {
                             // $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
+                        });
+
+                        $(document).keydown(function(e) {
+                            if (e.keyCode === 27) {
+                                $('#con-close-modal').modal('hide');
+                            }
                         });
 
                         $("#btnSaveProduct").click(function () {

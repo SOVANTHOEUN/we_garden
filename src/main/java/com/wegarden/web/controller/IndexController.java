@@ -39,9 +39,6 @@ public class IndexController {
         double cashIncome       = totalIncomesObj.get(0).getCashIncome();
         totalIncomes                  = creditIncome + cashIncome;
 
-        System.out.println("creditIncome:: "+ creditIncome);
-        System.out.println("cashIncome:: "+ cashIncome);
-
         response.put("COUNT_ORDER", countOrder);
         response.put("COUNT_EMPLOYEE", countEmployee);
         response.put("COUNT_STOCK", countStock);

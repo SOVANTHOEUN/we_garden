@@ -21,6 +21,27 @@
         .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
         .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
         .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        #table_result tr.userRow{ cursor: pointer; }
+
+        .modal-custom {display: none;position: fixed;z-index: 9999999;padding-top: 75px;left: -80px;top: 0;width: 100%;height: 100%;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.3); }
+        /* Modal Content (image) */
+        .modal-content-custom { margin: auto;display: block;width: 100%;max-width: 700px;height: 95%; }
+        /* Caption of Modal Image */
+        #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
+        /* Add Animation */
+        .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
+        .close-custom { position: absolute;top: 65px;right: 460px;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
     </style>
 </head>
 <body>
@@ -237,6 +258,11 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div id="myModalShowImg" class="modal-custom">
+                                        <span class="close-custom">&times;</span>
+                                        <img class="modal-content-custom img-responsive img-thumbnail" id="img01" />
+                                        <div id="caption"></div>
+                                    </div>
                                     <div class="fixed-table-pagination">
                                         <div class="pull-left pagination-detail" id="page_layer">
                                             <!--<span class="pagination-info" id="pagination-info">Showing 1 to 10 of 16 rows</span>-->
@@ -302,7 +328,6 @@
                 fillTable : function (input) {
                     $("#loading").show();
                     if(!input) input = {};
-                    console.log(input)
                     if(!input["PAGE_NO"]){
                         var page_no = 1
                     }else{
@@ -313,7 +338,6 @@
                     input["LIMIT"]       = page_size;
                     input["SRCH_WD"] = $("#srch_wd").val().trim();
 
-                    console.log(input);
                     $.ajax({
                         type    : "GET",
                         url       : "/users/get_user_list",
@@ -329,15 +353,14 @@
                             $(".bs-checkbox").attr("checked", false);
                             var strHtml = "", usr_image = "";
 
-
                             if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                 $.each(result.DATA_REC, function (i, v) {
                                     usr_image = wegarden.comm.isEmpty(v.user_image) ? "/images/default_user.png" : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
 
-                                    strHtml += '<tr data-index="'+(i+1)+'">';
+                                    strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.user_uuid+'"); class="userRow">';
                                     strHtml += '    <td class="bs-checkbox" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
                                     strHtml += '    <td class="user-image" style="width: 10px;border-right: none; ">';
-                                    strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                    strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
                                     strHtml += '    <td style="border-left: none;"><a href="#" class="btn-link">#########</a></td>';
                                     strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
                                     // strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_gender, '')+'</td>';
@@ -494,6 +517,31 @@
                         _thisPage.saveTopupAmount(input);
                     });
 
+                    $(document).keydown(function(e) {
+                        if (e.keyCode === 27) {
+                            $('#con-close-modal').modal('hide');
+                            $("#myModalShowImg").hide();
+                        }
+                    });
+
+                    $(document).on("click", ".orderUsrImage", function () {
+                        // Get the modal
+                        var modal = document.getElementById("myModalShowImg");
+
+                        // Get the image and insert it inside the modal - use its "alt" text as a caption
+                        var img             = document.getElementById("myImg");
+                        var modalImg   = document.getElementById("img01");
+                        var captionText = document.getElementById("caption");
+                        if(this.src.indexOf("default_user.png") != -1) return;
+
+                        modal.style.display = "block";
+                        modalImg.src            = this.src;
+                        captionText.innerHTML = this.alt;
+                    });
+
+                    $(document).on("click", ".close-custom", function () {
+                        $("#myModalShowImg").hide();
+                    });
 
                 }
             }
