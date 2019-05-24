@@ -1,29 +1,21 @@
 package com.wegarden.web.controller;
 
-import com.wegarden.web.model.stock.DownloadRefrig;
 import com.wegarden.web.model.stock.ExcelGenerator;
 import com.wegarden.web.model.stock.Refrigerator;
-import com.wegarden.web.model.stock.Stock;
-import com.wegarden.web.model.userData.User;
 import com.wegarden.web.services.RefrigeratorService;
-import com.wegarden.web.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Method;
+import java.sql.Array;
+import java.util.*;
+import java.util.function.Function;
 
 @Controller
 @RequestMapping("/refrigerator")
@@ -36,7 +28,6 @@ public class RefrigeratorController {
 
     @RequestMapping("/index")
     public String home() {
-        System.out.println("refrigerator is called...");
         return "refrigerator_view";
     }
 
@@ -58,8 +49,6 @@ public class RefrigeratorController {
         String actionCode = "";
 
         for (int i = 0; i < arrIn.size(); i++) {
-
-            System.out.println( "hththth"+arrIn.size());
             HashMap objItem = (HashMap) arrIn.get(i);
             String proUuid = (String) objItem.get("PRO_UUID");
             Integer stockAmt = (Integer) objItem.get("REFRI_AMT");
@@ -80,42 +69,31 @@ public class RefrigeratorController {
     @ResponseBody
     public Map<String, Object> getReportStockList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate) {
         Map<String, Object> response = new HashMap<>();
-        System.out.println("sDate::: " + sDate);
-        System.out.println("eDate::: " + eDate);
         startDate=sDate;
         endDate=eDate;
-
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
     }
 
+
+
     @GetMapping(value = "/download")
     public ResponseEntity<InputStreamResource> excelCustomersReport () throws IOException {
-
         List<Refrigerator> userList = refrigeratorService.getReportRefrigerator(startDate, endDate);
-
-        DownloadRefrig downloadRefrig = null;
-        List<DownloadRefrig> list = new ArrayList<>();
-
-
-        for (int i=0;i<userList.size();i++){
-            downloadRefrig = new DownloadRefrig();
-            downloadRefrig.setItem(userList.get(i).productName.toString());
-            downloadRefrig.setPrice("$"+userList.get(i).productPrice.toString());
-            downloadRefrig.setInStock(userList.get(i).stockInQuantity.toString());
-
-            System.out.println(downloadRefrig);
-            list.add(downloadRefrig);
-
+        String[] header             = {"ITEMS", "UNIT-PRICE", "IN-STOCK"};
+        List<String[]> list         = new ArrayList<>();
+        for (int i = 0;i < userList.size();i++){
+            String[] arr = {
+                    userList.get(i).productName.toString(),
+                    "$"+userList.get(i).productPrice.toString(),
+                    userList.get(i).stockInQuantity.toString()};
+            list.add(arr);
         }
-
-        ByteArrayInputStream in = ExcelGenerator.customersToExcel(list);
+        ByteArrayInputStream in = ExcelGenerator.customersToExcel(list,header);
         // return IOUtils.toByteArray(in);
-
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=refrigerator.xlsx");
-
+        headers.add("Content-Disposition", "attachment; filename=Report_WeGaden_in.xlsx");
         return ResponseEntity
                 .ok()
                 .headers(headers)

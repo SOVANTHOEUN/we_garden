@@ -137,18 +137,18 @@ public class Refrigerator {
         this.stockInQuantity = stockInQuantity;
     }
 
+
+    public Refrigerator(String productName, Double productPrice, Integer stockInQuantity) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.stockInQuantity = stockInQuantity;
+    }
+
     @Override
     public String toString() {
         return "Refrigerator{" +
-                "productUuid='" + productUuid + '\'' +
-                ", productName='" + productName + '\'' +
+                "productName='" + productName + '\'' +
                 ", productPrice=" + productPrice +
-                ", productImageName='" + productImageName + '\'' +
-                ", productStatus='" + productStatus + '\'' +
-                ", categoryUuid='" + categoryUuid + '\'' +
-                ", categoryName='" + categoryName + '\'' +
-                ", categoryRemark='" + categoryRemark + '\'' +
-                ", categoryStatus='" + categoryStatus + '\'' +
                 ", stockInQuantity=" + stockInQuantity +
                 '}';
     }
