@@ -21,7 +21,6 @@ public class ProductController {
 
     @RequestMapping("/index")
     public String home(){
-        System.out.println("product is called...");
         return "product_view";
     }
 

@@ -227,7 +227,6 @@
                         _this.event();
                         _this.getCategoryList();
                         fnSearch();
-                        console.log("cat length:: "+categoryrec_)
                     },
                     fillTable : function (input) {
                         if(!input) input = {};
@@ -252,11 +251,8 @@
                                     $.each(result.DATA_REC, function (i, v) {
                                         usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
 
-                                        console.log("length:: "+categoryrec_.length)
                                         for(var i = 0; i < categoryrec_.length; i++){
-                                            console.log(1)
                                             if(v.category_name == categoryrec_[i] && arrCate[i] != categoryrec_[i]){
-                                                console.log(2)
                                                 arrCate.push(categoryrec_[i]);
                                                 strHtml += '<tr  class="cat'+v.category_name+'" style="background-color: #f1f1f1;"><td style="border-left: none;font-style: italic;padding: 10px 12px !important;" colspan="6"><b>'+categoryrec_[i]+'</b></td></tr>';
                                             }
@@ -307,7 +303,6 @@
 
                                 $("#pro_category").empty();
                                 var catHtml = "";
-                                console.log("category is called....")
                                 categoryrec_ = []
                                 $.each(result.DATA_REC, function (i,v) {
                                     catHtml += '<option data-uuid="'+v.uuid+'">'+wegarden.comm.null2Void(v.name)+'</option>';
@@ -336,7 +331,6 @@
                         var requestUrl = "";
                         var saveStatus = $("#txtSave").data("status");
                         (saveStatus == "U" ? requestUrl = "/product/update_product_data" : requestUrl = "/product/save_product_data");
-                        console.log(input);
 
                         $.ajax({
                             type    : "GET",
@@ -394,7 +388,6 @@
                     fn_delete_product : function (input) {
                         if(!input) input = {};
                         input["PRO_UUID"] = input.PRO_UUID;
-                        console.log(input)
 
                         $.ajax({
                             type    : "GET",

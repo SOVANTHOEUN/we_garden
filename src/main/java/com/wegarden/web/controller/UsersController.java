@@ -20,7 +20,6 @@ public class UsersController {
 
     @RequestMapping("/select")
     public String home(){
-        System.out.println("users is called");
         return "users_view";
     }
 
@@ -32,7 +31,6 @@ public class UsersController {
         String status       = ""; // get from view soon
         List<User> userList = usersService.getUsersList(limit, page_no, srch_wd, userUuid);
 
-        System.out.println("limit: "+limit+" & page: "+page_no);
         response.put("DATA_REC", userList);
         response.put("CNT_REC", usersService.countUsers(userUuid, srch_wd, status));
         return response;

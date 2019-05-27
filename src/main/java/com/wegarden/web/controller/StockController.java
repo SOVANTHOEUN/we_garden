@@ -25,7 +25,6 @@ public class StockController {
 
     @RequestMapping("/index")
     public String home(){
-        System.out.println("stock is called...");
         return "stock_view";
     }
 
@@ -35,7 +34,6 @@ public class StockController {
         Map<String, Object> response = new HashMap<>();
         String status       = "1"; // get from view
         List<Stock> userList = stockService.getStockList(srch_wd, status, pro_uuid);
-        System.out.println("stock list is called...");
         response.put("DATA_REC", userList);
         return response;
     }

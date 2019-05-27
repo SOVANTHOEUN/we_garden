@@ -443,7 +443,6 @@
 
                         if (obj.REFRI_AMT!=0){
                             inRec.push(obj);
-                            console.log(inRec);
                         }
                     });
                     input["IN_REC"] = inRec;
@@ -454,7 +453,6 @@
                _thisPage.saveRefrigerator=function (input, this_) {
                     if (!input) input = {};
                     $('.loading-stock').show();
-                    console.log(input);
                     $.ajax({
                         type: "POST",
                         url: "/refrigerator/refrigerator_save",
@@ -655,7 +653,7 @@
                             "charset"       : "UTF-8"
                         },
                         success: function (result) {
-                            console.log("it's done")
+                            console.log("result:: "+result);
                         },
                         error: function (error) {
                             console.log(error.message);

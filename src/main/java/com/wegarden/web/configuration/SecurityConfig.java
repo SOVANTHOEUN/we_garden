@@ -32,7 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Appl
                  .anyRequest().authenticated()
                  .and()
                 .formLogin()
-                .loginPage("/login");
+                .loginPage("/login")
+                .and()
+                .rememberMe()
+                .key("rem-me-key")
+                .rememberMeParameter("remember")
+                .rememberMeCookieName("rememberlogin")
+                .tokenValiditySeconds(100);
 
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

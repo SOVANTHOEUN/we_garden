@@ -33,7 +33,6 @@ public class StockRepositoryImpl implements StockRepository {
         }catch (Exception e){
             System.out.println("Error.....proned.");
             e.printStackTrace();
-            System.out.println("hiiiii; "+ srch_wd);
         }
         entityManager.clear();
         return stockList;
