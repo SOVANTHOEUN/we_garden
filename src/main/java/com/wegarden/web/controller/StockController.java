@@ -1,10 +1,7 @@
 package com.wegarden.web.controller;
 
-import com.wegarden.web.model.stock.StockReport;
-import com.wegarden.web.model.stock.Stock;
-import com.wegarden.web.model.stock.StockReportOut;
+import com.wegarden.web.model.stock.*;
 import com.wegarden.web.services.StockService;
-import com.wegarden.web.util.ExcelGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Controller
@@ -21,6 +20,8 @@ import java.util.*;
 public class StockController {
     @Autowired
     private StockService stockService;
+    String startDate;
+    String endDate;
 
     @RequestMapping("/index")
     public String home(){
@@ -84,6 +85,8 @@ public class StockController {
     @ResponseBody
     public Map<String, Object> getReportStockInList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
         Map<String, Object> response = new HashMap<>();
+        startDate = sDate;
+        endDate    = eDate;
 
         List<StockReport> userList = stockService.getReportStockInList(sDate, eDate);
         response.put("DATA_REC", userList);
@@ -98,6 +101,33 @@ public class StockController {
         List<StockReportOut> userList = stockService.getReportStockOutList(sDate, eDate);
         response.put("DATA_REC", userList);
         return response;
+    }
+
+    @GetMapping(value = "/download")
+    public ResponseEntity<InputStreamResource> excelCustomersReport () throws IOException {
+        List<StockReport> stockInList = stockService.getReportStockInList(startDate, endDate);
+        String[] header             = { "ITEMS", "UNIT PRICE", "IN-STOCK", "EXPENSE" };
+        List<String[]> list         = new ArrayList<>();
+        for (int i = 0;i < stockInList.size();i++){
+            String unitPriceStr         = stockInList.get(i).getProductPrice().toString();
+            String stockExpenseStr  = stockInList.get(i).getStockInExpend().toString();
+            BigDecimal stockExpense    = new BigDecimal(stockExpenseStr).setScale(5, RoundingMode.HALF_EVEN);
+            BigDecimal unitPrice            = new BigDecimal(unitPriceStr).setScale(5, RoundingMode.HALF_EVEN);
+            String[] arr = {
+                    stockInList.get(i).getProductName().toString(),
+                    "$"+unitPrice.setScale(2),
+                    stockInList.get(i).getStockInQuantity().toString(),
+                    "$"+stockExpense.setScale(2)};
+            list.add(arr);
+        }
+        ByteArrayInputStream in = ExcelGenerator.customersToExcel(list,header);
+        // return IOUtils.toByteArray(in);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=WeGaden_INSTOCK.xlsx");
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new InputStreamResource(in));
     }
 
 }

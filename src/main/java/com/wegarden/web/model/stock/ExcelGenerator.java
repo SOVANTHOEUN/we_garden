@@ -21,10 +21,12 @@ public class ExcelGenerator {
 
             Sheet sheet = workbook.createSheet("DownloadRefrig");
             short COLOR_RED = 20;
-            sheet.setDefaultColumnWidth(25);
+            short FONT_SIZE   = 250;
+            sheet.setDefaultColumnWidth(18);
             sheet.setVerticallyCenter(true);
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
+            headerFont.setFontHeight(FONT_SIZE);
             headerFont.setColor(IndexedColors.BLACK.getIndex());
 
             CellStyle style = workbook.createCellStyle();

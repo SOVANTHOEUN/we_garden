@@ -3,10 +3,10 @@ package com.wegarden.web.controller;
 import com.wegarden.web.model.order.Order;
 import com.wegarden.web.model.order.OrderDetail;
 import com.wegarden.web.model.order.UserOrder;
+import com.wegarden.web.model.stock.ExcelGenerator;
 import com.wegarden.web.model.stock.Stock;
 import com.wegarden.web.model.stock.StockReportOut;
 import com.wegarden.web.services.OrderService;
-import com.wegarden.web.util.ExcelGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    String startDate;
+    String endDate;
 
     @RequestMapping("/select")
     public String home(){
@@ -90,24 +94,44 @@ public class OrderController {
     @ResponseBody
     public Map<String, Object> getReportStockOutList(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate){
         Map<String, Object> response = new HashMap<>();
+        startDate   = sDate;
+        endDate    = eDate;
 
         List<StockReportOut> stockOutList = orderService.getReportStockOutList(sDate, eDate);
         response.put("DATA_REC", stockOutList);
         return response;
     }
 
-    @GetMapping(value = "/download/stock_out")
-    public ResponseEntity<InputStreamResource> excelCustomersReport(@ModelAttribute("START_DATE") String sDate, @ModelAttribute("END_DATE") String eDate) throws IOException {
-        sDate = "2019-05-01";
-        eDate = "2019-05-31";
-        List<StockReportOut> stockOut = (List<StockReportOut>) orderService.getReportStockOutList(sDate, eDate);
+    @GetMapping(value = "/download")
+    public ResponseEntity<InputStreamResource> excelCustomersReport () throws IOException {
+        List<StockReportOut> stockOutList = orderService.getReportStockOutList(startDate, endDate);
+        String[] header             = { "ITEMS", "UNIT PRICE", "Sale", "BRONZE-MASTER", "TEAM-TIME", "CREDIT", "CASH", "TOTAL INCOME" };
+        List<String[]> list         = new ArrayList<>();
 
-        ByteArrayInputStream in = ExcelGenerator.customersToExcel(stockOut);
+        for (int i = 0;i < stockOutList.size();i++){
+            String unitPriceStr         = stockOutList.get(i).getProductPrice().toString();
+            String orderQtyStr         = stockOutList.get(i).getOrderQuantity().toString();
+            BigDecimal unitPrice    = new BigDecimal(unitPriceStr).setScale(5, RoundingMode.HALF_EVEN);
+            BigDecimal orderQty    = new BigDecimal(orderQtyStr).setScale(5, RoundingMode.HALF_EVEN);
+            BigDecimal totalIncome = unitPrice.setScale(2).multiply(orderQty.setScale(2));
+
+            String[] arr = {
+                    stockOutList.get(i).getProductName().toString(),
+                    "$"+unitPrice.setScale(2),
+                    stockOutList.get(i).getOrderQuantity().toString(),
+                    stockOutList.get(i).getBronzeMasterQuantity().toString(),
+                    stockOutList.get(i).getTeaTimeQuantity().toString(),
+                    stockOutList.get(i).getCreditQuantity().toString(),
+                    stockOutList.get(i).getDebitQuantity().toString(),
+                    "$"+totalIncome.setScale(2)
+                    };
+//                    (Double)  * (Double) orderQty.setScale(2)};
+            list.add(arr);
+        }
+        ByteArrayInputStream in = ExcelGenerator.customersToExcel(list,header);
         // return IOUtils.toByteArray(in);
-
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=stockout.xlsx");
-
+        headers.add("Content-Disposition", "attachment; filename=WeGaden_INSTOCK.xlsx");
         return ResponseEntity
                 .ok()
                 .headers(headers)

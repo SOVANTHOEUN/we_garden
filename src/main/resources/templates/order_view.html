@@ -25,7 +25,7 @@
         #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
         /* Add Animation */
         .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
-        .close-custom { position: absolute;top: 65px;right: 460px;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom { position: absolute;top: 8%;right: 30%;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
         .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
 
         @-webkit-keyframes zoom {
@@ -107,8 +107,10 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="bars pull-left" style="margin-top: 25px;">
-                                                        <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                        <a  style="color: black"  th:href="@{/order/download}">
+                                                            <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
                                                             <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -668,33 +670,11 @@
                     }
                 });
             },
-            downloadExcelstockReportOut: function (input) {
-                if(!input) input = {};
-                $("#loading").show();
-
-                $.ajax({
-                    type    : "GET",
-                    url       : "/order/download/stock_out",
-                    data    : {},
-                    // datatype: 'text',
-                    success: function (result) {
-                        $("#loading").hide();
-                    },
-                    error: function (error) {
-                        $("#loading").hide();
-                        console.log(error);
-                    }
-                });
-            },
             event: function () {
                 $("#btnReportStockOut").click(function () {
                     var input = {};
                     input["STATUS"] = "RO";
                     open_popup_stockout(input);
-                });
-
-                $("#btnDownloadExcel").click(function () {
-                    _thisPage.downloadExcelstockReportOut();
                 });
 
                 $("#btnSendAll").click(function () {
