@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="UTF-8"/>
+        <title th:text="Stock-List"></title>
+
+        <style>
+            table > thead > tr > th{background-color: #ffffff !important;}
+            table tbody > tr > td{font-size: 1.07em;}
+            table thead tr {background-color: #ebeff2;}
+            table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+            table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+            table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+            .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+            .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+
+            .input-amt-stock{width: 100%;height: 30px;padding-left: 8px;}
+            .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+        </style>
+
+    </head>
+    <body>
+        <!-- Begin page -->
+        <div layout:fragment="content">
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content" style="margin-bottom: unset;">
+                    <div class="container">
+
+                        <!--Custom Toolbar-->
+                        <!--===================================================-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box" style="">
+                                    <h4 class="m-t-0 header-title"><b>Stock List</b></h4>
+                                    <p class="text-muted font-13">
+                                        <label>Function:</label> Read product in stock, read report, save product quantity and  view history product's report.
+                                    </p>
+
+                                    <div class="fixed-table-toolbar">
+                                        <div class="bars pull-left">
+                                            <div class="form-group">
+                                                <!--<label for="sDate" class="control-label">Report</label>-->
+                                                <div class="input-group date">
+                                                    <button id="btnReportStockIn" class="btn btn-info btn-custom-color" data-target="#con-close-modal">
+                                                        <i class="fa fa-bar-chart m-r-5"></i>Report
+                                                    </button>
+                                                    <!--<button id="btnReportStockOut" class="btn btn-warning" data-target="#con-close-modal" style="margin-left: 10px;">
+                                                        <i class="fa fa-bar-chart m-r-5"></i>Stock-out
+                                                    </button>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- modal -->
+                                    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-lg" id="modal_report">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="txtTitle" data-status="I" data-uuid="">View Report</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="sDate" class="control-label">Select Date</label>
+                                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                                    <input type="text" class="form-control">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                                    <input type="text" class="form-control" style="background-color: white;">
+                                                                    <div class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="bars pull-left" style="margin-top: 25px;">
+                                                                <a  style="color: black"  th:href="@{/stock/download}">
+                                                                    <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                                    <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12" style="">
+                                                            <div class="bootstrap-table custom-table1">
+                                                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                                    <div class="fixed-table-body">
+                                                                        <table data-toggle="" class="table table-bordered table-fixed" id="tbl_report">
+                                                                            <colgroup>
+                                                                                <col style="width:10px;">
+                                                                                <col style="width:450px;">
+                                                                                <col style="width:40px;">
+                                                                                <col style="width:40px;">
+                                                                                <col class="brownMaster" style="width:40px;display: none;">
+                                                                                <col class="teaTime" style="width:40px;display: none;">
+                                                                                <col>
+                                                                            </colgroup>
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
+                                                                                <!--<th style=""><div class="th-inner ">Price</div></th>-->
+                                                                                <th style="" class="txtUnitPrice"><div class="th-inner ">Unit Price</div></th>
+                                                                                <th style="" class="txtInOutAmt"><div class="th-inner ">In-Stock</div></th>
+                                                                                <th style="display: none;" class="brownMaster"><div class="th-inner ">Brown-Master</div></th>
+                                                                                <th style="display:none;" class="teaTime"><div class="th-inner ">Tea-time</div></th>
+                                                                                <th style="" class="txtInOutPrice"><div class="th-inner ">Expense</div></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody id="table_report-result">
+                                                                                <tr data-index="0">
+                                                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                    <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                                    <td style="line-height: 40px;">$0.5</td>
+                                                                                    <td style="line-height: 40px;">180</td>
+                                                                                </tr>
+                                                                                <tr data-index="0">
+                                                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/bacchus_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                                    <td style="border-left: none;line-height: 40px;">Bacchus</td>
+                                                                                    <td style="line-height: 40px;">$0.5</td>
+                                                                                    <td style="line-height: 40px;">180</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                                <div class="loader-1"></div>
+                                                                            </div>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer" style="text-align: center;">
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--product data-->
+                                        <div class="modal-dialog" id="modal_product" style="display: none;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" data-status="I" data-uuid="">Product Detail</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_nm" class="control-label">Item</label>
+                                                                <input type="text" class="form-control" id="pro_nm" placeholder="product name" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_category" class="control-label">Category</label>
+                                                                <select class="form-control col-sm-12 custom-select"  id="pro_category" disabled="disabled">
+                                                                    <option>Food</option>
+                                                                    <option>Drink</option>
+                                                                    <option>Other</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_price" class="control-label">Unit Price</label>
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_price" maxlength="4" placeholder="product price" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="pro_quantity" class="control-label">Quantity<span style="opacity: 0.4;">/perbox</span></label>
+                                                                <input type="text" onkeypress="javascript:return isNumber(event)" class="form-control" id="pro_quantity" maxlength="4" placeholder="product Quantity" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12" style="">
+                                                            <img style="object-fit: cover;display: block;border: solid 1px #ddd;margin: 0 auto;border-radius: 50%;margin-bottom: 15px;" id="myImage" class="roundrect" width="130px" height="130px" data-toggle="lightbox" src="../images/imageDefault2.svg">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer" style="text-align: center;">
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--product data-->
+                                    </div>
+                                    <!-- /.modal -->
+
+                                    <div class="bootstrap-table">
+                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                            <div class="fixed-table-body">
+                                                <table data-toggle="" class="table table-bordered" id="tbl_stock">
+                                                    <colgroup>
+                                                        <col style="width:10px;">
+                                                        <col style="width:490px;">
+                                                        <col style="width:40px;">
+                                                        <col style="width:200px;">
+                                                        <col style="width:200px;">
+                                                        <col style="width:20px;">
+                                                        <col style="width:20px">
+                                                        <col>
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
+                                                            <th style=""><div class="th-inner ">In-Stock</div></th>
+                                                            <th style=""><div class="th-inner ">Unit Price<span style="opacity: 0.4;">/perbox</span></div></th>
+                                                            <th style=""><div class="th-inner ">Add Stock<span style="opacity: 0.4;">/perbox</span></div></th>
+                                                            <th style=""><div class="th-inner ">Total Price</div></th>
+                                                            <th style="text-align: center;"><div class="th-inner ">Action</div></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="table_result">
+                                                        <tr data-index="0">
+                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                            <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                            <td style="line-height: 40px;">180</td>
+                                                            <td style="line-height: 40px;">$0.5</td>
+                                                            <td style="line-height: 40px;">
+                                                                <!--<span class="stoAmt">15</span>-->
+                                                                <!--<a href="javascript:" class="on-default edit-row btnAddStock" style="float: right"><i class="fa fa-plus"></i></a>-->
+                                                                <div class="editStockLayer" style="display:inline-flex;width: 100%;">
+                                                                    <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeypress="javascript:return isNumber(event)" value="15">
+                                                                    <!--<a href="javascript:" class="on-editing save-row btn-save-stock btnSaveStock"><i class="fa fa-save"></i></a>-->
+                                                                    <!--<a href="javascript:" class="on-editing cancel-row btn-canc-stock btnCanStock"><i class="fa fa-times"></i></a>-->
+                                                                </div>
+                                                            </td>
+                                                            <td style="line-height: 40px;">$15</td>
+                                                            <td style="text-align: center;line-height: 40px;">
+                                                                <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="total-price">
+                                                            <td colspan="4" style="border-right: none;"><label>Total Price</label></td>
+                                                            <td style="border-right: none;border-left: none;" colspan="3">
+                                                                <div style="text-align: left;"><label>$30</label></div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <div class="panel-disabled loading-stock" style="display: none;">
+                                                        <div class="loader-1"></div>
+                                                    </div>
+                                                </table>
+                                            </div>
+                                            <div class="fixed-table-pagination" style="display: block;">
+                                                <div class="pull-right search" style="display: inline-flex;">
+                                                    <button id="btnSaveStock" class="btn btn-success" style="margin-left: -5px;margin-top: 20px;"><i class="m-r-5">Save Stock</i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- container -->
+                </div> <!-- content -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+            <!--<th:block layout:fragment="myscript">-->
+            <script type="text/javascript">
+                var _reportStatus = ""
+                $(function(){
+                    _thisPage.onload();
+                });
+
+                var _thisPage = {
+                    onload: function () {
+                        var _this = this;
+                        _this.event();
+                        fnSearch();
+                        fn_chooseDate();
+
+                    },
+                    fillTable: function (input) {
+                        if (!input) input = {};
+                        // $("#loading").show();
+                        // input["SRCH_WD"] = $("#srch_wd").val().toString().trim();
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/stock/get_stock_list",
+                            data: input,
+                            headers: {
+                                "Content-Type": "application/json;",
+                                "charset": "UTF-8"
+                            },
+                            success: function (result) {
+                                $("#table_result").empty();
+                                var strHtml = "", strTotalRow = "", usr_image = "";
+                                var proPrice = 0, totalPrice = 0;
+
+                                if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                                    $.each(result.DATA_REC, function (i, v) {
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                        proPrice = v.product_price * v.stock_quantity;
+                                        totalPrice += proPrice;
+
+                                        strHtml += '<tr data-uuid="'+v.product_uuid+'" class="proView">';
+                                        strHtml += '    <td class="user-image" style="width: 10px;border-right: none;">';
+                                        strHtml += '    	<img src="'+usr_image+'" alt="image" class="img-circle" width="40px" height="40px" /></td>';
+                                        strHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_quantity)+'</td>';
+                                        strHtml += '    <td style="line-height: 40px;">';
+                                        strHtml += '        <div class="editStockLayer" style="display:inline-flex;width: 100%;">';
+                                        strHtml += '            <input type="text" maxlength="10" class="form-control input-block input-amt-stock PRODUCT_PRICE" onkeydown="wegarden.comm.numberOnly(event)" value="0">';
+                                        strHtml += '        </div>';
+                                        strHtml += '    </td>';
+                                        strHtml += '    <td style="line-height: 40px;">';
+                                        strHtml += '        <div class="editStockLayer" style="display:inline-flex;width: 100%;">';
+                                        strHtml += '            <input type="text" maxlength="10" class="form-control input-block input-amt-stock STOCK_AMT" onkeydown="wegarden.comm.numberOnly(event)" value="0">';
+                                        strHtml += '            <input type="hidden" class="qtyPerBox" value="'+wegarden.comm.null2Void(v.quantity_per_box)+'"/>';
+                                        strHtml += '        </div>';
+                                        strHtml += '    </td>';
+                                        strHtml += '    <td style="line-height: 40px;" class="productPrice">0</td>';
+                                        strHtml += '    <td style="text-align: center;line-height: 40px;">';
+                                        strHtml += '        <button type="button" class="btn btn-primary btn-xs" id="btnReadProduct"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                        strHtml += '    </td>';
+                                        strHtml += '</tr>';
+                                    });
+
+                                    strTotalRow += '<tr class="total-price">';
+                                    strTotalRow += '    <td colspan="5" styl;="border-right: none;"><label>Total Price</label></td>';
+                                    strTotalRow += '    <td style="border-right: none;border-left: none;" colspan="2">';
+                                    strTotalRow += '        <div style="text-align: left;" id="totalPrice"><label>0</label></div>';
+                                    strTotalRow += '    </td>';
+                                    strTotalRow += '</tr>';
+
+                                    $("#table_result").append(strHtml);
+                                    $("#table_result").append(strTotalRow);
+                                } else {
+                                    $("#table_result").append("<tr><td class='text-center' colspan='7'>There is no data.</td></tr>");
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='7'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    saveStockAmt: function (input, this_) {
+                        if (!input) input = {};
+                        $('.loading-stock').show();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/stock/stock_save_pro_amount",
+                            data: JSON.stringify(input),
+                           headers: {
+                                "Content-Type": "application/json;",
+                                "charset": "UTF-8"
+                            },
+                            success: function (result) {
+                                setTimeout(function () {
+                                    _thisPage.fillTable();
+                                    $('.loading-stock').hide();
+                                }, 300);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    },
+                    fillStockReportInBetweenDate: function (input) {
+                        if (!input) input = {};
+                        $(".loading-stock-pop").show();
+                        input["START_DATE"] = $.trim($("#sDate input").val());
+                        input["END_DATE"]    = $.trim($("#eDate input").val());
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/stock/get_report_stockin_list",
+                            data: input,
+                            headers: {
+                                "Content-Type": "application/json;",
+                                "charset": "UTF-8"
+                            },
+                            success: function (result) {
+                                $("#tbl_report tbody").empty();
+                                var strReport = "", usr_image = "";
+                                $(".brownMaster, .teaTime").hide();
+                                $(".txtInOutAmt div").text("In-Stock");
+                                $(".txtInOutPrice div").text("Expense");
+
+                                if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                    $.each(result.DATA_REC, function (i,v) {
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                        strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
+                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
+                                        strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strReport += '    <td style="border-left: none;line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_in_quantity)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.stock_in_expend).toFixed(2))+'</td>';
+                                        strReport += '</tr>';
+                                    });
+                                    $("#tbl_report tbody").html(strReport);
+
+                                }else{
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="5">There is no data.</td></tr>');
+                                }
+                                setTimeout(function () {
+                                    $(".loading-stock-pop").hide();
+                                }, 500);
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="5">There is no data.</td></tr>');
+                            }
+                        });
+                    },
+                    fillStockReportOutBetweenDate: function (input) {
+                        if (!input) input = {};
+                        $(".loading-stock-pop").show();
+                        input["START_DATE"] = $.trim($("#sDate input").val());
+                        input["END_DATE"]    = $.trim($("#eDate input").val());
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/stock/get_report_stockout_list",
+                            data: input,
+                            headers: {
+                                "Content-Type": "application/json;",
+                                "charset": "UTF-8"
+                            },
+                            success: function (result) {
+                                $("#tbl_report tbody").empty();
+                                var strReport = "", pro_image = "", strTotalRow = "", totalIncome = 0;
+                                $(".brownMaster, .teaTime").show();
+                                $(".txtInOutAmt div").text("Out-Stock");
+                                $(".txtInOutPrice div").text("Total Income");
+
+
+                                if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                    $.each(result.DATA_REC, function (i,v) {
+                                        pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                        strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
+                                        strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
+                                        strReport += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.stock_out_quantity)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.tea_time_quantity)+'</td>';
+                                        strReport += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.total_income).toFixed(2))+'</td>';
+                                        strReport += '</tr>';
+                                        totalIncome += parseFloat(v.total_income);
+                                    });
+
+                                    strTotalRow += '<tr class="total-price">';
+                                    strTotalRow += '    <td colspan="5" styl;="border-right: none;"><label>Total Income</label></td>';
+                                    strTotalRow += '    <td style="border-right: none;border-left: none;" colspan="2">';
+                                    strTotalRow += '        <div style="text-align: left;" id="totalPrice"><label>'+addCurrencySymbol(Number(totalIncome).toFixed(2))+'</label></div>';
+                                    strTotalRow += '    </td>';
+                                    strTotalRow += '</tr>';
+                                    $("#tbl_report tbody").html(strReport);
+                                    $("#tbl_report tbody").append(strTotalRow);
+
+                                }else{
+                                    $("#tbl_report tbody").append('<tr><td class="text-center" colspan="7">There is no data.</td></tr>');
+                                }
+                                setTimeout(function () {
+                                    $(".loading-stock-pop").hide();
+                                }, 500);
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#tbl_report tbody").append('<tr><td class="text-center" colspan="7">There is no data.</td></tr>');
+                            }
+                        });
+                    },
+                    searchProductRow : function (input) {
+                        if(!input) input = {};
+                        input["PRO_UUID"] = input.PRO_UUID;
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/product/get_product_list",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                $.each(result.DATA_REC, function (i,v) {
+                                    $("#pro_nm").val(wegarden.comm.null2Void(v.product_name));
+                                    $("#pro_price").val(addCurrencySymbol(wegarden.comm.null2Void(v.product_price)));
+                                    $("#pro_quantity").val(wegarden.comm.null2Void(v.quantity_per_box,0));
+                                    $("#myImage").attr("src", _imageApiUrl+wegarden.comm.null2Void(v.product_image_name));
+                                    $("#pro_category option[data-uuid='"+v.category_uuid+"']").attr("selected","selected");
+
+                                });
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            }
+                        });
+                    },
+                    event: function () {
+                        $("#btnReportStockIn").click(function () {
+                            var input = {};
+                            input["STATUS"] = "RI";
+                            _reportStatus   = "RI";
+                            open_popup(input);
+                        });
+
+                        $(document).on("click", "#btnReadProduct", function () {
+                            var input = {};
+                            input["STATUS"] = "P";
+                            input["PRO_UUID"] = $(this).closest("tr").data("uuid");
+                            open_popup(input);
+                        });
+
+                        $(document).on("dblclick", "#table_result tr.proView", function () {
+                            var input = {};
+                            input["STATUS"] = "P";
+                            input["PRO_UUID"] = $(this).data("uuid");
+                            open_popup(input);
+                        });
+
+                        $("#btnReportStockOut").click(function () {
+                            var input = {};
+                            input["STATUS"] = "RO";
+                            _reportStatus   = "RO";
+                            open_popup(input);
+                        });
+
+                        $(document).on("click", "#btnSaveStock", function () {
+                            var input = {};
+                            var inRec = [];
+
+                            $("#table_result tr").each(function (i, v) {
+                                var obj = {};
+                                var proPrice =  Number($(this).find('td.productPrice').text().replace('$', ''));
+                                obj["PRO_UUID"]   = wegarden.comm.null2Void($(this).data('uuid'), 0);
+                                obj["PRO_PRICE"]  = Number(proPrice).toFixed(2);
+                                obj["STOCK_AMT"] = wegarden.comm.null2Void($(this).find('input.STOCK_AMT').val(), 0);
+                                if(proPrice != "0" || $(this).find('input.STOCK_AMT').val() != "0"){
+                                    inRec.push(obj);
+                                }
+                            });
+                            input["IN_REC"] = inRec;
+                            _thisPage.saveStockAmt(input, this);
+                        });
+
+                        $(document).on("change", "#sDate input, #eDate input", function () {
+                            if(_reportStatus == "RI"){
+                                _thisPage.fillStockReportInBetweenDate();
+                            }else if(_reportStatus == "RO"){
+                                _thisPage.fillStockReportOutBetweenDate();
+                            }
+                        });
+
+                        $(document).on("keyup", ".PRODUCT_PRICE", function (e) {
+                            calculateProductPrice(this);
+                            $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
+                        });
+
+                        $(document).on("keyup", ".STOCK_AMT", function (e) {
+                            calculateProductPrice(this);
+                            $(this).val(wegarden.comm.numberWithCommas(wegarden.comm.removeAllCommas($(this).val())));
+                        });
+
+                        $(document).keydown(function(e) {
+                            if (e.keyCode === 27) {
+                                $('#con-close-modal').modal('hide');
+                            }
+                        });
+
+                    }
+                }
+
+                function addCurrencySymbol(value_){
+                    value_ = wegarden.comm.null2Void(value_, '0');
+                    var isEmpty = wegarden.comm.isEmpty(value_);
+                    var formatValue = wegarden.comm.formatCurrency(value_);
+
+                    if(!isEmpty && value_ != "0" && value_ != "0.00"){
+                        return formatValue = "$"+formatValue;
+                    }else{
+                        return formatValue;
+                    }
+                }
+
+                function calculateProductPrice(this_){
+                    var newPrice         = 0;
+                    var qtyPerBox       = parseInt(wegarden.comm.null2Void($(this_).next("input.qtyPerBox").val(), 0));
+                    var currentPrice    = wegarden.comm.null2Void($(this_).closest("tr").find("input.PRODUCT_PRICE").val(), 0);
+                    var newQty           = wegarden.comm.null2Void($(this_).closest("tr").find("input.STOCK_AMT").val().trim(), 0);
+
+                    // newPrice  = (parseInt(qtyPerBox) * parseInt(newQty)) * parseFloat(currentPrice);
+                    newPrice  = parseFloat(newQty) * parseFloat(currentPrice);
+
+                    $(this_).closest("tr").find("td.productPrice").text(addCurrencySymbol(Number(newPrice).toFixed(2)));
+                    calTotalPriceList();
+                }
+
+                function calTotalPriceList(){
+                    var newTotalValue = 0;
+
+                    $("#table_result tr > td.productPrice").each(function (i, v) {
+                        newTotalValue += parseFloat(wegarden.comm.replaceAll(wegarden.comm.null2Void($(this).text().replace("$",""), 0), ",", ""));
+                    });
+
+                    $("#totalPrice").html('<label>'+addCurrencySymbol(Number(newTotalValue).toFixed(2))+'</label>');
+                }
+
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                }
+
+                function open_popup(input_){
+                    if(!input_) input_ = {};
+                    $('#con-close-modal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    $('#con-close-modal').modal('show');
+                    if(input_.STATUS == "RI"){
+                        $("#modal_product").hide();
+                        $("#modal_report").show();
+                        $("#txtTitle").text("View Stock  In Report");
+                        _thisPage.fillStockReportInBetweenDate();
+                    }else if(input_.STATUS == "RO"){
+                        $("#modal_product").hide();
+                        $("#modal_report").show();
+                        $("#txtTitle").text("View Stock Out Report");
+                        _thisPage.fillStockReportOutBetweenDate();
+                    }else{
+                        $("#modal_report").hide();
+                        $("#modal_product").show();
+                        $("#txtTitle").text("View Product Detail");
+                        _thisPage.searchProductRow(input_);
+                    }
+                }
+
+                function fnSearch() {
+                    top.$("#loading").show();
+                    _thisPage.fillTable();
+                    setTimeout(function () {
+                        top.$("#loading").hide();
+                    }, 300);
+                }
+
+                function fn_chooseDate(){
+                    var today	  = new Date();
+                    var firstDay = new Date(today.getFullYear(), today.getMonth());
+                    var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+                    var endDate   = (lastDay.getFullYear())	+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+
+                    $("#sDate input").val(startDate);
+                    $("#eDate input").val(endDate);
+
+                    $('#sDate').datetimepicker({
+                        format: "yyyy-mm-dd",
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: 0,
+                        showOtherMonths: true,
+                        selectOtherMonths: true
+                    });
+
+                    $('#eDate').datetimepicker({
+                        format: "yyyy-mm-dd",
+                        weekStart: 1,
+                        todayBtn:  1,
+                        autoclose: 1,
+                        todayHighlight: 1,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: 0,
+                        showOtherMonths: true,
+                        selectOtherMonths: true
+                    });
+
+                    function strpad00(s){
+                        s = s + '';
+                        if (s.length === 1) s = '0'+s;
+                        return s;
+                    }
+                }
+
+                function isNumber(evt) {
+                    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+                    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                        return false;
+
+                    return true;
+                }
+
+                function validateBorderInputColor(validate, callback) {
+                    var hasEmptyTextbox = false;
+
+                    $('input').each(function () {
+                        if (validate) {
+                            if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                                $(this).css("background-color", "#f9dfd8");
+                                hasEmptyTextbox = true
+                            }else{
+                                $(this).css("background-color", "white");
+                            }
+                        }else{
+                            $(this).css("border", "2px solid lightgrey");
+                        }
+                    });
+
+                    if (validate) {
+                        callback(hasEmptyTextbox);
+                    }
+                }
+
+            </script>
+            <!--</th:block>-->
+        </div>
+
+    </body>
+</html>

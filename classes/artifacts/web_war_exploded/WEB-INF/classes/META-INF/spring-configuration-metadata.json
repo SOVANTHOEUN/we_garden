@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "model",
+      "type": "com.wegarden.web.model.StorageProperties",
+      "sourceType": "com.wegarden.web.model.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "model.location",
+      "type": "java.lang.String",
+      "description": "Folder location for storing files",
+      "sourceType": "com.wegarden.web.model.StorageProperties",
+      "defaultValue": "src\/main\/resources\/static\/images"
+    }
+  ],
+  "hints": []
+}

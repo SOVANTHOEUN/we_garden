@@ -9,10 +9,10 @@ import java.util.Date;
 @Entity
 public class Order {
 
-    @Id
     @JsonProperty("total_in_debt")
     private String totalInDebt;
 
+    @Id
     @JsonProperty("user_uuid")
     private String userUuid;
 
@@ -363,5 +363,40 @@ public class Order {
 
     public void setDepartmentStatus(String departmentStatus) {
         this.departmentStatus = departmentStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "totalInDebt='" + totalInDebt + '\'' +
+                ", userUuid='" + userUuid + '\'' +
+                ", userEnName='" + userEnName + '\'' +
+                ", userKhName='" + userKhName + '\'' +
+                ", userKrName='" + userKrName + '\'' +
+                ", userDuty='" + userDuty + '\'' +
+                ", userGender='" + userGender + '\'' +
+                ", userDob='" + userDob + '\'' +
+                ", userPhoneNumber='" + userPhoneNumber + '\'' +
+                ", userImage='" + userImage + '\'' +
+                ", userCreditBalance='" + userCreditBalance + '\'' +
+                ", userUsername='" + userUsername + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userRole='" + userRole + '\'' +
+                ", userToken='" + userToken + '\'' +
+                ", userCreatedDate='" + userCreatedDate + '\'' +
+                ", userEmploymentStatus='" + userEmploymentStatus + '\'' +
+                ", userStatus='" + userStatus + '\'' +
+                ", position='" + position + '\'' +
+                ", positionType='" + positionType + '\'' +
+                ", positionUuid='" + positionUuid + '\'' +
+                ", teamUuid='" + teamUuid + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", teamRemark='" + teamRemark + '\'' +
+                ", teamStatus='" + teamStatus + '\'' +
+                ", departmentUuid='" + departmentUuid + '\'' +
+                ", departmentName='" + departmentName + '\'' +
+                ", departmentRemark='" + departmentRemark + '\'' +
+                ", departmentStatus='" + departmentStatus + '\'' +
+                '}';
     }
 }

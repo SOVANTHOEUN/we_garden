@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="Order-List"></title>
+    <style>
+        table > thead > tr > th{background-color: #ffffff !important;}
+        table tbody > tr > td{font-size: 1.07em;}
+        table thead tr {background-color: #ebeff2;}
+        table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+        table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+        table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+        .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+
+        .modal-custom {display: none;position: fixed;z-index: 9999999;padding-top: 75px;left: 0;top: 0;width: 100%;height: 100%;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.3); }
+        /* Modal Content (image) */
+        .modal-content-custom { margin: auto;display: block;width: 100%;max-width: 700px;height: 95%; }
+        /* Caption of Modal Image */
+        #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
+        /* Add Animation */
+        .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
+        .close-custom { position: absolute;top: 8%;right: 30%;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+    </style>
+</head>
+<body>
+<!-- Begin page -->
+<div layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content" style="margin-bottom: unset;">
+            <div class="container">
+
+                <!--Custom Toolbar-->
+                <!--===================================================-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box" style="">
+                            <h4 class="m-t-0 header-title"><b>Order List</b></h4>
+                            <p class="text-muted font-13">
+                                <label>Function:</label> Read order record and read user's record.
+                            </p>
+
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left">
+                                    <div class="bars pull-left">
+                                        <div class="form-group">
+                                            <div class="input-group date">
+                                                <button id="btnReportStockOut" class="btn btn-warning btn-custom-color" data-target="#con-close-modal-0">
+                                                    <i class="fa fa-bar-chart m-r-5"></i>Stock-Out
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--modal stock-out-->
+                            <div id="con-close-modal-0" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-left: 17px;">
+                                <div class="modal-dialog modal-lg" id="report_stockout">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtTitle" data-status="I" data-uuid="">View Stock Out Report</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="sDate" class="control-label">Select Date</label>
+                                                        <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                            <input type="text" class="form-control">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <div class="input-group date" id="eDate" data-provide="datepicker" style="margin-top: 25px;">
+                                                            <input type="text" class="form-control" style="background-color: white;">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="bars pull-left" style="margin-top: 25px;">
+                                                        <a  style="color: black"  th:href="@{/order/download}">
+                                                            <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                            <i class="fa fa-download m-r-5"></i>Excel</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="fixed-table-body">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_report">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:450px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                        <col class="brownMaster" style="width: 40px;">
+                                                                        <col class="teaTime" style="width: 40px;">
+                                                                        <col>
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th colspan="2" rowspan="2"><div class="th-inner" style="text-align: center;line-height: 60px;">Item</div></th>
+                                                                            <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Price</div></th>
+                                                                            <th class="txtInOutAmt" rowspan="2"><div class="th-inner" style="line-height: 60px;">Sale</div></th>
+                                                                            <th class="brownMaster" rowspan="2"><div class="th-inner" style="line-height: 60px;">Bronze-Master</div></th>
+                                                                            <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Tea-time</div></th>
+                                                                            <th colspan="2"><div class="th-inner" style="text-align: center;line-height: 10px;">Payment</div></th>
+                                                                            <th rowspan="2"><div class="th-inner" style="line-height: 60px;">Total Income</div></th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Credit</div></th>
+                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Cash</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_report_result">
+                                                                        <!--<tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
+                                                                            <td style="border-left: none;line-height: 40px;">Zummers</td>
+                                                                            <td style="line-height: 40px;">$0.5</td>
+                                                                            <td style="line-height: 40px;">7</td>
+                                                                            <td style="line-height: 40px;text-align: center;">0</td>
+                                                                            <td style="line-height: 40px;text-align: center;">0</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                            <td style="line-height: 40px;">$3.5</td>
+                                                                        </tr>-->
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="panel-disabled loading-stock-out" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--//modal stock-out-->
+
+                            <!-- modal -->
+                            <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg" id="modal_report">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">User Order</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="fixed-table-body">
+                                                                <table data-toggle="" class="table table-bordered" id="table_user_order">
+                                                                    <colgroup>
+                                                                        <col style="width:450px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style=""><div class="th-inner" style="text-align: center;">Order Date</div></th>
+                                                                            <th style=""><div class="th-inner ">Order Total</div></th>
+                                                                            <th style=""><div class="th-inner ">Quantity</div></th>
+                                                                            <th style=""><div class="th-inner ">Action</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="table_order">
+                                                                        <!--<tr data-index="0">
+                                                                            <td style="text-align: center;">01-05-2019</td>
+                                                                            <td style="">$0.5</td>
+                                                                            <td style="">180</td>
+                                                                            <td style="text-align: center;">
+                                                                                <button type="button" class="btn btn-primary btn-xs btnOrderDetail"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                                            </td>
+                                                                        </tr>-->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-success waves-effect btnPay btn-lg">Pay</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal -->
+
+                            <!-- modal popup 2 -->
+                            <div id="con-close-modal-2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog" id="modal-order-detail">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close btnDetailClose" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="" data-status="I" data-uuid="">User Order Detail</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <div class="col-sm-12" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="fixed-table-body">
+                                                                <table data-toggle="" class="table table-bordered" id="tbl_order_detail">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:450px;">
+                                                                        <col style="width:40px;">
+                                                                        <col style="width:40px;">
+                                                                        <col>
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
+                                                                            <th style=""><div class="th-inner ">Quantity</div></th>
+                                                                            <th style=""><div class="th-inner ">Price</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_resul_detail">
+                                                                        <!--<tr data-index="0">
+                                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/oisihi_2019042631.jpg" alt="user-img" class="img-circle" width="40px" /></td>
+                                                                            <td style="border-left: none;line-height: 40px;">Oishi</td>
+                                                                            <td style="line-height: 40px;">180</td>
+                                                                            <td style="line-height: 40px;">$0.5</td>
+                                                                        </tr>-->
+                                                                    </tbody>
+                                                                    <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                        <div class="loader-1"></div>
+                                                                    </div>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect btnDetailClose" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal popup 2 -->
+
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                    <div class="fixed-table-body">
+                                        <table data-toggle="" class="table table-bordered" id="tbl_order">
+                                            <colgroup>
+                                                <col style="width:10px;">
+                                                <col style="width:210px;">
+                                                <col style="width:80px;">
+                                                <col style="width:200px;">
+                                                <col style="width:20px;">
+                                                <col style="width:50px">
+                                                <col>
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th style="" colspan="2"><div class="th-inner" style="text-align: center;">Name</div></th>
+                                                <th style=""><div class="th-inner ">Department</div></th>
+                                                <th style=""><div class="th-inner ">Team</div></th>
+                                                <th style=""><div class="th-inner ">Total Payment</div></th>
+                                                <th style="text-align: center;"><div class="th-inner ">Action</div></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="table_result">
+                                                <!--<tr data-index="0">
+                                                    <td class="user-image" style="width: 10px;border-right: none; "><img src="/images/b-tou.png" alt="user-img" class="img-circle" width="40px" /></td>
+                                                    <td style="border-left: none;line-height: 40px;">Lay Bunnavitou</td>
+                                                    <td style="line-height: 40px;">Mobile R&D</td>
+                                                    <td style="line-height: 40px;">iOS</td>
+                                                    <td style="line-height: 40px;">$20.0</td>
+                                                    <td style="text-align: center;line-height: 40px;">
+                                                        <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>-->
+                                            </tbody>
+                                            <div class="panel-disabled loading-stock" style="display: none;">
+                                                <div class="loader-1"></div>
+                                            </div>
+                                        </table>
+                                    </div>
+                                    <div class="fixed-table-pagination" style="display: block;">
+                                        <div class="pull-right search" style="display: inline-flex;">
+                                            <button id="btnSendAll" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="icon-bell"></i> Send All</button>
+                                        </div>
+                                    </div>
+                                    <!-- The Modal -->
+                                    <div id="myModalShowImg" class="modal-custom">
+                                        <span class="close-custom">&times;</span>
+                                        <img class="modal-content-custom img-responsive img-thumbnail" id="img01" />
+                                        <div id="caption"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- container -->
+        </div> <!-- content -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+    <script type="text/javascript">
+        var _userUuidPay = "";
+        $(function(){
+            _thisPage.onload();
+        });
+
+        var _thisPage = {
+            onload: function () {
+                var _this = this;
+                _this.event();
+                fnSearch();
+                fn_chooseDate();
+
+            },
+            fillTable: function (input) {
+                if (!input) input = {};
+
+                $.ajax({
+                    type  : "GET",
+                    url     : "/order/get_order_list",
+                    data  : '',
+                    headers: {
+                        "Content-Type": "application/json;",
+                        "charset": "UTF-8"
+                    },
+                    success: function (result) {
+                        $("#table_result").empty();
+                        var strHtml = "", strTotal = "", usr_image = "", totalPayment = 0;
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                usr_image = wegarden.comm.isEmpty(v.user_image) ? "/images/default_user.png" : _imageApiUrl +wegarden.comm.null2Void(v.user_image, '');
+
+                                strHtml += '<tr data-uuid="'+v.user_uuid+'" class="userOrder">';
+                                strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
+                                strHtml += '    <td class="orderName" style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.department_name)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.team_name)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center" class="cashToPay">'+addCurrencySymbol(Number(v.total_in_debt).toFixed(2))+'</td>';
+                                strHtml += '    <td style="text-align: center;line-height: 40px;">';
+                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnUserOrder" data-target="#con-close-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-money" aria-hidden="true"></i></button>';
+                                strHtml += '        <button type="button" class="btn btn-warning btn-xs btnAlertPay" onclick="fn_alertPayMsg(this, false)"><i class="icon-bell" aria-hidden="true"></i></button>';
+                                strHtml += '    </td>';
+                                strHtml += '</tr>';
+
+                                totalPayment += Number(v.total_in_debt);
+                            });
+
+                            strTotal += '<tr class="total">';
+                            strTotal += '	<td style="line-height: 40px;border-right: none;padding: 2px 12px !important;" colspan="2"><label>Total Payment</label></td>';
+                            strTotal += '	<td style="border-left: none;border-right: none;padding: 2px 12px !important;"></td>';
+                            strTotal += '	<td style="border-left: none;border-right: none;padding: 2px 12px !important;"></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;padding: 2px 12px !important;"><label>'+addCurrencySymbol(Number(totalPayment).toFixed(2))+'</label></td>';
+                            strTotal += '	<td style="border-left: none;padding: 2px 12px !important;"></td>';
+                            strTotal += '</tr>';
+
+                            $("#table_result").html(strHtml);
+                            $("#table_result").append(strTotal);
+                        } else {
+                            $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            searchUserOrderRow : function (input) {
+                if(!input) input = {};
+                input["USER_UUID"] = input.USER_UUID;
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/order/user_order",
+                    data    : input,
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        $("#table_order").empty();
+                        var strHtml = "", usr_image = "", strTotalRow = "", totalPay = 0;
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                strHtml += '<tr data-uuid="'+v.order_uuid+'" class="order_row">';
+                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+"&nbsp;&nbsp;"+timeConvert(v.order_date.substr(10,6).trim())+'</td>';
+                                strHtml += '    <td style="text-align: center;">'+addCurrencySymbol(Number(v.order_total).toFixed(2))+'</td>';
+                                strHtml += '    <td style="text-align: center;">'+wegarden.comm.null2Void(v.product_count, '')+'</td>';
+                                strHtml += '    <td style="text-align: center;">';
+                                strHtml += '        <button type="button" class="btn btn-primary btn-xs btnOrderDetail" data-target="#con-close-modal-2" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-eye" aria-hidden="true"></i></button>';
+                                strHtml += '    </td>';
+                                strHtml += '</tr>';
+                                totalPay += parseFloat(v.order_total);
+                            });
+
+                            strTotalRow += '<tr class="total-price">';
+                            strTotalRow += '    <td styl;="border-right: none;"><label>Total Payment</label></td>';
+                            strTotalRow += '    <td style="border-right: none;border-left: none;" colspan="3">';
+                            strTotalRow += '        <div style="text-align: left;margin-left: 25px;" id="totalPrice"><label>'+addCurrencySymbol(Number(totalPay).toFixed(2))+'</label></div>';
+                            strTotalRow += '    </td>';
+                            strTotalRow += '</tr>';
+
+                            $("#table_order").html(strHtml);
+                            $("#table_order").append(strTotalRow);
+                        } else {
+                            $("#table_order").append("<tr><td class='text-center' colspan='4'>There is no data.</td></tr>");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#table_order").append("<tr><td class='text-center' colspan='4'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            fillOrderDetail : function (input) {
+                if(!input) input = {};
+                input["ORDER_UUID"] = input.ORDER_UUID;
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/order/order_detail_list",
+                    data    : input,
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        $("#tbl_resul_detail").empty();
+                        var strDetailHtml = "", pro_image = "";
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                strDetailHtml += '<tr data-uuid="'+v.product_uuid+'">';
+                                strDetailHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
+                                strDetailHtml += '    <td style="border-left: none;line-height: 40px;">'+wegarden.comm.null2Void(v.product_name, '')+'</td>';
+                                strDetailHtml += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.order_quantity, '')+'</td>';
+                                strDetailHtml += '    <td style="line-height: 40px;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                strDetailHtml += '</tr>';
+                            });
+
+                            $("#tbl_resul_detail").html(strDetailHtml);
+                        } else {
+                            $("#tbl_resul_detail").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#tbl_resul_detail").append("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
+                    }
+                });
+            },
+            payMoney: function (input) {
+                if(!input) input = {};
+                var inRec = [];
+                $.each($("#table_order tr.order_row"), function (i,v) {
+                    var obj = {};
+                    obj["ORDER_UUID"] = $(v).data("uuid");
+                    inRec.push(obj);
+                });
+                input["IN_REC"] = inRec;
+
+                $.ajax({
+                    type    : "POST",
+                    url       : "/order/order_pay_money",
+                    data    : JSON.stringify(input),
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        if(result.status){
+                            swal({
+                                title: "Successful",
+                                text: "Your transaction has been successfully processed!",
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                            $('#con-close-modal').modal('hide');
+                            _thisPage.notificationPayment();
+                            _thisPage.fillTable();
+                        }else{
+                            swal({
+                                title: "Failed",
+                                text: "Your transaction cannot be completed!",
+                                type: "error",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            },
+            notificationPayment: function (input) {
+                if(!input) input = {};
+                input["user_uuid"] = _userUuidPay;
+                input["title"]          = "Hello";
+                input["message"]   = "You have been paid for your ordering !!";
+
+                $.ajax({
+                    type    : "POST",
+                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                    data    : JSON.stringify(input),
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        // console.log("result:: "+result);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            },
+            notificationAlertPayment: function (input, moneyToPay) {
+                if(!input) input = {};
+                // input["user_uuid"] = input.user_uuid;
+                input["title"]          = "INFORMATION";
+                input["message"]   = "Please come and pay your order at GM Team! TOTAL PRICE "+moneyToPay+".\nThank You !";
+
+                $.ajax({
+                    type    : "POST",
+                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                    data    : JSON.stringify(input),
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        // console.log("result:: "+result);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            },
+            fillStockReportOutBetweenDate: function (input) {
+                if(!input) input = {};
+                $('.loading-stock-out').show();
+                input["START_DATE"] = $.trim($("#sDate input").val());
+                input["END_DATE"]    = $.trim($("#eDate input").val());
+
+                $.ajax({
+                    type    : "GET",
+                    url       : "/order/order_stock_out",
+                    data    : input,
+                    headers : {
+                        "Content-Type"  : "application/json;",
+                        "charset"       : "UTF-8"
+                    },
+                    success: function (result) {
+                        $("#tbl_report_result").empty();
+                        var strHtml = "", pro_image = "", strTotal = "";
+                        var brownTotal = 0, teaTimeTotal = 0, creditTotal = 0, debitTotal = 0, totalPrice = 0;
+
+                        if (!wegarden.comm.isEmpty(result.DATA_REC)) {
+                            $.each(result.DATA_REC, function (i, v) {
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+
+                                strHtml += '<tr data-row="'+v.product_uuid+'">';
+                                strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px"></td>';
+                                strHtml += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol(Number(v.product_price).toFixed(2))+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.tea_time_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.credit_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.debit_quantity)+'</td>';
+                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol((Number(v.product_price) * Number(v.order_quantity)).toFixed(2))+'</td>';
+                                strHtml += '</tr>';
+
+                                brownTotal     += Number(v.bronze_master_quantity) * Number(v.product_price);
+                                teaTimeTotal  += Number(v.tea_time_quantity) * Number(v.product_price);
+                                creditTotal      += Number(v.credit_quantity) * Number(v.product_price);
+                                debitTotal       += Number(v.debit_quantity) * Number(v.product_price);
+                                totalPrice        += Number(v.product_price) * Number(v.order_quantity);
+                            });
+
+                            strTotal += '<tr>';
+                            strTotal += '	<td style="line-height: 40px;border-right: none;" colspan="2"><label>Total Payment</label></td>';
+                            strTotal += '	<td style="border-left: none;border-right: none;"></td>';
+                            strTotal += '	<td style="border-left: none;"></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(brownTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(teaTimeTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(creditTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(debitTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(totalPrice)+'</label></td>';
+                            strTotal += '</tr>';
+
+                            $("#tbl_report_result").html(strHtml);
+                            $("#tbl_report_result").append(strTotal);
+                            setTimeout(function () {top.$('.loading-stock-out').hide(); }, 300);
+                        } else {
+                            $("#tbl_report_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                            $('.loading-stock-out').hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('.loading-stock-out').hide();
+                    }
+                });
+            },
+            event: function () {
+                $("#btnReportStockOut").click(function () {
+                    var input = {};
+                    input["STATUS"] = "RO";
+                    open_popup_stockout(input);
+                });
+
+                $("#btnSendAll").click(function () {
+                    $("#table_result tr.userOrder").each(function (i, v) {
+                        var obj = {};
+                        var debtPrice          =  Number($(this).find('td.cashToPay').text().replace('$', ''));
+                        obj["user_uuid"]    = wegarden.comm.null2Void($(this).data('uuid'), 0);
+
+                        _thisPage.notificationAlertPayment(obj, debtPrice);
+                    });
+                    fn_alertPayMsg(this,true);
+                });
+
+                $(document).on("click", ".btnUserOrder", function () {
+                    var input = {};
+                    _userUuidPay           = $(this).closest("tr").data("uuid");
+                    input["USER_UUID"] = $(this).closest("tr").data("uuid");
+                    open_popup(input);
+                });
+
+                $(document).on("dblclick", "#table_result tr.userOrder", function () {
+                    var input = {};
+                    _userUuidPay           = $(this).data("uuid");
+                    input["USER_UUID"] = $(this).data("uuid");
+                    open_popup(input);
+                });
+
+                $(document).on("click", ".btnOrderDetail", function () {
+                    var input = {};
+                    var orderUuid = $(this).closest("tr").data("uuid");
+                    input["ORDER_UUID"] = orderUuid;
+
+                    $("#con-close-modal").css("opacity","0.3");
+                    open_popup_prodetail(input)
+                });
+
+                $(document).on("dblclick", "#table_order tr.order_row", function () {
+                    var input = {};
+                    var orderUuid = $(this).data("uuid");
+                    input["ORDER_UUID"] = orderUuid;
+
+                    $("#con-close-modal").css("opacity","0.3");
+                    open_popup_prodetail(input)
+                });
+
+                $(document).on("click", ".btnDetailClose", function () {
+                    $("#con-close-modal").css("opacity","unset");
+                });
+
+                $(document).on("change", "#sDate input, #eDate input", function () {
+                    _thisPage.fillStockReportOutBetweenDate();
+                });
+
+                $(document).on("click", ".btnPay", function () {
+                    swal({
+                            title               : "Do you want to pay now ?",
+                            text                : "The order will pay for all at the same time !!",
+                            type                : "info",
+                            cancelButtonText    : "No, thanks!",
+                            confirmButtonText   : 'Yes, Pay now !',
+                            confirmButtonColor  : '#ff5e6e',
+                            showCancelButton    : true,
+                            closeOnCancel       : true,
+                            closeOnConfirm      : false
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                _thisPage.payMoney();
+                            }
+                        });
+                });
+
+                $(document).on("click", ".btnAlertPay", function () {
+                    var userUuid = {};
+                    userUuid.user_uuid = $(this).closest("tr").data("uuid");
+                    var moneyToPay = $(this).closest("tr").find("td.cashToPay").text();
+                    _thisPage.notificationAlertPayment(userUuid, moneyToPay);
+                });
+
+                $(document).keydown(function(e) {
+                    if (e.keyCode === 27) {
+                        if($("#con-close-modal-2").is(":visible")){
+                            $("#con-close-modal").css("opacity","unset");
+                            $('#con-close-modal-2').modal('hide');
+                        }else{
+                            $("#con-close-modal").css("opacity","unset");
+                            $('#con-close-modal').modal('hide');
+                        }
+                        $('#con-close-modal-0').modal('hide');
+                        $('#myModalShowImg').hide();
+                    }
+                });
+
+                $(document).on("click", ".orderUsrImage", function () {
+                    // Get the modal
+                    var modal = document.getElementById("myModalShowImg");
+
+                    // Get the image and insert it inside the modal - use its "alt" text as a caption
+                    var img             = document.getElementById("myImg");
+                    var modalImg   = document.getElementById("img01");
+                    var captionText = document.getElementById("caption");
+                    if(this.src.indexOf("default_user.png") != -1) return;
+
+                    modal.style.display = "block";
+                    modalImg.src            = this.src;
+                    captionText.innerHTML = this.alt;
+                });
+
+                $(document).on("click", ".close-custom", function () {
+                    $("#myModalShowImg").hide();
+                });
+
+            }
+        }
+
+        function  fn_alertPayMsg(this_,isAll) {
+            if(!isAll){
+                var userName = $(this_).closest('tr').find('.orderName').text();
+            }else{
+                var userName = "All Customer";
+            }
+            $.Notification.autoHideNotify(
+                'success',
+                'bottom right',
+                '<h4 style="font-style: italic;color: #fff;">Message has been reached to <b style="color: #0b0b0b">'+userName+'</b></h4>');
+        }
+
+        function isNumber(evt) {
+            var iKeyCode = (evt.which) ? evt.which : evt.keyCode
+            if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function open_popup_stockout(input_){
+            if(!input_) input_ = {};
+            $('#con-close-modal-0').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#con-close-modal-0').modal('show');
+            _thisPage.fillStockReportOutBetweenDate(input_);
+        }
+
+        function open_popup_prodetail(input_){
+            if(!input_) input_ = {};
+            $('#con-close-modal-2').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#con-close-modal-2').modal('show');
+            _thisPage.fillOrderDetail(input_);
+        }
+
+        function open_popup(input_){
+            if(!input_) input_ = {};
+            $('#con-close-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#con-close-modal').modal('show');
+            _thisPage.searchUserOrderRow(input_);
+        }
+
+        function fnSearch() {
+            $("#loading").show();
+            _thisPage.fillTable();
+            setTimeout(function () {
+                $("#loading").hide();
+            }, 300);
+        }
+
+        function fn_chooseDate(){
+            var today	  = new Date();
+            var firstDay = new Date(today.getFullYear(), today.getMonth());
+            var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(firstDay.getDate(),1);
+            var endDate   = (lastDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+ '-'+strpad00(lastDay.getDate());
+
+            $("#sDate input").val(startDate);
+            $("#eDate input").val(endDate);
+
+            $('#sDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+
+            $('#eDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+            function strpad00(s){
+                s = s + '';
+                if (s.length === 1) s = '0'+s;
+                return s;
+            }
+        }
+
+        function validateBorderInputColor(validate, callback) {
+            var hasEmptyTextbox = false;
+
+            $('input').each(function () {
+                if (validate) {
+                    if ($.trim($(this).val()) == "" && $(this).prop('required')) {
+                        $(this).css("background-color", "#f9dfd8");
+                        hasEmptyTextbox = true
+                    }else{
+                        $(this).css("background-color", "white");
+                    }
+                }else{
+                    $(this).css("border", "2px solid lightgrey");
+                }
+            });
+
+            if (validate) {
+                callback(hasEmptyTextbox);
+            }
+        }
+
+        function addCurrencySymbol(value_){
+            value_ = wegarden.comm.null2Void(value_, '0');
+            var isEmpty = wegarden.comm.isEmpty(value_);
+            var formatValue = wegarden.comm.formatCurrency(value_);
+
+            if(!isEmpty && value_ != "0" && value_ != "0.00"){
+                return formatValue = "$"+formatValue;
+            }else{
+                return formatValue;
+            }
+        }
+        function timeConvert(time) {
+            // Check correct time format and split into components
+            time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+            if (time.length > 1) { // If time format correct
+
+                time = time.slice (1);  // Remove full string match value
+                time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+                time[0] = +time[0] % 12 || 12; // Adjust hours
+            }
+            return time.join (''); // return adjusted time or original string
+        }
+
+    </script>
+</div>
+
+</body>
+</html>
