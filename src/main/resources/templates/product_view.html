@@ -480,7 +480,7 @@
                                     if ($("#myFile").val()) {
                                         var xhr = new XMLHttpRequest();
                                         // xhr.open("POST", "/image/uploadimg");
-                                        xhr.open("POST", "http://192.168.178.162:8080/wegarden/image/stock/file_upload");
+                                        xhr.open("POST", "http://192.168.178.162:8080/wegardenapi/image/stock/file_upload");
                                         xhr.send(new FormData($('#myForm')[0]));
                                         xhr.onload = function() {
                                             if (this.readyState === 4 && this.status === 200) {

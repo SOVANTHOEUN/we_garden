@@ -646,7 +646,7 @@
                     var input={"title":"ITEM ADDED","message":"WeGarden has been added new item!"};
                     $.ajax({
                         type    : "POST",
-                        url     : "http://192.168.178.162:8080/wegarden/notification/send_all",
+                        url     : "http://192.168.178.162:8080/wegardenapi/notification/send_all",
                         data    : JSON.stringify(input),
                         headers : {
                             "Content-Type"  : "application/json;",
