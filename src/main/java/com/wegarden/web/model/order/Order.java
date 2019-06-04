@@ -9,10 +9,10 @@ import java.util.Date;
 @Entity
 public class Order {
 
-    @Id
     @JsonProperty("total_in_debt")
     private String totalInDebt;
 
+    @Id
     @JsonProperty("user_uuid")
     private String userUuid;
 

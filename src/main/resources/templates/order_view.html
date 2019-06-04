@@ -108,7 +108,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="bars pull-left" style="margin-top: 25px;">
                                                         <a  style="color: black"  th:href="@{/order/download}">
-                                                            <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal">
+                                                            <button id="btnDownloadExcel" class="btn btn-success" data-target="#con-close-modal" style="display: none;">
                                                             <i class="fa fa-download m-r-5"></i>Excel</button>
                                                         </a>
                                                     </div>
@@ -336,7 +336,7 @@
                                     </div>
                                     <div class="fixed-table-pagination" style="display: block;">
                                         <div class="pull-right search" style="display: inline-flex;">
-                                            <button id="btnSendAll" class="btn btn-warning" style="margin-left: -5px;margin-top: 20px;"><i class="icon-bell"></i> Send All</button>
+                                            <button id="btnSendAll" class="btn btn-warning" style="display: none;margin-left: -5px;margin-top: 20px;"><i class="icon-bell"></i> Send All</button>
                                         </div>
                                     </div>
                                     <!-- The Modal -->
@@ -415,7 +415,9 @@
 
                             $("#table_result").html(strHtml);
                             $("#table_result").append(strTotal);
+                            $('#btnSendAll').show();
                         } else {
+                            $('#btnSendAll').hide();
                             $("#table_result").append("<tr><td class='text-center' colspan='6'>There is no data.</td></tr>");
                         }
                     },
@@ -562,12 +564,12 @@
             notificationPayment: function (input) {
                 if(!input) input = {};
                 input["user_uuid"] = _userUuidPay;
-                input["title"]          = "Hello";
+                input["title"]          = "PAYMENT";
                 input["message"]   = "You have been paid for your ordering !!";
 
                 $.ajax({
                     type    : "POST",
-                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                    url       : "http://192.168.178.162:8080/wegardenapi/notification/send",
                     data    : JSON.stringify(input),
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -589,7 +591,7 @@
 
                 $.ajax({
                     type    : "POST",
-                    url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                    url       : "http://192.168.178.162:8080/wegardenapi/notification/send",
                     data    : JSON.stringify(input),
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -658,8 +660,10 @@
 
                             $("#tbl_report_result").html(strHtml);
                             $("#tbl_report_result").append(strTotal);
+                            $("#btnDownloadExcel").show();
                             setTimeout(function () {top.$('.loading-stock-out').hide(); }, 300);
                         } else {
+                            $("#btnDownloadExcel").hide();
                             $("#tbl_report_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
                             $('.loading-stock-out').hide();
                         }

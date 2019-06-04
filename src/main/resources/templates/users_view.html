@@ -88,14 +88,14 @@
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <img src="/images/b-tou.png" alt="image" id="userImage" class="img-responsive img-rounded" width="200">
+                                                    <img src="/images/b-tou.png" alt="image" id="userImage" class="img-responsive img-rounded" width="200" height="90" style="height: unset">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="media-body">
                                                         <h4 for="pro_category" class="control-label control-label-custom">
                                                             <label id="userName">Lay Bunnavitou</label>
                                                         </h4>
-                                                        <div class="name-id id-custom">
+                                                        <div class="name-id id-custom" style="display: none;">
                                                             <span>ID:</span>
                                                             <span id="userId">000143</span>
                                                         </div>
@@ -432,7 +432,7 @@
 
                     $.ajax({
                         type    : "POST",
-                        url       : "http://192.168.178.162:8080/wegarden/notification/send",
+                        url       : "http://192.168.178.162:8080/wegardenapi/notification/send",
                         data    : JSON.stringify(input),
                         headers : {
                             "Content-Type"  : "application/json;",
@@ -454,6 +454,7 @@
                     input["LIMIT"]       = 1;
                     input["SRCH_WD"] = '';
                     input["USER_UUID"] = input.USER_UUID;
+                    console.log(input)
 
                     $.ajax({
                         type    : "GET",

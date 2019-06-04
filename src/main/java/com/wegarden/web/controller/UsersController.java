@@ -28,7 +28,7 @@ public class UsersController {
     public Map<String, Object> getUsersList(@ModelAttribute("LIMIT") int limit, @ModelAttribute("PAGE_NO") int page_no,
                                             @ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("USER_UUID") String userUuid){
         Map<String, Object> response = new HashMap<>();
-        String status       = ""; // get from view soon
+        String status       = "1"; // get from view soon
         List<User> userList = usersService.getUsersList(limit, page_no, srch_wd, userUuid);
 
         response.put("DATA_REC", userList);

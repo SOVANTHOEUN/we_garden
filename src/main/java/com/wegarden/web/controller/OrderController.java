@@ -105,7 +105,7 @@ public class OrderController {
     @GetMapping(value = "/download")
     public ResponseEntity<InputStreamResource> excelCustomersReport () throws IOException {
         List<StockReportOut> stockOutList = orderService.getReportStockOutList(startDate, endDate);
-        String[] header             = { "ITEMS", "UNIT PRICE", "Sale", "BRONZE-MASTER", "TEAM-TIME", "CREDIT", "CASH", "TOTAL INCOME" };
+        String[] header             = { "ITEMS", "UNIT PRICE", "SALE", "BRONZE-MASTER", "TEAM-TIME", "CREDIT", "CASH", "TOTAL INCOME" };
         List<String[]> list         = new ArrayList<>();
 
         for (int i = 0;i < stockOutList.size();i++){
@@ -113,17 +113,17 @@ public class OrderController {
             String orderQtyStr         = stockOutList.get(i).getOrderQuantity().toString();
             BigDecimal unitPrice    = new BigDecimal(unitPriceStr).setScale(5, RoundingMode.HALF_EVEN);
             BigDecimal orderQty    = new BigDecimal(orderQtyStr).setScale(5, RoundingMode.HALF_EVEN);
-            BigDecimal totalIncome = unitPrice.setScale(2).multiply(orderQty.setScale(2));
+            BigDecimal totalIncome = unitPrice.setScale(2, BigDecimal.ROUND_HALF_DOWN).multiply(orderQty.setScale(2, BigDecimal.ROUND_HALF_DOWN));
 
             String[] arr = {
                     stockOutList.get(i).getProductName().toString(),
-                    "$"+unitPrice.setScale(2),
+                    "$"+unitPrice.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString(),
                     stockOutList.get(i).getOrderQuantity().toString(),
                     stockOutList.get(i).getBronzeMasterQuantity().toString(),
                     stockOutList.get(i).getTeaTimeQuantity().toString(),
                     stockOutList.get(i).getCreditQuantity().toString(),
                     stockOutList.get(i).getDebitQuantity().toString(),
-                    "$"+totalIncome.setScale(2)
+                    "$"+totalIncome.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString()
                     };
 //                    (Double)  * (Double) orderQty.setScale(2)};
             list.add(arr);

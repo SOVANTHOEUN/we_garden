@@ -113,9 +113,9 @@ public class StockController {
             BigDecimal unitPrice            = new BigDecimal(unitPriceStr).setScale(5, RoundingMode.HALF_EVEN);
             String[] arr = {
                     stockInList.get(i).getProductName().toString(),
-                    "$"+unitPrice.setScale(2),
+                    "$"+unitPrice.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString(),
                     stockInList.get(i).getStockInQuantity().toString(),
-                    "$"+stockExpense.setScale(2)};
+                    "$"+stockExpense.setScale(2, BigDecimal.ROUND_HALF_DOWN).toString()};
             list.add(arr);
         }
         ByteArrayInputStream in = ExcelGenerator.customersToExcel(list,header);

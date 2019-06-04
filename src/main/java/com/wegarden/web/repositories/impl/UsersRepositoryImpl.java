@@ -29,7 +29,7 @@ public class UsersRepositoryImpl implements UsersRepository {
                 .registerStoredProcedureParameter("_limit", Integer.class, ParameterMode.IN)
                 .setParameter("_en_name", srch_wd)
                 .setParameter("_user_uuid", userUuid)
-                .setParameter("_status", "")
+                .setParameter("_status", "1")
                 .setParameter("_page", page)
                 .setParameter("_limit", limit);
 
@@ -47,6 +47,9 @@ public class UsersRepositoryImpl implements UsersRepository {
     public int countUsers(String user_uuid, String srch_wd, String _status) {
         int countUsers = 0;
         String name;
+        if(srch_wd == "" || srch_wd == null || srch_wd.length() == 0){
+            srch_wd = user_uuid;
+        }
         Query storedProcedureQuery = entityManager.createNativeQuery("SELECT COUNT(*)\n" +
                 "FROM \"user\".user u\n" +
                 "  LEFT JOIN \"user\".team\n" +
@@ -64,8 +67,8 @@ public class UsersRepositoryImpl implements UsersRepository {
                 "  ELSE ''\n" +
                 "    END\n" +
                 "  )" +
-                "AND LOWER(u.en_name) LIKE '%' || LOWER('"+srch_wd+"') || '%'\n");
-//                "  AND \"user\".team = '"+srch_wd+"'");
+                "AND (LOWER(u.en_name) LIKE '%' || LOWER('"+srch_wd+"') || '%'\n" +
+                "  OR u.uuid LIKE '%' || '"+srch_wd+"' || '%') ");
 
         countUsers = ((BigInteger) storedProcedureQuery.getSingleResult()).intValue();
         entityManager.clear();

@@ -32,18 +32,17 @@
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <div class="home-wrapper wrapper-page">
-                        <h1 class="icon-main text-custom"><i class="md md-album"></i></h1>
+                        <h1 class="icon-main text-custom" style="margin-bottom: 10px;margin-top: -40px;">
+                            <img src="/images/we_garden_logo.png" alt="logo" width="170" class="img_circle img-responsive img-thumbnail" style="border-radius: 50%;">
+                        </h1>
                         <h1 class="home-text"><span class="rotate" style="display: inline; opacity: 0.881221;">We Garden Login</span></h1>
 
                         <!-- COUNTDOWN -->
 
                         <!-- /COUNTDOWN -->
                         <div class="card-box">
-
-
                             <div class="panel-body">
                                 <form class="form-horizontal form-signin m-t-20" id="frm" th:action="@{/login/submit}" method="post">
-
                                     <div  class="alert alert-danger" id="error"  style="display: none" role="alert">
                                         Invalid username and password.
                                     </div>
@@ -90,9 +89,7 @@
                                             <a href="page-recoverpw.html" class="text-dark"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
                                         </div>
                                     </div>
-
                                 </form>
-
                             </div>
                         </div>
 
@@ -104,7 +101,7 @@
        <script type="text/javascript">
 
            $(function(){
-               var hostname_ = 'http://192.168.178.162:8080/wegarden/';
+               var hostname_ = 'http://192.168.178.162:8080/wegardenapi';
                var url_, user_, pass_;
 
                $("#btnLogin").click(function (event) {
@@ -112,6 +109,7 @@
                    user_ = $("#username").val();
                    pass_ = $("#password").val();
                    url_  = hostname_ +'/wegarden_login?username='+ user_ +'&password=' + pass_;
+                   console.log(url_)
 
                    $.ajax({
                        url  : url_,
