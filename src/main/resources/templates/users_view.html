@@ -497,16 +497,13 @@
                             _thisPage.fillTable();
                         }
                     });
-
                     $(document).on("click", ".btnCardClick", function () {
                         $(".btnCardClick").removeClass('card-selected');
                         $(this).addClass('card-selected');
                     });
-
                     $(document).on("change", "#per_page", function () {
                         $("#pagination-info").html('card-selected');
                     });
-
                     $(document).on("click", "#btnSaveTopup", function () {
                         var input = {};
                         var amtTopup = $(".card-selected").find('p.counter').data("amount");
@@ -516,7 +513,6 @@
                         input["USER_UUID"] = _userUuid;
                         _thisPage.saveTopupAmount(input);
                     });
-
                     $(document).keydown(function(e) {
                         if (e.keyCode === 27) {
                             $('#con-close-modal').modal('hide');
