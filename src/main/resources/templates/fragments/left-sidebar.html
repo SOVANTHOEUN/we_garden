@@ -8,27 +8,27 @@
 
                     <li class="text-muted menu-title">Navigation</li>
                     <li class="has_sub" data-url="dashboard">
-                        <a href="/" class="waves-effect"><i class="ti-home"></i> <span> Dashboard </span> </a>
+                        <a th:href="@{/}" class="waves-effect"><i class="ti-home"></i> <span> Dashboard </span> </a>
                     </li>
 
                     <li class="has_sub" data-url="/order/select">
-                        <a href="/order/select" class="waves-effect"><i class="ti-receipt"></i> <span> Order Debt </span> </a>
+                        <a th:href="@{/order/select}" class="waves-effect"><i class="ti-receipt"></i> <span> Order Debt </span> </a>
                     </li>
 
                     <li class="has_sub" data-url="/product/index">
-                        <a href="/product/index" class="waves-effect"><i class="ti-shopping-cart"></i> <span> Items </span> </a>
+                        <a  th:href="@{/product/index}" class="waves-effect"><i class="ti-shopping-cart"></i> <span> Items </span> </a>
                     </li>
 
                     <li class="has_sub" data-url="/stock/refrigerator">
                         <a href="javascript:" class="waves-effect stock_tap"><i class="ti-server"></i>Stock<span class="caret" style="margin-left: 17px;"></span></a>
                         <ul class="list-unstyled" style="display: none;">
-                            <li class="sub stock_tap_sub" data-url="/stock/index"><a href="/stock/index">Stock</a></li>
-                            <li class="sub refrig_tap" data-url="/refrigerator/index"><a href="/refrigerator/index">WeGarden</a></li>
+                            <li class="sub stock_tap_sub" data-url="/stock/index"><a th:href="@{/stock/index}">Stock</a></li>
+                            <li class="sub refrig_tap" data-url="/refrigerator/index"><a th:href="@{/refrigerator/index}">WeGarden</a></li>
                         </ul>
                     </li>
 
                     <li class="has_sub" data-url="/users/select">
-                        <a href="/users/select" class="waves-effect"><i class="ti-user"></i> <span> Top Up </span> </a>
+                        <a th:href="@{/users/select/}" class="waves-effect"><i class="ti-user"></i> <span> Top Up </span> </a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>

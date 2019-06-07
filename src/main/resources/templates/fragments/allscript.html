@@ -1,54 +1,37 @@
 
-
 <script>
     var resizefunc = [];
 </script>
 
 <!-- jQuery  -->
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/detect.js"></script>
-<script src="../js/fastclick.js"></script>
-<script src="../js/jquery.slimscroll.js"></script>
-<script src="../js/jquery.blockUI.js"></script>
-<script src="../js/waves.js"></script>
-<script src="../js/wow.min.js"></script>
-<script src="../js/jquery.nicescroll.js"></script>
-<script src="../js/jquery.scrollTo.min.js"></script>
-<script src="../js/moment.min.js"></script>
-<!--<script src="../js/bootstrap-datepicker.js"></script>-->
-<!--<script src="../js/bootstrap-datepicker.min.js"></script>-->
-<script type="text/javascript" src="../js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="../js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>-->
-
-<script src="../plugins/peity/jquery.peity.min.js"></script>
-
+<!--<script src="../js/jquery.min.js"></script>-->
+<script type="text/javascript"  th:src="@{../js/jquery.min.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/jquery.min.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/bootstrap.min.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/detect.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/fastclick.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/jquery.slimscroll.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/jquery.blockUI.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/waves.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/wow.min.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/jquery.nicescroll.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/jquery.scrollTo.min.js/}"></script>
+<script type="text/javascript"  th:src="@{/js/moment.min.js/}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-datetimepicker.js/}"></script>
+<script type="text/javascript" th:src="@{/js/locales/bootstrap-datetimepicker.fr.js/}"></script>
+<script type="text/javascript" th:src="@{/plugins/peity/jquery.peity.min.js/}"></script>
  <!--jQuery  -->
-<script src="../plugins/waypoints/lib/jquery.waypoints.js"></script>
-<script src="../plugins/counterup/jquery.counterup.min.js"></script>
+<script type="text/javascript" th:src="@{/plugins/waypoints/lib/jquery.waypoints.js/}"></script>
+<script type="text/javascript" th:src="@{/plugins/counterup/jquery.counterup.min.js/}"></script>
 
+<script type="text/javascript" th:src="@{/js/jquery.core.js/}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.app.js/}"></script>
+<script type="text/javascript" th:src="@{/plugins/bootstrap-table/dist/bootstrap-table.min.js/}"></script>
+<script type="text/javascript" th:src="@{/pages/jquery.bs-table.js/}"></script>
+<script type="text/javascript" th:src="@{/plugins/notifyjs/dist/notify.min.js/}"></script>
+<script type="text/javascript" th:src="@{/plugins/notifications/notify-metro.js/}"></script>
+<script type="text/javascript" th:src="@{/js/common/wegarden.comm.js/}"></script>
 
-
-<!--<script src="../plugins/morris/morris.min.js"></script>-->
-<!--<script src="../plugins/raphael/raphael-min.js"></script>-->
-
-<!--<script src="../plugins/jquery-knob/jquery.knob.js"></script>-->
-
-<!--<script src="../pages/jquery.dashboard.js"></script>-->
-
-<script src="../js/jquery.core.js"></script>
-<script src="../js/jquery.app.js"></script>
-
-<script src="../plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
-<script src="../pages/jquery.bs-table.js"></script>
-
-<script src="../plugins/notifyjs/dist/notify.min.js"></script>
-<script src="../plugins/notifications/notify-metro.js"></script>
-
-
-<script src="../js/common/wegarden.comm.js"></script>
 
 <script type="text/javascript">
     jQuery(document).ready(function($) {
@@ -73,10 +56,12 @@
             }else if(liString.trim() == "dashboard"){
                 $("#sidebar-menu li:eq(1) a").addClass('active');
             }
+
         });
 
         $(document).on("click", ".stock_tap", function () {
             $(this).next().slideToggle();
         });
+
     });
 </script>

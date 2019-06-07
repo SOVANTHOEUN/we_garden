@@ -20,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Appl
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/js/**","/css/**","/fonts/**","/images/**"); // #3
+                .antMatchers("/js/**","/css/**","/fonts/**","/images/**");
+//                .antMatchers("/resources/**");
     }
 
     @Override

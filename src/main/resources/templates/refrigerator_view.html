@@ -368,7 +368,7 @@
 
                     $.ajax({
                         type    : "GET",
-                        url     : "/refrigerator/get_refrigerator_list",
+                        url     : url_context+"/refrigerator/get_refrigerator_list",
                         data    : input,
                         headers : {
                             "Content-Type"  : "application/json;",
@@ -380,7 +380,7 @@
                             if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                                 $.each(result.DATA_REC, function (i, v) {
                                     if(v.stock_quantity!=0 || v.refrigerator_quantity!=0){
-                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         html+='<tr class="tr_refrig" data-uuid="'+v.product_uuid+'" >';
                                         html+='	<td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
@@ -456,7 +456,7 @@
                     $('.loading-stock').show();
                     $.ajax({
                         type: "POST",
-                        url: "/refrigerator/refrigerator_save",
+                        url: url_context+"/refrigerator/refrigerator_save",
                         data: JSON.stringify(input),
                         headers: {
                             "Content-Type": "application/json;",
@@ -535,7 +535,7 @@
 
                     $.ajax({
                         type    : "GET",
-                        url       : "/product/get_product_list",
+                        url       : url_context+"/product/get_product_list",
                         data    : input,
                         headers : {
                             "Content-Type"  : "application/json;",
@@ -566,7 +566,7 @@
 
                     $.ajax({
                         type    : "GET",
-                        url     : "/refrigerator/get_report_refrigerator_list",
+                        url     : url_context+"/refrigerator/get_report_refrigerator_list",
                         data    : input,
                         headers : {
                             "Content-Type"  : "application/json;",
@@ -577,7 +577,7 @@
                             var strReport = "", usr_image = "";
                             if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                 $.each(result.DATA_REC, function (i,v) {
-                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                    usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                     strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
                                     strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle" width="40px" /></td>';

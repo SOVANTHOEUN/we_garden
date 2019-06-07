@@ -38,7 +38,7 @@ public class OrderController {
         return "order_view";
     }
 
-    @RequestMapping("/get_order_list")
+    @RequestMapping(value = "/get_order_list", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getOrderList(){
         Map<String, Object> response = new HashMap<>();

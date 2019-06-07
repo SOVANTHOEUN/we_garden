@@ -13,6 +13,6 @@ import java.io.IOException;
 public class LogoutConfig implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        httpServletResponse.sendRedirect("/login");
+        httpServletResponse.sendRedirect("/wegardenadmin/login");
     }
 }
