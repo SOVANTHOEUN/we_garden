@@ -97,4 +97,26 @@ public class UsersRepositoryImpl implements UsersRepository {
 
         return actionCode;
     }
+
+    @Override
+    public String updateUserRole(String roleId, String userUuid) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_update_user_role")
+                .registerStoredProcedureParameter("_roles_id", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_user_uuid", String .class, ParameterMode.IN)
+
+                .setParameter("_roles_id", roleId)
+                .setParameter("_user_uuid", userUuid);
+
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
 }

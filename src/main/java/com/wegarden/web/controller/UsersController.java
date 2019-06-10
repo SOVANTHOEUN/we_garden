@@ -1,5 +1,6 @@
 package com.wegarden.web.controller;
 
+import com.wegarden.web.model.user.RoleType;
 import com.wegarden.web.model.user.User;
 import com.wegarden.web.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,15 @@ public class UsersController {
             response.put("status",false);
         }
         return response;
+    }
+
+
+    @RequestMapping("/update_user_role")
+    @ResponseBody
+    public String getReportStockList(@ModelAttribute("ROLE_ID") String roleId, @ModelAttribute("UUID") String userUuid) {
+
+        System.out.println("JJJJJJJJJJJJ"+roleId+"hhhhhh"+userUuid);
+        String role =  usersService.updateUserRole(roleId,userUuid);
+       return role;
     }
 }

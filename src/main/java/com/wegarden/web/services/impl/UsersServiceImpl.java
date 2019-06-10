@@ -28,4 +28,9 @@ public class UsersServiceImpl implements UsersService {
     public String userUpdateBalance(String userUuid, String transactionType, Double transactionAmount) {
         return usersRepository.userUpdateBalance(userUuid, transactionType, transactionAmount);
     }
+
+    @Override
+    public String updateUserRole(String roleId, String userUuid) {
+        return usersRepository.updateUserRole(roleId,userUuid);
+    }
 }

@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Appl
         http
                 .csrf().disable()
                  .authorizeRequests()
-                 .antMatchers(  "/login/**").permitAll()
+                 .antMatchers(  "/login/**" ).permitAll()
                  .anyRequest().authenticated()
                  .and()
                 .formLogin()
