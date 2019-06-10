@@ -16,7 +16,7 @@ import java.util.List;
 public class LoginController {
     @PostMapping("/login/submit")
     public String loginSumit(@ModelAttribute User user) {
-            if (user.getStatus()==true && user.getRole().equals("USER") ) {
+            if (user.getStatus()==true && user.getRole().equals("ADMIN") ) {
                 Authentication auth = new UsernamePasswordAuthenticationToken(user, null, null);
                // System.out.println(auth.getPrincipal()+"auth.getPrincipal()");
                 SecurityContextHolder.getContext().setAuthentication(auth);
