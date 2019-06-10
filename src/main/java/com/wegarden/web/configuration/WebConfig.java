@@ -16,13 +16,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements WebMvcConfigur
         registry.addViewController("/users/select/").setViewName("user_view");
     }
 
-
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/login").setViewName("login");
-//        //registry.addViewController("/logout").setViewName("logout");
-//    }
-
     @Override
      public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
