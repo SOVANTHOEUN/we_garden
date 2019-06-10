@@ -216,7 +216,8 @@
                                                 <col style="width:10px;">
                                                 <col style="width:10px;">
                                                 <col>
-                                                <col style="width:5px;">
+                                                <col style="width:200px;">
+                                                <col style="width:200px;">
                                                 <col style="width:200px;">
                                                 <col style="width:200px;">
                                                 <col style="width:50px">
@@ -232,12 +233,11 @@
                                                 <th style="">
                                                     <div class="th-inner ">Name</div>
                                                 </th>
-                                                <!--<th style="width: 5%;">
-                                                    <div class="th-inner ">Gender</div>
+
+                                                <th style="text-align: center; ">
+                                                    <div class="th-inner ">Role</div>
                                                 </th>
-                                                <th style="width: 20%;text-align: center; ">
-                                                    <div class="th-inner ">Duty</div>
-                                                </th>-->
+
                                                 <th style="text-align: center; ">
                                                     <div class="th-inner ">Credit Balance</div>
                                                 </th>
@@ -253,8 +253,6 @@
                                             </tr>
                                             </thead>
                                             <tbody id="table_result">
-
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -297,7 +295,6 @@
                         </div>
                     </div>
                 </div>
-
 
             </div> <!-- container -->
 
@@ -347,7 +344,7 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
-                            $("#table_result").empty();
+                            //$("#table_result").empty();
                             // $(".bs-checkbox").show();
                             $("#page_layer").show();
                             $(".bs-checkbox").attr("checked", false);
@@ -361,17 +358,33 @@
                                     strHtml += '    <td class="bs-checkbox" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
                                     strHtml += '    <td class="user-image" style="width: 10px;border-right: none; ">';
                                     strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
-                                    strHtml += '    <td style="border-left: none;"><a href="#" class="btn-link">#########</a></td>';
+                                    strHtml += '    <td style="border-left: none;"><a href="#" clbootstrap-tagsinputass="btn-link">#########</a></td>';
                                     strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
                                     // strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_gender, '')+'</td>';
                                     // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
+                                    strHtml += '<td style="text-align: center;">';
+                                    strHtml += '<div>';
+                                    strHtml += '     <div class="tags-default">';
+                                    strHtml += '        <input type="text" value="Amsterdam,Washington,Sydney" data-role="tagsinput" placeholder="add tags" style="display: none;">';
+                                    strHtml += '    </div>';
+                                    strHtml += '<div>';
+                                    strHtml += '</td>';
                                     strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(2))+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
-                                    strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                                   // strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                                    strHtml += '<td style="text-align: center; ">';
+                                    strHtml += ' <select class="form-control cmbo " uuId="'+v.user_uuid+'" >';
+                                    strHtml += '    <option   value="1">ADMIN</option>';
+                                    strHtml += '    <option   value="2">USER</option>';
+                                    strHtml += '    <option   value="3">TEAM_LEADER</option>';
+                                    strHtml += '    <option   value="4">BRONZE_MASTER</option>';
+                                    strHtml += '</select>';
+                                    strHtml+='</td>';
                                     strHtml +='    <td style="line-height: 40px;" class="act_btn text-center">';
                                     strHtml +='      <button type="button" class="btn btn-primary btn-xs" onclick=open_popup("'+v.user_uuid+'");><i class="fa fa-plus" aria-hidden="true"></i></button>';
                                     strHtml +='    </td>';
                                     strHtml += '</tr>';
+
                                 });
                                 $("#table_result").append(strHtml);
                             }else{
@@ -537,6 +550,31 @@
                         $("#myModalShowImg").hide();
                     });
 
+
+                    $(document).on("change",".cmbo",function () {
+                        var input={};
+                        input.UUID=$(this).attr("uuId");
+                        input.ROLE_ID=$(this).children("option:selected").val();
+
+                        $.ajax({
+                            type    : "GET",
+                            url       : "/users/update_user_role",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                                _thisPage.fillTable();
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+
+                    })
+
                 }
             }
 
@@ -564,6 +602,8 @@
                     return formatValue;
                 }
             }
+
+
 
         </script>
     <!--</th:block>-->
