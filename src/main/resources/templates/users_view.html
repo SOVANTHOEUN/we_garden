@@ -44,6 +44,7 @@
         }
 
         .bootstrap-tagsinput { background-color: #fff;box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);display: inline-block;padding: 4px 6px;color: #555;vertical-align: middle;border-radius: 4px;max-width: 100%;line-height: 22px;cursor: text;border: none; }
+        .combo-role { margin-top: 5px;padding: 0;width: 135px;height: 22px;font-size: 0.89999em;opacity: 0.68888;}
     </style>
 </head>
 <body>
@@ -217,7 +218,7 @@
                                             <colgroup>
                                                 <col style="width:10px;">
                                                 <col>
-                                                <col style="width:200px;">
+                                                <col style="width:230px;">
                                                 <col style="width:200px;">
                                                 <col style="width:200px;">
                                                 <col style="width:200px;">
@@ -358,12 +359,24 @@
                                     strHtml += '    <td class="user-image" style="width: 10px;border-right: none; ">';
                                     strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
                                     strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
-                                    strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
-                                    // strHtml += '    <td style="text-align: center;">';
-                                    // strHtml += '        <div class="tags-default">';
-                                    // strHtml += '            <div class="bootstrap-tagsinput"><span class="tag label label-info">Amsterdam<span data-role="remove"></span></span> <span class="tag label label-info">Washington<span data-role="remove"></span></span> <span class="tag label label-info">Sydney<span data-role="remove"></span></span> <input type="text" placeholder="add tags" class="form-control" style="margin-top: 3px;"></div>';
-                                    // strHtml += '        </div>';
-                                    // strHtml += '    </td>';
+                                    // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
+                                    strHtml += '    <td style="text-align: left;">';
+                                    strHtml += '        <div class="tags-default">';
+                                    strHtml += '            <div class="bootstrap-tagsinput role_layer">';
+                                    // strHtml += '            	<span class="tag label label-info">ADMIN<span data-role="remove" class="remove"></span></span>';
+                                    // strHtml += '				<span class="tag label label-info">'+wegarden.comm.null2Void(v.user_role, "").split(",")+'<span data-role="remove" class="remove"></span></span>';
+                                    for(var i = 0; i < wegarden.comm.null2Void(v.user_role, "").split(",").length; i++){
+                                        strHtml += '				<span class="tag label label-info">'+wegarden.comm.null2Void(v.user_role, "").split(",")[i]+'<span data-role="remove" class="remove"></span></span>';
+                                    }
+                                    strHtml += '            <select class="form-control comBoRole combo-role" uuId="'+v.user_uuid+'" >';
+                                    strHtml += '                <option   value="1">ADMIN</option>';
+                                    strHtml += '                <option   value="2">USER</option>';
+                                    strHtml += '                <option   value="3">TEAM_LEADER</option>';
+                                    strHtml += '                <option   value="4">BRONZE_MASTER</option>';
+                                    strHtml += '            </select>';
+                                    strHtml += '			</div>';
+                                    strHtml += '        </div>';
+                                    strHtml += '    </td>';
                                     strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(2))+'</td>';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
                                     strHtml += '     <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
@@ -544,6 +557,20 @@
                         $("#myModalShowImg").hide();
                     });
 
+                    $(document).on("change", ".comBoRole", function () {
+                        var role_title = $(this).find('option:selected').text();
+                        var role_val   = $(this).find('option:selected').val();
+                        var role_leng = $(this).closest("tr").find(".role_layer > span.tag").length;
+                        var role_curr = $(this).closest("tr").find(".role_layer > span.tag").text();
+
+                        if(role_leng < 3 && role_curr.indexOf(role_title) == -1){
+                            $(this).before('<span class="tag label label-info" data-id='+role_val+'>'+role_title+'<span data-role="remove" class="remove"></span></span>');
+                        }
+                    });
+
+                    $(document).on("click", ".remove", function () {
+                        $(this).parent('span').remove();
+                    });
 
                     $(document).on("change",".cmbo",function () {
                         var input={};
