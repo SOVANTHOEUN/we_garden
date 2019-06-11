@@ -1,5 +1,6 @@
 package com.wegarden.web.services;
 
+import com.wegarden.web.model.user.Team;
 import com.wegarden.web.model.user.User;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface UsersService {
     int countUsers(String user_uuid, String srch_wd, String status);
     String userUpdateBalance(String userUuid, String transactionType, Double transactionAmount);
     String updateUserRole(String roleId, String userUuid);
+    List<Team> readTeam(String status);
 }

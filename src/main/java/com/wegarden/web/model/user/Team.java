@@ -1,13 +1,26 @@
 package com.wegarden.web.model.user;
 
-public class Team {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Team {
+    @Id
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("remark")
     private String remark;
+    @JsonProperty("status")
     private String status;
+    @JsonProperty("uuid")
     private String uuid;
+    @JsonProperty("department_id")
     private int department_id;
+    @JsonProperty("leader")
     private int leader;
 
     public Team(int id, String name, String remark, String status, String uuid, int department_id, int leader) {

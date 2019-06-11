@@ -1,6 +1,7 @@
 package com.wegarden.web.repositories.impl;
 
 
+import com.wegarden.web.model.user.Team;
 import com.wegarden.web.model.user.User;
 import com.wegarden.web.repositories.UsersRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -118,5 +119,22 @@ public class UsersRepositoryImpl implements UsersRepository {
         entityManager.clear();
 
         return actionCode;
+    }
+
+    @Override
+    public List<Team> readTeam(String status) {
+        List<Team> team = new ArrayList<>();
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_read_teams", Team.class )
+                .registerStoredProcedureParameter("_status", String.class, ParameterMode.IN)
+                .setParameter("_status", status);
+
+        try{
+            team = storedProcedureQuery.getResultList();
+        }catch (Exception e){
+            System.out.println("Error....proned");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return team;
     }
 }
