@@ -1,6 +1,8 @@
 package com.wegarden.web.repositories.impl;
 
 
+import com.wegarden.web.model.user.ReadTeam;
+import com.wegarden.web.model.user.Team;
 import com.wegarden.web.model.user.User;
 import com.wegarden.web.repositories.UsersRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -110,6 +112,45 @@ public class UsersRepositoryImpl implements UsersRepository {
                 .setParameter("_roles_id", roleId)
                 .setParameter("_user_uuid", userUuid);
 
+        try{
+            actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return actionCode;
+    }
+
+    @Override
+    public List<ReadTeam> readTeam(String status) {
+        List<ReadTeam> team = new ArrayList<>();
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_read_teams", ReadTeam.class )
+                .registerStoredProcedureParameter("_status",String.class, ParameterMode.IN)
+                .setParameter("_status", status);
+
+        try{
+            team = storedProcedureQuery.getResultList();
+        }catch (Exception e){
+            System.out.println("Error....proned");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+        return team;
+    }
+    @Override
+    public String updateUserTeam(String teamUuid,String userUuid) {
+        String actionCode = "";
+
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_update_user_team",ReadTeam.class)
+                .registerStoredProcedureParameter("_team_uuid", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("_user_uuid", String .class, ParameterMode.IN)
+
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
+
+                .setParameter("_team_uuid",teamUuid)
+                .setParameter("_user_uuid",userUuid);
         try{
             actionCode = (String) storedProcedureQuery.getOutputParameterValue("action_code");
         }catch (Exception e){

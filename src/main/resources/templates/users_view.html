@@ -46,6 +46,8 @@
         .bootstrap-tagsinput { background-color: #fff;box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);display: inline-block;padding: 4px 6px;color: #555;vertical-align: middle;border-radius: 4px;max-width: 100%;line-height: 22px;cursor: text;border: none; }
         .combo-role { margin-top: 5px;padding: 0;width: 135px;height: 22px;font-size: 0.89999em;opacity: 0.68888;}
         .combo-role:hover { opacity: 1; }
+        .combo-team{ margin-top: 15px;padding: 0;width: 135px;height: 24px;font-size: 0.89999em;opacity: 0.68888;}
+        .line-height-50{line-height: 50px !important;}
     </style>
 </head>
 <body>
@@ -296,7 +298,6 @@
                         </div>
                     </div>
                 </div>
-
             </div> <!-- container -->
 
         </div> <!-- content -->
@@ -307,7 +308,7 @@
     <!-- ============================================================== -->
 
     <!--<th:block layout:fragment="myscript">-->
-        <script type="text/javascript">
+        <script type="text/javascript" th:inline="javascript">
 
             var _page_no = 1;
             var _userUuid = "";
@@ -345,6 +346,7 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
+                            var list = [[${data}]];
                             $("#table_result").empty();
                             // $(".bs-checkbox").show();
                             $("#page_layer").show();
@@ -356,10 +358,10 @@
                                     usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
 
                                     strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.user_uuid+'"); class="userRow">';
-                                    strHtml += '    <td class="bs-checkbox" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
-                                    strHtml += '    <td class="user-image" style="width: 10px;border-right: none; ">';
+                                    strHtml += '    <td class="bs-checkbox line-height-50" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
+                                    strHtml += '    <td class="user-image line-height-50" style="width: 10px;border-right: none; ">';
                                     strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
-                                    strHtml += '    <td style="">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
+                                    strHtml += '    <td class="line-height-50">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
                                     // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
                                     strHtml += '    <td style="text-align: left;">';
                                     strHtml += '        <div class="tags-default">';
@@ -378,23 +380,29 @@
                                     strHtml += '			</div>';
                                     strHtml += '        </div>';
                                     strHtml += '    </td>';
-                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(2))+'</td>';
-                                    strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
-                                    strHtml += '     <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
-                                    // strHtml += '    <td style="text-align: center; ">';
-                                    // strHtml += '        <select class="form-control cmbo " uuId="'+v.user_uuid+'" >';
-                                    // strHtml += '            <option   value="1">ADMIN</option>';
-                                    // strHtml += '            <option   value="2">USER</option>';
-                                    // strHtml += '            <option   value="3">TEAM_LEADER</option>';
-                                    // strHtml += '            <option   value="4">BRONZE_MASTER</option>';
-                                    // strHtml += '        </select>';
-                                    // strHtml += '      </td>';
-                                    strHtml += '      <td style="line-height: 40px;" class="act_btn text-center">';
+                                    strHtml += '    <td style="text-align: center; " class="line-height-50">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(2))+'</td>';
+                                    strHtml += '    <td style="text-align: center; " class="line-height-50">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
+                                   // strHtml += '     <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                                    strHtml += '     <td style="text-align: center; " class="line-height-50">';
+                                    strHtml += '        <select class="form-control select-team  combo-team " user_uuid="'+v.user_uuid+'"   >';
+                                    for (i = 0; i < list.length; i++) {
+                                        console.log(list);
+                                        if(v.team_uuid==list[i].team_uuid){
+                                            strHtml += '<option selected value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
+                                        }
+                                        else{
+                                            strHtml += '<option value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
+                                        }
+                                    }
+                                    strHtml += '        </select>';
+                                    strHtml += '     </td>';
+                                    strHtml += '      <td style="line-height: 40px;" class="act_btn text-center line-height-50">';
                                     strHtml += '        <button type="button" class="btn btn-primary btn-xs" onclick=open_popup("'+v.user_uuid+'");><i class="fa fa-plus" aria-hidden="true"></i></button>';
                                     strHtml += '      </td>';
                                     strHtml += '</tr>';
 
                                 });
+
                                 $("#table_result").append(strHtml);
                             }else{
                                 $(".bs-checkbox").hide();
@@ -646,7 +654,31 @@
                             }
                         });
 
-                    })
+                    });
+
+                    $(document).on("change",".select-team",function () {
+                        var input={};
+                        input.user_uuid=$(this).attr("user_uuid");
+                        input.team_uuid=$(this).children("option:selected").val();
+
+                        console.log(input);
+                        $.ajax({
+                            type    : "GET",
+                            url       : url_context+"/users/update_user_team",
+                            data    : input,
+                            headers : {
+                                "Content-Type"  : "application/json;",
+                                "charset"       : "UTF-8"
+                            },
+                            success : function (result) {
+                              _thisPage.fillTable();
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+
+                    });
 
                 }
             }
