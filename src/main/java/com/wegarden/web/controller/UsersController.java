@@ -55,10 +55,17 @@ public class UsersController {
 
     @RequestMapping("/update_user_role")
     @ResponseBody
-    public String getReportStockList(@ModelAttribute("ROLE_ID") String roleId, @ModelAttribute("UUID") String userUuid) {
+    public String updateUserRoles(@ModelAttribute("ROLE_ID") String roleId, @ModelAttribute("USER_UUID") String userUuid) {
+        Map<String, Object> response = new HashMap<>();
 
-        System.out.println("JJJJJJJJJJJJ"+roleId+"hhhhhh"+userUuid);
-        String role =  usersService.updateUserRole(roleId,userUuid);
-       return role;
+        System.out.println("roleId:: "+roleId);
+        System.out.println("userUuid:: "+userUuid);
+        String actionCode =  usersService.updateUserRole(roleId,userUuid);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+       return actionCode;
     }
 }

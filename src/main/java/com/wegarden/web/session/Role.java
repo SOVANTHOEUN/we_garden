@@ -1,4 +1,4 @@
-package com.wegarden.web.model.userData;
+package com.wegarden.web.session;
 
 import org.springframework.security.core.GrantedAuthority;
 

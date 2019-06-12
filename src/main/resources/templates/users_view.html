@@ -45,6 +45,7 @@
 
         .bootstrap-tagsinput { background-color: #fff;box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);display: inline-block;padding: 4px 6px;color: #555;vertical-align: middle;border-radius: 4px;max-width: 100%;line-height: 22px;cursor: text;border: none; }
         .combo-role { margin-top: 5px;padding: 0;width: 135px;height: 22px;font-size: 0.89999em;opacity: 0.68888;}
+        .combo-role:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -362,13 +363,13 @@
                                     // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
                                     strHtml += '    <td style="text-align: left;">';
                                     strHtml += '        <div class="tags-default">';
-                                    strHtml += '            <div class="bootstrap-tagsinput role_layer">';
-                                    // strHtml += '            	<span class="tag label label-info">ADMIN<span data-role="remove" class="remove"></span></span>';
-                                    // strHtml += '				<span class="tag label label-info">'+wegarden.comm.null2Void(v.user_role, "").split(",")+'<span data-role="remove" class="remove"></span></span>';
+                                    strHtml += '            <div class="bootstrap-tagsinput role_layer" data-uuId='+v.user_uuid+' >';
                                     for(var i = 0; i < wegarden.comm.null2Void(v.user_role, "").split(",").length; i++){
-                                        strHtml += '				<span class="tag label label-info">'+wegarden.comm.null2Void(v.user_role, "").split(",")[i]+'<span data-role="remove" class="remove"></span></span>';
+                                        strHtml += '				<span class="tag label label-info" data-id='+convertRoleToId(wegarden.comm.null2Void(v.user_role, "").split(",")[i])+'>'+wegarden.comm.null2Void(v.user_role, "").split(",")[i]+'<span data-role="remove" class="remove"></span></span>';
                                     }
-                                    strHtml += '            <select class="form-control comBoRole combo-role" uuId="'+v.user_uuid+'" >';
+                                    strHtml += '				<input type="hidden" class="roleId" value='+convertRoleToId(wegarden.comm.null2Void(v.user_role, ""))+'>';
+                                    strHtml += '            <select class="form-control comBoRole combo-role">';
+                                    strHtml += '                <option   value="0">----SELECT----</option>';
                                     strHtml += '                <option   value="1">ADMIN</option>';
                                     strHtml += '                <option   value="2">USER</option>';
                                     strHtml += '                <option   value="3">TEAM_LEADER</option>';
@@ -503,6 +504,32 @@
                         }
                     });
                 },
+                updateUserRole : function (roleId, userUuid) {
+                    top.$("#loading").show();
+                    var input = {};
+
+                    input["USER_UUID"] = userUuid;
+                    input["ROLE_ID"]      = roleId;
+                    console.log("input:::: "+JSON.stringify(input));
+
+                    $.ajax({
+                        type    : "GET",
+                        url       : url_context+"/users/update_user_role",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            console.log(result);
+                            top.$("#loading").hide();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            top.$("#loading").hide();
+                        }
+                    });
+                },
                 event : function () {
                     $("#pageSizeLayer li a").on("click", function () {
                         var per_page = $(this).text();
@@ -562,14 +589,39 @@
                         var role_val   = $(this).find('option:selected').val();
                         var role_leng = $(this).closest("tr").find(".role_layer > span.tag").length;
                         var role_curr = $(this).closest("tr").find(".role_layer > span.tag").text();
+                        var role_id    = $(this).closest("tr").find(".role_layer > span.tag");
+                        var user_uuid    = $(this).closest("tr").find(".role_layer").data("uuid");
 
-                        if(role_leng < 3 && role_curr.indexOf(role_title) == -1){
+                        if(role_val != "0" && role_leng < 3 && role_curr.indexOf(role_title) == -1){
                             $(this).before('<span class="tag label label-info" data-id='+role_val+'>'+role_title+'<span data-role="remove" class="remove"></span></span>');
+                            $.each(role_id, function (i,v) {
+                                var roleId = $(this).data("id");
+                                role_val += ","+roleId;
+                            });
+                            $(this).closest("tr").find(".roleId").val(role_val);
+                            _thisPage.updateUserRole(role_val, user_uuid)
                         }
                     });
 
                     $(document).on("click", ".remove", function () {
-                        $(this).parent('span').remove();
+                        var roleLength  = $(this).closest("tr").find(".role_layer > span.tag").length;
+                        var spanId        =  $(this).parent('span.tag').data("id");
+                        var roleId         =  $(this).parents(".role_layer").find("input.roleId").val();
+                        var user_uuid    = $(this).closest("tr").find(".role_layer").data("uuid");
+                        var newVal       = "";
+
+                        if(roleLength > 1){
+                            for(var i = 0; i < roleId.split(",").length; i++){
+                                if(roleId.split(",")[i] != spanId){
+                                    newVal += ","+roleId.split(",")[i];
+                                }
+                            }
+
+                            $(this).parents(".role_layer").find("input.roleId").val(newVal.substr(1,3));
+                            _thisPage.updateUserRole(newVal.substr(1,3), user_uuid);
+                            $(this).parent('span.tag').remove();
+
+                        }
                     });
 
                     $(document).on("change",".cmbo",function () {
@@ -621,6 +673,27 @@
                     return formatValue = "$"+formatValue;
                 }else{
                     return formatValue;
+                }
+            }
+
+            function convertRoleToId(role_){
+                if(role_ != "null" || !wegarden.comm.isEmpty(role_)){
+                    if(role_.indexOf("ADMIN") > -1){
+                        role_ = role_.replace("ADMIN", "1");
+                    }
+
+                    if(role_.indexOf("USER") > -1){
+                        role_ = role_.replace("USER", "2");
+                    }
+
+                    if(role_.indexOf("TEAM_LEADER") > -1){
+                        role_ = role_.replace("TEAM_LEADER", "3");
+                    }
+
+                    if(role_.indexOf("BRONZE_MASTER") > -1){
+                        role_ = role_.replace("BRONZE_MASTER", "4");
+                    }
+                    return role_;
                 }
             }
 

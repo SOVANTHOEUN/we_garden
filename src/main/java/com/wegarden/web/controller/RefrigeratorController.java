@@ -1,6 +1,6 @@
 package com.wegarden.web.controller;
 
-import com.wegarden.web.model.stock.ExcelGenerator;
+import com.wegarden.web.util.ExcelGenerator;
 import com.wegarden.web.model.stock.Refrigerator;
 import com.wegarden.web.services.RefrigeratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.sql.Array;
 import java.util.*;
-import java.util.function.Function;
 
 @Controller
 @RequestMapping("/refrigerator")

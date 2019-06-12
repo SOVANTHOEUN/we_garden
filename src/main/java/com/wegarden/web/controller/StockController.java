@@ -2,6 +2,7 @@ package com.wegarden.web.controller;
 
 import com.wegarden.web.model.stock.*;
 import com.wegarden.web.services.StockService;
+import com.wegarden.web.util.ExcelGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;

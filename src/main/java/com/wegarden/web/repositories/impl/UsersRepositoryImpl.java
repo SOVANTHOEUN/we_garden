@@ -105,6 +105,7 @@ public class UsersRepositoryImpl implements UsersRepository {
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_update_user_role")
                 .registerStoredProcedureParameter("_roles_id", String.class, ParameterMode.IN)
                 .registerStoredProcedureParameter("_user_uuid", String .class, ParameterMode.IN)
+                .registerStoredProcedureParameter("action_code", String.class, ParameterMode.OUT)
 
                 .setParameter("_roles_id", roleId)
                 .setParameter("_user_uuid", userUuid);
