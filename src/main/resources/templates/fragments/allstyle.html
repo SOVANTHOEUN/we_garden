@@ -1,25 +1,35 @@
-<!--<link rel="shortcut icon" style="width: 100%;" href="/images/wegarden.png" />-->
-<link rel="shortcut icon" style="width: 100%;" href="/images/we_garden_logo.png" />
+<link rel="shortcut icon" style="width: 100%;" th:href="@{/images/we_garden_logo.png}"/>
 
 <!--Morris Chart CSS -->
-<link rel="stylesheet" href="../plugins/morris/morris.css">
-
-<link href="../plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
-<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="../css/core.css" rel="stylesheet" type="text/css" />
-<link href="../css/components.css" rel="stylesheet" type="text/css" />
-<link href="../css/icons.css" rel="stylesheet" type="text/css" />
-<link href="../css/pages.css" rel="stylesheet" type="text/css" />
-<link href="../css/responsive.css" rel="stylesheet" type="text/css" />
-<link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/morris/morris.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/core.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/components.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/icons.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/pages.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/responsive.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" type="text/css" />
 
 <!--Sweet Alert-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
-<link href="../css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/bootstrap-tagsinput.css}" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
-    var _imageApiUrl = "http://192.168.178.162/wegarden/image/";
+    // var _imageApiUrl = "http://192.168.178.162/wegarden/image/";
+    var _imageApiUrl = "  https://kosignstore.wecambodia.com/storage/wegarden/image/";
+    // var _imageUserDefault  = "@{/images/default_user.png}";
+    // var _imageItemDefault = "@{/images/product-default.jpg}";
+    var _imageUserDefault  = "https://kosignstore.wecambodia.com/storage/wegarden/image/no_image.jpg";
+    var _imageItemDefault = "https://kosignstore.wecambodia.com/storage/wegarden/image/no_image.jpg";
+    var url_context;
+    if(window.location.pathname.indexOf("wegardenadmin") > 0){
+        url_context = "/"+window.location.pathname.split("/")[1];
+    }else{
+        url_context = "";
+    }
+
 </script>
 
 <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -31,4 +41,4 @@
 
 <!--Sweet Alert-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-<script src="../js/modernizr.min.js"></script>
+<script type="text/javascript" th:src="@{/js/modernizr.min.js/}"></script>

@@ -5,6 +5,9 @@ import com.wegarden.web.model.user.User;
 import com.wegarden.web.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +23,9 @@ public class UsersController {
     private UsersService usersService;
 
     @RequestMapping("/select")
-    public String home(){
+    public String home(ModelMap model){
+        model.addAttribute("data",usersService.readTeam(""));
+        System.out.println("data....."+usersService.readTeam(""));
         return "users_view";
     }
 
@@ -61,4 +66,25 @@ public class UsersController {
         String role =  usersService.updateUserRole(roleId,userUuid);
        return role;
     }
+
+    @RequestMapping("/update_user_team")
+    @ResponseBody
+    public Map<String, Object> updateUserTeam(@ModelAttribute("team_uuid") String teamUuId, @ModelAttribute("user_uuid") String userUuid) {
+
+
+        System.out.println("teamUuId:"+teamUuId);
+        System.out.println("userUuid:"+userUuid);
+
+
+        Map<String, Object> response = new HashMap<>();
+        String actionCode =  usersService.updateUserTeam(teamUuId,userUuid);
+        if (actionCode.equals("00000")){
+            response.put("status",true);
+        }else {
+            response.put("status",false);
+        }
+        System.out.println(response);
+        return response;
+    }
+
 }

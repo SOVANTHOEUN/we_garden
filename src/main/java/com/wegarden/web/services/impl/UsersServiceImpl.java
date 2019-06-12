@@ -1,5 +1,6 @@
 package com.wegarden.web.services.impl;
 
+import com.wegarden.web.model.user.ReadTeam;
 import com.wegarden.web.model.user.Team;
 import com.wegarden.web.model.user.User;
 import com.wegarden.web.repositories.UsersRepository;
@@ -36,7 +37,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<Team> readTeam(String status) {
-        return null;
+    public List<ReadTeam> readTeam(String status)
+    {
+        return usersRepository.readTeam(status);
+    }
+
+    @Override
+    public String updateUserTeam(String teamUuid, String userUuid) {
+        return usersRepository.updateUserTeam(teamUuid,userUuid);
     }
 }

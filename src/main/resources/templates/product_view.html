@@ -234,7 +234,7 @@
 
                         $.ajax({
                             type    : "GET",
-                            url       : "/product/get_product_list",
+                            url       : url_context+"/product/get_product_list",
                             data    : input,
                             headers : {
                                 "Content-Type"  : "application/json;",
@@ -249,7 +249,7 @@
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i, v) {
-                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : wegarden.comm.null2Void(v.product_image_name, '');
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageUserDefault : wegarden.comm.null2Void(v.product_image_name, '');
 
                                         for(var i = 0; i < categoryrec_.length; i++){
                                             if(v.category_name == categoryrec_[i] && arrCate[i] != categoryrec_[i]){
@@ -293,7 +293,7 @@
                     getCategoryList : function(input){
                         $.ajax({
                             type    : "GET",
-                            url       : "/product/get_categorry_lists",
+                            url       : url_context+"/product/get_categorry_lists",
                             data    : {"STATUS":"1"},
                             headers : {
                                 "Content-Type"  : "application/json;",
@@ -334,7 +334,7 @@
 
                         $.ajax({
                             type    : "GET",
-                            url       : requestUrl,
+                            url       : url_context+requestUrl,
                             data    : input,
                             headers : {
                                 "Content-Type"  : "application/json;",
@@ -362,7 +362,7 @@
 
                         $.ajax({
                             type    : "GET",
-                            url       : "/product/get_product_list",
+                            url       : url_context+"/product/get_product_list",
                             data    : input,
                             headers : {
                                 "Content-Type"  : "application/json;",
@@ -391,7 +391,7 @@
 
                         $.ajax({
                             type    : "GET",
-                            url       : "/product/delete_product",
+                            url       : url_context+"/product/delete_product",
                             data    : input,
                             headers : {
                                 "Content-Type"  : "application/json;",
@@ -571,7 +571,7 @@
                         $("#txtSave").data("uuid",input_.PRO_UUID);
                         _thisPage.searchProductRow(input_);
                     }else{
-                        $('#myImage').attr('src','../images/imageDefault2.svg');
+                        $('#myImage').attr('src',_imageItemDefault);
                         $('input#pro_nm').val('');
                         $('input#pro_price').val('');
                         $('input#pro_quantity').val('');

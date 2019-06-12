@@ -376,8 +376,10 @@
 
                 $.ajax({
                     type  : "GET",
-                    url     : "/order/get_order_list",
+                    url     : url_context+"/order/get_order_list",
                     data  : '',
+                    cache: false,
+                    dataType: 'json',
                     headers: {
                         "Content-Type": "application/json;",
                         "charset": "UTF-8"
@@ -388,7 +390,7 @@
 
                         if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                             $.each(result.DATA_REC, function (i, v) {
-                                usr_image = wegarden.comm.isEmpty(v.user_image) ? "/images/default_user.png" : _imageApiUrl +wegarden.comm.null2Void(v.user_image, '');
+                                usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl +wegarden.comm.null2Void(v.user_image, '');
 
                                 strHtml += '<tr data-uuid="'+v.user_uuid+'" class="userOrder">';
                                 strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
@@ -433,7 +435,7 @@
 
                 $.ajax({
                     type    : "GET",
-                    url       : "/order/user_order",
+                    url       : url_context+"/order/user_order",
                     data    : input,
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -445,7 +447,7 @@
 
                         if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                             $.each(result.DATA_REC, function (i, v) {
-                                usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
+                                usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageUserDefault : "/images/"+wegarden.comm.null2Void(v.product_image_name, '');
 
                                 strHtml += '<tr data-uuid="'+v.order_uuid+'" class="order_row">';
                                 strHtml += '    <td style="text-align: center;">'+wegarden.comm.formatDate(wegarden.comm.null2Void(v.order_date, '').substr(0,10))+"&nbsp;&nbsp;"+timeConvert(v.order_date.substr(10,6).trim())+'</td>';
@@ -483,7 +485,7 @@
 
                 $.ajax({
                     type    : "GET",
-                    url       : "/order/order_detail_list",
+                    url       :url_context+ "/order/order_detail_list",
                     data    : input,
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -495,7 +497,7 @@
 
                         if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                             $.each(result.DATA_REC, function (i, v) {
-                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                 strDetailHtml += '<tr data-uuid="'+v.product_uuid+'">';
                                 strDetailHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="user-img" class="img-circle" width="40px" height="40px" /></td>';
@@ -528,7 +530,7 @@
 
                 $.ajax({
                     type    : "POST",
-                    url       : "/order/order_pay_money",
+                    url       : url_context+"/order/order_pay_money",
                     data    : JSON.stringify(input),
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -613,7 +615,7 @@
 
                 $.ajax({
                     type    : "GET",
-                    url       : "/order/order_stock_out",
+                    url       : url_context+"/order/order_stock_out",
                     data    : input,
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -626,7 +628,7 @@
 
                         if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                             $.each(result.DATA_REC, function (i, v) {
-                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                pro_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                 strHtml += '<tr data-row="'+v.product_uuid+'">';
                                 strHtml += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px"></td>';

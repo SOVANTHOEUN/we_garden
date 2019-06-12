@@ -311,7 +311,7 @@
 
                         $.ajax({
                             type: "GET",
-                            url: "/stock/get_stock_list",
+                            url: url_context+"/stock/get_stock_list",
                             data: input,
                             headers: {
                                 "Content-Type": "application/json;",
@@ -324,7 +324,7 @@
 
                                 if (!wegarden.comm.isEmpty(result.DATA_REC)) {
                                     $.each(result.DATA_REC, function (i, v) {
-                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
                                         proPrice = v.product_price * v.stock_quantity;
                                         totalPrice += proPrice;
 
@@ -377,7 +377,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "/stock/stock_save_pro_amount",
+                            url: url_context+"/stock/stock_save_pro_amount",
                             data: JSON.stringify(input),
                            headers: {
                                 "Content-Type": "application/json;",
@@ -402,7 +402,7 @@
 
                         $.ajax({
                             type: "GET",
-                            url: "/stock/get_report_stockin_list",
+                            url: url_context+"/stock/get_report_stockin_list",
                             data: input,
                             headers: {
                                 "Content-Type": "application/json;",
@@ -417,7 +417,7 @@
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i,v) {
-                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                        usr_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
                                         strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+usr_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
@@ -451,7 +451,7 @@
 
                         $.ajax({
                             type: "GET",
-                            url: "/stock/get_report_stockout_list",
+                            url: url_context+"/stock/get_report_stockout_list",
                             data: input,
                             headers: {
                                 "Content-Type": "application/json;",
@@ -467,7 +467,7 @@
 
                                 if(!wegarden.comm.isEmpty(result.DATA_REC)){
                                     $.each(result.DATA_REC, function (i,v) {
-                                        pro_image = wegarden.comm.isEmpty(v.product_image_name) ? "/images/default_user.png" : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
+                                        pro_image = wegarden.comm.isEmpty(v.product_image_name) ? _imageItemDefault : _imageApiUrl+wegarden.comm.null2Void(v.product_image_name, '');
 
                                         strReport += '<tr data-row="'+wegarden.comm.null2Void(v.product_uuid)+'">';
                                         strReport += '    <td class="user-image" style="width: 10px;border-right: none; "><img src="'+pro_image+'" alt="img" class="img-circle" width="40px" height="40px" /></td>';
@@ -509,7 +509,7 @@
 
                         $.ajax({
                             type    : "GET",
-                            url       : "/product/get_product_list",
+                            url       : url_context+"/product/get_product_list",
                             data    : input,
                             headers : {
                                 "Content-Type"  : "application/json;",
