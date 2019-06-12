@@ -386,7 +386,6 @@
                                     strHtml += '     <td style="text-align: center; " class="line-height-50">';
                                     strHtml += '        <select class="form-control select-team  combo-team " user_uuid="'+v.user_uuid+'"   >';
                                     for (i = 0; i < list.length; i++) {
-                                        console.log(list);
                                         if(v.team_uuid==list[i].team_uuid){
                                             strHtml += '<option selected value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
                                         }
@@ -518,7 +517,6 @@
 
                     input["USER_UUID"] = userUuid;
                     input["ROLE_ID"]      = roleId;
-                    console.log("input:::: "+JSON.stringify(input));
 
                     $.ajax({
                         type    : "GET",
@@ -529,7 +527,6 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
-                            console.log(result);
                             top.$("#loading").hide();
                         },
                         error: function (error) {
@@ -661,7 +658,6 @@
                         input.user_uuid=$(this).attr("user_uuid");
                         input.team_uuid=$(this).children("option:selected").val();
 
-                        console.log(input);
                         $.ajax({
                             type    : "GET",
                             url       : url_context+"/users/update_user_team",
