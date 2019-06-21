@@ -46,4 +46,9 @@ public class UsersServiceImpl implements UsersService {
     public String updateUserTeam(String teamUuid, String userUuid) {
         return usersRepository.updateUserTeam(teamUuid,userUuid);
     }
+
+    @Override
+    public Double getUserTotalCredit() {
+        return usersRepository.getUserTotalCredit();
+    }
 }

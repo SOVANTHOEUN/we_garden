@@ -94,4 +94,15 @@ public class UsersController {
         return response;
     }
 
+    @RequestMapping("/get_user_total_credit")
+    @ResponseBody
+    public Map<String, Object> getUserTotalCredit() {
+        Double remaining_credit =  usersService.getUserTotalCredit();
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("REMAINING_CREDIT", remaining_credit);
+        System.out.println("response:::: "+response);
+        return response;
+    }
+
 }

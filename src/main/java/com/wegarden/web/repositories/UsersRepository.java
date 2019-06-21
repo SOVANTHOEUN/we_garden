@@ -14,4 +14,5 @@ public interface UsersRepository {
     String updateUserRole(String roleId, String userUuid);
     List<ReadTeam> readTeam(String status );
     String updateUserTeam(String teamUuid, String userUuid );
+    Double getUserTotalCredit();
 }

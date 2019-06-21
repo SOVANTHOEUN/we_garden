@@ -73,9 +73,8 @@
 
                             <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
                             <div class="fixed-table-toolbar">
-                                <div class="bars pull-left">
-                                    <!--<button id="" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
-                                    <!--<button id="" class="btn btn-info"><i class="fa fa-plus m-r-5" style="margin-left: 10px;"></i>Add</button>-->
+                                <div class="bars pull-left" style="margin-top: 20px;">
+                                    <p class="font-13"><b>TOTAL CREDIT: <span id="remainCredit"></span></b></p>
                                 </div>
                                 <div class="pull-right search" style="display: inline-flex;">
                                     <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
@@ -321,6 +320,7 @@
                     var _this = this;
                     _this.event();
                     _this.fillTable();
+                    _this.getUserTotalCredit();
                     wegarden.comm.checkAllTblChk("btSelectAll", "tbl_user", "bs-checkbox");
 
                 },
@@ -417,6 +417,23 @@
                                 $("#loading").hide();
                             }, 300);
 
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                getUserTotalCredit : function (input) {
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/users/get_user_total_credit",
+                        data    : {},
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            $("#remainCredit").text(addCurrencySymbol(result.REMAINING_CREDIT.toFixed(3)));
                         },
                         error: function (error) {
                             console.log(error);

@@ -161,4 +161,20 @@ public class UsersRepositoryImpl implements UsersRepository {
 
         return actionCode;
     }
+
+    @Override
+    public Double getUserTotalCredit() {
+        Double countUsers = 0.0;
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_report_total_remaining_credit")
+                .registerStoredProcedureParameter("remaining_credit", Double.class, ParameterMode.OUT);
+        try{
+            countUsers = (Double) storedProcedureQuery.getOutputParameterValue("remaining_credit");
+        }catch (Exception e){
+            System.out.println("Error.....proned.");
+            e.printStackTrace();
+        }
+        entityManager.clear();
+
+        return countUsers;
+    }
 }
