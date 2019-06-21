@@ -101,7 +101,6 @@ public class UsersController {
         Map<String, Object> response = new HashMap<>();
 
         response.put("REMAINING_CREDIT", remaining_credit);
-        System.out.println("response:::: "+response);
         return response;
     }
 
