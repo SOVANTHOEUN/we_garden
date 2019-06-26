@@ -38,6 +38,28 @@
             .form-control {
                 margin-left: 2px !important;
             }
+
+            .tableFixHead thead th { position: sticky; top: 0; }
+            /* Just common table stuff. Really. */
+            table  { border-collapse: collapse; width: 100%; }
+            table  { width: 100%; }
+            th, td { padding: 8px 16px; }
+            th     { background:#eee; }
+            .tableFixHead th { border-top: 1px solid #ebeff2 !important;border-bottom: 1px solid #ebeff2 !important; }
+
+
+            .tableFixHead          {overflow-y: auto;height: 33em;}
+            .tableFixHead thead th { position: sticky; top: 0; }
+            /* Just common table stuff. Really. */
+            table  { border-collapse: collapse; width: 100%; }
+            th, td { padding: 8px 16px; }
+            th     { background:#eee; }
+
+            /* Borders (if you need them) */
+            .tableFixHead { border: 1px solid #ebeff2; border-left: 0; border-right: 0; }
+            .tableFixHead th, td { border: 1px solid #ebeff2; border-top: 0; }
+            .tableFixHead tbody tr:last-child td { border-bottom: 0; }
+            .tableFixHead thead th { box-shadow: 1px 1px 0 #ebeff2; }
         </style>
 
     </head>
@@ -176,7 +198,8 @@
                                                         <div class="col-sm-12" style="">
                                                             <div class="bootstrap-table custom-table1">
                                                                 <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
-                                                                    <div class="fixed-table-body">
+                                                                    <div class="tableFixHead">
+                                                                        <span class="bg-hide" style="position: fixed;width: 91%;top: 12em;background: #eeeeee;height: 22px;">&nbsp;</span>
                                                                         <table data-toggle="" class="table table-bordered table-fixed" id="tbl_report">
                                                                             <colgroup>
                                                                                 <col style="width:10px;">

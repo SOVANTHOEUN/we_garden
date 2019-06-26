@@ -37,6 +37,28 @@
             from {transform:scale(0)}
             to {transform:scale(1)}
         }
+
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        table  { width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+        .tableFixHead th { border-top: 1px solid #ebeff2 !important;border-bottom: 1px solid #ebeff2 !important; }
+
+
+        .tableFixHead          {overflow-y: auto;height: 33em;}
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+
+        /* Borders (if you need them) */
+        .tableFixHead { border: 1px solid #ebeff2; border-left: 0; border-right: 0; }
+        .tableFixHead th, td { border: 1px solid #ebeff2; border-top: 0; }
+        .tableFixHead tbody tr:last-child td { border-bottom: 0; }
+        .tableFixHead thead th { box-shadow: 1px 1px 0 #ebeff2; }
     </style>
 </head>
 <body>
@@ -122,20 +144,22 @@
                                                 <div class="col-sm-12" style="">
                                                     <div class="bootstrap-table custom-table1">
                                                         <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
-                                                            <div class="fixed-table-body">
+                                                            <div class="tableFixHead">
                                                                 <div class="panel-disabled loading-stock-pop" style="display: none;">
                                                                     <div class="loader-1"></div>
                                                                 </div>
-
+                                                                <span class="bg-hide" style="position: fixed;width: 91%;top: 12em;background: #eeeeee;height: 22px;">&nbsp;</span>
                                                                 <table data-toggle="" class="table table-bordered table-fixed" id="tbl_report">
                                                                     <colgroup>
                                                                         <col style="width:10px;">
                                                                         <col style="width:450px;">
                                                                         <col style="width:40px;">
                                                                         <col style="width:40px;">
-                                                                        <col class="brownMaster" style="width: 40px;">
-                                                                        <col class="teaTime" style="width: 40px;">
-                                                                        <col>
+                                                                        <col style="width:40px;" class="brownMaster">
+                                                                        <col style="width:40px;" class="teaTime">
+                                                                        <col style="width:63px;">
+                                                                        <col style="width:63px;">
+                                                                        <col style="width:40px;">
                                                                     </colgroup>
                                                                     <thead>
                                                                         <tr>
@@ -144,26 +168,28 @@
                                                                             <th class="txtInOutAmt" rowspan="2"><div class="th-inner" style="line-height: 60px;">Sale</div></th>
                                                                             <th class="brownMaster" rowspan="2"><div class="th-inner" style="line-height: 60px;">Bronze-Master</div></th>
                                                                             <th class="teaTime" rowspan="2"><div class="th-inner" style="line-height: 60px;">Tea-time</div></th>
-                                                                            <th colspan="2"><div class="th-inner" style="text-align: center;line-height: 10px;">Payment</div></th>
+                                                                            <th colspan="2" style="">
+                                                                                <div class="th-inner" style="text-align: center;line-height: 15px;">Payment</div>
+                                                                                <div style="float:left;display: flex;">
+                                                                                    <div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;border-top: 1px solid #ebeff2;width: 88px;border-right: 1px solid #ebeff2;">Credit</div>
+                                                                                    <div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;border-top: 1px solid #ebeff2;width: 88px;">Cash</div>
+                                                                                </div>
+                                                                            </th>
                                                                             <th rowspan="2"><div class="th-inner" style="line-height: 60px;">Total Income</div></th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Credit</div></th>
-                                                                            <th><div class="th-inner" style="font-size: 0.899999999em;opacity: 0.8;">Cash</div></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbl_report_result">
-                                                                        <!--<tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
-                                                                            <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
-                                                                            <td style="border-left: none;line-height: 40px;">Zummers</td>
-                                                                            <td style="line-height: 40px;">$0.5</td>
-                                                                            <td style="line-height: 40px;">7</td>
-                                                                            <td style="line-height: 40px;text-align: center;">0</td>
-                                                                            <td style="line-height: 40px;text-align: center;">0</td>
-                                                                            <td style="line-height: 40px;">$3.5</td>
-                                                                            <td style="line-height: 40px;">$3.5</td>
-                                                                            <td style="line-height: 40px;">$3.5</td>
-                                                                        </tr>-->
+                                                                    <!--<tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                        <td class="user-image" style="width: 10px;border-right: none; "><img src="http://192.168.178.130/~imac/wegarden/image/801056fd-5517-4f15-8511-3bdf5e4f9fd2.jpg" alt="img" class="img-circle" width="40px" height="40px"></td>
+                                                                        <td style="border-left: none;line-height: 40px;">Zummers</td>
+                                                                        <td style="line-height: 40px;">$0.5</td>
+                                                                        <td style="line-height: 40px;">7</td>
+                                                                        <td style="line-height: 40px;text-align: center;">0</td>
+                                                                        <td style="line-height: 40px;text-align: center;">0</td>
+                                                                        <td style="line-height: 40px;">$3.5</td>
+                                                                        <td style="line-height: 40px;">$3.5</td>
+                                                                        <td style="line-height: 40px;">$3.5</td>
+                                                                    </tr>-->
                                                                     </tbody>
                                                                 </table>
                                                                 <div class="panel-disabled loading-stock-out" style="display: none;">
@@ -637,16 +663,16 @@
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.bronze_master_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.tea_time_quantity)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.credit_quantity)+'</td>';
-                                strHtml += '    <td style="line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.debit_quantity)+'</td>';
+                                strHtml += '    <td style="width: 88px;line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.credit_quantity)+'</td>';
+                                strHtml += '    <td style="width: 88px;line-height: 40px;text-align: center;">'+wegarden.comm.null2Void(v.debit_quantity)+'</td>';
                                 strHtml += '    <td style="line-height: 40px;text-align: center;">'+addCurrencySymbol((Number(v.product_price) * Number(v.order_quantity)).toFixed(2))+'</td>';
                                 strHtml += '</tr>';
 
-                                brownTotal     += Number(v.bronze_master_quantity) * Number(v.product_price);
-                                teaTimeTotal  += Number(v.tea_time_quantity) * Number(v.product_price);
-                                creditTotal      += Number(v.credit_quantity) * Number(v.product_price);
-                                debitTotal       += Number(v.debit_quantity) * Number(v.product_price);
-                                totalPrice        += Number(v.product_price) * Number(v.order_quantity);
+                                brownTotal      += Number(v.bronze_master_quantity) * Number(v.product_price);
+                                teaTimeTotal    += Number(v.tea_time_quantity) * Number(v.product_price);
+                                creditTotal     += Number(v.credit_quantity) * Number(v.product_price);
+                                debitTotal      += Number(v.debit_quantity) * Number(v.product_price);
+                                totalPrice      += Number(v.product_price) * Number(v.order_quantity);
                             });
 
                             strTotal += '<tr>';
@@ -655,8 +681,8 @@
                             strTotal += '	<td style="border-left: none;"></td>';
                             strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(brownTotal)+'</label></td>';
                             strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(teaTimeTotal)+'</label></td>';
-                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(creditTotal)+'</label></td>';
-                            strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(debitTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;height: 88px;"><label>'+addCurrencySymbol(creditTotal)+'</label></td>';
+                            strTotal += '	<td style="line-height: 40px;text-align: center;height: 88px;"><label>'+addCurrencySymbol(debitTotal)+'</label></td>';
                             strTotal += '	<td style="line-height: 40px;text-align: center;"><label>'+addCurrencySymbol(totalPrice)+'</label></td>';
                             strTotal += '</tr>';
 
