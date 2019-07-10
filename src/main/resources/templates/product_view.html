@@ -320,9 +320,9 @@
                         if(!input) input = {};
 
                         input["PRO_NM"]      = $.trim($("#pro_nm").val());
-                        input["PRO_PRICE"]  = parseFloat($.trim($("#pro_price").val()).replace("$",""));
-                        input["PRO_QTY_BOX"]  = parseFloat($.trim($("#pro_quantity").val()));
-                        input["CATE_UUID"]  = $("#pro_category option:selected").data("uuid");
+                        input["PRO_PRICE"]   = parseFloat($.trim($("#pro_price").val()).replace("$",""));
+                        input["PRO_QTY_BOX"] = parseFloat($.trim($("#pro_quantity").val()));
+                        input["CATE_UUID"]   = $("#pro_category option:selected").data("uuid");
                         // input["FILE_NAME"]   = input.FILE_NAME;
                         // input["EXTENSION"] = input.EXTENSION;
                         input["IMG_UUID"]   = input.IMG_UUID;

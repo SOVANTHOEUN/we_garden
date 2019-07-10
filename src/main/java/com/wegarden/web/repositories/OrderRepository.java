@@ -11,7 +11,7 @@ import com.wegarden.web.model.stock.StockReportOut;
 import java.util.List;
 
 public interface OrderRepository {
-    List<Order> getOrderList();
+    List<Order> getOrderList(String srchWd);
     List<UserOrder> getUserOrderList(String userUuid);
     List<OrderDetail> getOrderDetailList(String orderUuid);
     String payOrderItem(String orderUuid);

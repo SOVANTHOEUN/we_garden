@@ -17,13 +17,13 @@ public class UsersServiceImpl implements UsersService {
     private UsersRepository usersRepository;
 
     @Override
-    public List<User> getUsersList(int limit, int page, String srch_wd, String userUuid) {
-        return usersRepository.getUsersList(limit, page, srch_wd, userUuid);
+    public List<User> getUsersList(String userUuid, String teamUuid, String srch_wd, int page_no, int limit) {
+        return usersRepository.getUsersList(userUuid, teamUuid, srch_wd, page_no, limit);
     }
 
     @Override
-    public int countUsers(String user_uuid, String srch_wd, String status) {
-        return usersRepository.countUsers(user_uuid, srch_wd, status);
+    public int countUsers(String userUuid, String teamUuid, String srch_wd, String status) {
+        return usersRepository.countUsers(userUuid, teamUuid, srch_wd, status);
     }
 
     @Override

@@ -22,8 +22,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public List<Order> getOrderList() {
-        return orderRepository.getOrderList();
+    public List<Order> getOrderList(String srchWd) {
+        return orderRepository.getOrderList(srchWd);
     }
 
     @Override

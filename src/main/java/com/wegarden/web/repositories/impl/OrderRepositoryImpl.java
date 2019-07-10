@@ -20,10 +20,12 @@ public class OrderRepositoryImpl implements OrderRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Order> getOrderList() {
+    public List<Order> getOrderList(String srchWd) {
         List<Order> orderReportList = new ArrayList<>();
 
-        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_report_user_in_debt", Order.class);
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("\"user\".fn_report_user_in_debt", Order.class)
+                .registerStoredProcedureParameter("_en_name", String.class, ParameterMode.IN)
+                .setParameter("_en_name", srchWd);
 
         try{
             orderReportList = storedProcedureQuery.getResultList();

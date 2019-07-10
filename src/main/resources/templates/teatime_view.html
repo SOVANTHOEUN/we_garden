@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="Tea-Time-Hisory"></title>
+    <style type="text/css">
+        .card-selected{background-color: #34d3eb;}
+        #table_result tr.userRow{ cursor: pointer; }
+
+        table > thead > tr > th{background-color: #ffffff !important;}
+        table tbody > tr > td{font-size: 1.07em;}
+        table thead tr {background-color: #ebeff2;}
+        table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+        table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+        table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+        .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+
+        .modal-custom-img {display: none;position: fixed;z-index: 9999999;padding-top: 75px;left: -80px;top: 0;width: 100%;height: 100%;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.3); }
+        /* Modal Content (image) */
+        .modal-content-custom { margin: auto;display: block;width: 100%;max-width: 700px;height: 95%; }
+        /* Caption of Modal Image */
+        #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
+        /* Add Animation */
+        .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
+        .close-custom { position: absolute;top: 8%;right: 30%;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        table  { width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+        .tableFixHead th { border-top: 1px solid #ebeff2 !important;border-bottom: 1px solid #ebeff2 !important; }
+
+
+        .tableFixHead          {overflow-y: auto;height: 33em;}
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+
+        /* Borders (if you need them) */
+        .tableFixHead { border: 1px solid #ebeff2; border-left: 0; border-right: 0; }
+        .tableFixHead th, td { border: 1px solid #ebeff2; border-top: 0; }
+        .tableFixHead tbody tr:last-child td { border-bottom: 0; }
+        .tableFixHead thead th { box-shadow: 1px 1px 0 #ebeff2; }
+
+        .total-order { text-align: right;border-left: none;font-size: 0.9em;line-height: 25px !important;font-weight: bold;opacity: 0.9; }
+
+        [type="radio"]:not(:checked), [type="radio"]:checked {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        [type="radio"]:not(:checked)+span, [type="radio"]:checked+span {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            font-size: 1rem;
+            -webkit-transition: .28s ease;
+            transition: .28s ease;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        [type="radio"]+span:before, [type="radio"]+span:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 4px;
+            width: 16px;
+            height: 16px;
+            z-index: 0;
+            -webkit-transition: .28s ease;
+            transition: .28s ease;
+        }
+        [type="radio"]:checked+span:after {
+            -webkit-transform: scale(1.02);
+            transform: scale(1.02);
+        }
+        [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+            background-color: #81c868;
+        }
+        [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+            border: 2px solid #81c868;
+        }
+        [type="radio"]:checked+span.inactive:after, [type="radio"].with-gap:checked+span.inactive:after {
+            background-color: #bfbfbf;
+        }
+        [type="radio"]:checked+span.inactive:after, [type="radio"].with-gap:checked+span.inactive:before, [type="radio"].with-gap:checked+span.inactive:after {
+            border: 2px solid #bfbfbf;
+        }
+        [type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]:checked+span:before, [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+            border-radius: 50%;
+        }
+    </style>
+    <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js/}"></script>
+</head>
+<body>
+<!-- Begin page -->
+<div layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container">
+
+                <!--Custom Toolbar-->
+                <!--===================================================-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title"><b>Tea Time History</b></h4>
+                            <p class="text-muted font-13">
+                                <label>Function: </label> Read tea time each month.
+                            </p>
+
+                            <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sDate" class="control-label">Select Month</label>
+                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                    <input type="text" class="form-control">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-md-4">
+
+                                        </div>
+                                    </div>
+                                    <!--<p class="font-15"><b class="text-muted">TOTAL CREDIT: </b><span id="remainCredit" style="font-weight: bolder;"></span></p>-->
+                                </div>
+                            </div>
+
+                            <!--modal-->
+                            <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtTitle" data-status="I" data-uuid="">Tea Time Details</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Team: </label><span style="font-size: small"> General Management</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-4" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="tableFixHead">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                                <span class="bg-hide" style="position: fixed;width: 29.5%;top: 6.em;background: #eeeeee;height: 22px;">&nbsp;</span>
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_user_detail">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:250px;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th colspan="2"><div class="th-inner" style="text-align: center;">Name</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_user_list">
+                                                                        <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                            <td class="user-image" style="width: 10px;border-right: none;">
+                                                                                <img src="  https://kosignstore.wecambodia.com/storage/wegarden/image/7461ea9a-de39-4ddb-96fa-9dda97a1a0d8.jpeg" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">
+                                                                            </td>
+                                                                            <td style="line-height: 40px;border-left: none;">Sreyoun</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="panel-disabled loading-stock-out" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-sm-8" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="tableFixHead">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                                <span class="bg-hide" style="position: fixed;width: 61.9%;top: 6.em;background: #eeeeee;height: 22px;">&nbsp;</span>
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_order_detail">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:250px;">
+                                                                        <col style="width:40px;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th colspan="2"><div class="th-inner" style="text-align: center;">Item</div></th>
+                                                                            <th class=""><div class="th-inner" style="">Qty</div></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_order_list">
+                                                                        <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                            <td class="user-image" style="width: 10px;border-right: none;">
+                                                                                <img src="https://kosignstore.wecambodia.com/storage/wegarden/image/61b0172b-3f99-4016-8fc6-c05f1c2c34dd.jpg" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">
+                                                                            </td>
+                                                                            <td style="line-height: 40px;border-left: none;">Zummers</td>
+                                                                            <td style="line-height: 40px;">2</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="total-order" colspan="2">TOTAL</td>
+                                                                            <td><b>40$</b></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="panel-disabled loading-stock-out" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal -->
+
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                    <div class="fixed-table-body">
+                                        <table data-toggle="" class="table-bordered table table-hover" id="tbl_user">
+                                            <colgroup>
+                                                <col style="width:300px;">
+                                                <col style="width:20px;">
+                                                <col style="width:20px;">
+                                                <col style="width:50px;">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">
+                                                        <div class="th-inner ">Team Name</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Tea Time Usage</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Total Price</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Action</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="table_result">
+                                                <!--<tr data-index="1" ondblclick="open_popup()" class="userRow">-->
+                                                    <!--<td style="text-align: center; ">General Work</td>-->
+                                                    <!--<td style="text-align: center; ">-->
+                                                        <!--<div class="form-check">-->
+                                                            <!--<input type="radio" name="" disabled="" checked=""><span class=""></span>-->
+                                                        <!--</div>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="text-align: center; ">$3.625</td>-->
+                                                    <!--<td style="" class="act_btn text-center">-->
+                                                        <!--<button type="button" class="btn btn-success btn-sm" onclick="open_popup()">-->
+                                                            <!--<i class="fa fa-eye" aria-hidden="true"></i>-->
+                                                        <!--</button>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                            </tbody>
+                                        </table>
+                                        <div class="panel-disabled loading-stock-out" style="display: none;">
+                                            <div class="loader-1"></div>
+                                        </div>
+                                    </div>
+                                    <div id="myModalShowImg" class="modal-custom-img">
+                                        <span class="close-custom">&times;</span>
+                                        <img class="modal-content-custom img-responsive img-thumbnail" id="img01" />
+                                        <div id="caption"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+    <!--<th:block layout:fragment="myscript">-->
+        <script type="text/javascript" th:inline="javascript">
+
+            var _page_no = 1;
+            var _userUuid = "";
+            $(function(){
+                _thisPage.onload();
+            });
+
+            var _thisPage = {
+                onload : function () {
+                    var _this = this;
+                    fn_chooseDate();
+                    _this.event();
+                    searchOnLoading();
+                },
+                fillTable : function (input) {
+                    if(!input) input = {};
+                    var month = $('#sDate input').val().split("-")[0];
+                    var year  = $('#sDate input').val().split("-")[1];
+                    input["MONTH"] = getMonthFromString(month);
+                    input["YEAR"]  = year;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/get_teatime_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            var strHtml     = "";
+                            var usageStatus = "";
+                            var btnUsage    = "";
+
+                            $("#table_result").empty();
+                            if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                $.each(result.DATA_REC, function(i,v){
+                                    if(v.tea_time_usage){
+                                        usageStatus = '';
+                                    }else{
+                                        usageStatus = 'inactive';
+                                    }
+
+                                    strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+') class="userRow">';
+                                    strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name)+'</td>';
+                                    strHtml += '    <td style="text-align: center; ">';
+                                    strHtml += '        <div class="form-check">';
+                                    strHtml += '            <input type="radio" name="" disabled checked><span class="'+usageStatus+'"></span>';
+                                    strHtml += '        </div>';
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.order_subtotal).toFixed(3))+'</td>';
+                                    strHtml += '    <td style="" class="act_btn text-center">';
+                                    if(v.tea_time_usage){
+                                        strHtml += '        <button type="button" class="btn btn-success btn-sm" onclick=open_popup("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+')>';
+                                        strHtml += '            <i class="fa fa-eye" aria-hidden="true"></i>';
+                                        strHtml += '        </button>';
+                                    }else{
+                                        strHtml += '        <button type="button" class="btn btn-warning btn-sm" onclick=_thisPage.notificationOrderTeaTime("'+v.leader_uuid+'")>';
+                                        strHtml += '            <i class="fa fa-bell" aria-hidden="true"></i>';
+                                        strHtml += '        </button>';
+                                    }
+                                    strHtml += '    </td>';
+                                    strHtml += '</tr>;'
+                                });
+
+                                $("#table_result").html(strHtml);
+                            }else{
+                                $("#table_result").html("<tr><td class='text-center' colspan='3'>There is no data.</td></tr>");
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                fillDetailPopup : function (input_) {
+                    var input = {};
+                    var teatimeUuid = input_.split("/")[0];
+                    var orderUuid   = input_.split("/")[1];
+                    input["TEAM_UUID"]  = teatimeUuid;
+                    input["ORDER_UUID"] = orderUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/get_user_order_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            var strUser  = "", strOrder   = "", strOrderTotal = "";
+                            var usrImage = "", orderImage = "";
+                            var totalAmount = 0;
+
+                            $("#tbl_user_list").empty();
+                            $("#tbl_order_list").empty();
+
+                            if(!wegarden.comm.isEmpty(result.DATA_USER_REC)){
+                                $.each(result.DATA_USER_REC, function (i,v) {
+                                    usrImage = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
+                                    strUser += '<tr>';
+                                    strUser += '    <td class="user-image" style="width: 10px;border-right: none;">';
+                                    strUser += '    <img src="'+usrImage+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                    strUser += '    </td>';
+                                    strUser += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
+                                    strUser += '</tr>';
+                                });
+
+                                $("#tbl_user_list").html(strUser);
+                            }else{
+                                $("#tbl_user_list").html("<tr><td class='text-center' colspan='2'>There is no data.</td></tr>");
+                            }
+
+
+                            if(!wegarden.comm.isEmpty(result.DATA_ORDER_REC)){
+                                $.each(result.DATA_ORDER_REC, function (i,v) {
+                                    orderImage = wegarden.comm.isEmpty(v.product_image_name) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.product_image_name, '');
+                                    totalAmount += Number(v.product_price) * Number(v.order_quantity);
+                                    strOrder += '<tr>';
+                                    strOrder += '    <td class="user-image" style="width: 5%;border-right: none;">';
+                                    strOrder += '        <img src="'+orderImage+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                    strOrder += '    </td>';
+                                    strOrder += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.product_name)+'</td>';
+                                    strOrder += '    <td style="line-height: 40px;">'+wegarden.comm.null2Void(v.order_quantity)+'</td>';
+                                    strOrder += '</tr>';
+                                });
+
+                                strOrderTotal += '<tr>';
+                                strOrderTotal += '    <td class="total-order" colspan="2">TOTAL</td>';
+                                strOrderTotal += '    <td><b>'+addCurrencySymbol(Number(totalAmount).toFixed(3))+'</b></td>';
+                                strOrderTotal += '</tr>';
+
+                                $("#tbl_order_list").html(strOrder);
+                                $("#tbl_order_list").append(strOrderTotal);
+                            }else{
+                                $("#tbl_order_list").html("<tr><td class='text-center' colspan='3'>There is no data.</td></tr>");
+                            }
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                notificationOrderTeaTime: function (leaderUuid, userName) {
+                    var input = {};
+                    input["user_uuid"] = leaderUuid;
+                    input["title"]     = "TEA TIME";
+                    input["message"]   = "Your team has not order tea time yet.";
+
+                    $.ajax({
+                        type    : "POST",
+                        url     : "http://192.168.178.162:8080/wegardenapi/notification/send",
+                        data    : JSON.stringify(input),
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            $.Notification.autoHideNotify(
+                                'success',
+                                'bottom right',
+                                '<h4 style="font-style: italic;color: #fff;">Message has been reached to <b style="color: #0b0b0b;opacity: 0.7">Team Leader</b></h4>');
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                event : function () {
+                    $(document).on("change", "#sDate input", function () {
+                        searchDateChange();
+                    });
+                    $(document).keydown(function(e) {
+                        if (e.keyCode === 27) {
+                            $('#con-close-modal').modal('hide');
+                        }
+                    });
+                }
+            }
+
+            function open_popup(input_,isUsed){
+                if(!isUsed) return;
+                $('#con-close-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                $('#con-close-modal').modal('show');
+
+                _thisPage.fillDetailPopup(input_);
+            }
+
+            function fn_chooseDate(){
+                var monthNames = [  "January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December" ];
+                var today	 = new Date();
+                var firstDay = new Date(today.getFullYear(), today.getMonth());
+                var startDate = (monthNames[today.getMonth()] +"-"+ firstDay.getFullYear());
+
+                $("#sDate input").val(startDate);
+
+                $('#sDate').datepicker({
+                    minViewMode: 'months',
+                    viewMode: 'months',
+                    pickTime: false,
+                    selectOtherMonths: true,
+                    format: "MM-yyyy",
+                    autoclose: 1
+                });
+            }
+
+            function addCurrencySymbol(value_){
+                value_ = wegarden.comm.null2Void(value_, '0');
+                var isEmpty = wegarden.comm.isEmpty(value_);
+                var formatValue = wegarden.comm.formatCurrency(value_);
+
+                if(!isEmpty && value_ != "0" && value_ != "0.00" && value_ != "0.000"){
+                    return formatValue = "$"+formatValue;
+                }else{
+                    return formatValue;
+                }
+            }
+
+            function getMonthFromString(mon){
+                var d = Date.parse(mon + "1, 2019");
+                if(!isNaN(d)){
+                    return (new Date(d).getMonth() + 1).toString();
+                }
+                return -1;
+            }
+
+            function searchDateChange(){
+                $(".loading-stock-out").show();
+                _thisPage.fillTable();
+                setTimeout(function () {
+                    $(".loading-stock-out").hide();
+                }, 300);
+            }
+
+            function searchOnLoading(){
+                $("#loading").show();
+                _thisPage.fillTable();
+                setTimeout(function () {
+                    $("#loading").hide();
+                }, 300);
+            }
+        </script>
+    <!--</th:block>-->
+</div>
+
+</body>
+</html>

@@ -25,20 +25,19 @@ public class UsersController {
     @RequestMapping("/select")
     public String home(ModelMap model){
         model.addAttribute("data",usersService.readTeam(""));
-        System.out.println("data....."+usersService.readTeam(""));
         return "users_view";
     }
 
     @RequestMapping("/get_user_list")
     @ResponseBody
-    public Map<String, Object> getUsersList(@ModelAttribute("LIMIT") int limit, @ModelAttribute("PAGE_NO") int page_no,
+    public Map<String, Object> getUsersList(@ModelAttribute("LIMIT") int limit, @ModelAttribute("PAGE_NO") int page_no, @ModelAttribute("TEAM_UUID") String teamUuid,
                                             @ModelAttribute("SRCH_WD") String srch_wd, @ModelAttribute("USER_UUID") String userUuid){
         Map<String, Object> response = new HashMap<>();
         String status       = "1"; // get from view soon
-        List<User> userList = usersService.getUsersList(limit, page_no, srch_wd, userUuid);
+        List<User> userList = usersService.getUsersList(userUuid, teamUuid, srch_wd, page_no, limit);
 
         response.put("DATA_REC", userList);
-        response.put("CNT_REC", usersService.countUsers(userUuid, srch_wd, status));
+        response.put("CNT_REC", usersService.countUsers(userUuid, teamUuid, srch_wd, status));
         return response;
     }
 

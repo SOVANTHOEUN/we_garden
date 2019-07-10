@@ -28,7 +28,22 @@
                     </li>
 
                     <li class="has_sub" data-url="/users/select">
-                        <a th:href="@{/users/select/}" class="waves-effect"><i class="ti-user"></i> <span> Top Up </span> </a>
+                        <a th:href="@{/users/select/}" class="waves-effect"><i class="ti-user"></i> <span> Users </span> </a>
+                    </li>
+
+                    <li class="has_sub" data-url="/teatime/index">
+                        <a th:href="@{/teatime/index}" class="waves-effect">
+                            <!--<i class="fa fa-users"></i>-->
+                            <img th:src="@{/images/user-group.png}">
+                            <span style="margin-left: 15px"> Tea Time </span>
+                        </a>
+                    </li>
+                    <li class="has_sub" data-url="/bronze_master/index">
+                        <a th:href="@{/bronze_master/index}" class="waves-effect">
+                            <i class="ti-medall" style="font-size: 1.5em"></i>
+                            <!--<img th:src="@{/images/user-group.png}">-->
+                            <span> Bronze Master </span>
+                        </a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>

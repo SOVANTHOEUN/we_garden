@@ -7,8 +7,8 @@ import com.wegarden.web.model.user.User;
 import java.util.List;
 
 public interface UsersService {
-    List<User> getUsersList(int limit, int page, String srch_wd, String userUuid);
-    int countUsers(String user_uuid, String srch_wd, String status);
+    List<User> getUsersList(String userUuid, String teamUuid, String srch_wd, int page, int limit);
+    int countUsers(String user_uuid, String teamUuid, String srch_wd, String status);
     String userUpdateBalance(String userUuid, String transactionType, Double transactionAmount);
     String updateUserRole(String roleId, String userUuid);
     List<ReadTeam> readTeam(String status);

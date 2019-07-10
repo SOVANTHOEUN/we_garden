@@ -486,7 +486,8 @@
                             "charset": "UTF-8"
                         },
                         success: function (result) {
-                            notification();
+                            // 20-19-07-10 --> remove notification()
+                            // notification();
                             setTimeout(function () {
                                 $('.loading-stock').hide();
                                 _thisPage.onload();
@@ -676,7 +677,7 @@
                             "charset"       : "UTF-8"
                         },
                         success: function (result) {
-                            console.log("result:: "+result);
+                            // console.log("result:: "+result);
                         },
                         error: function (error) {
                             console.log(error.message);

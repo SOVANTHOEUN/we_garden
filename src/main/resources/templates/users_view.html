@@ -68,7 +68,7 @@
                         <div class="card-box">
                             <h4 class="m-t-0 header-title"><b>User List</b></h4>
                             <p class="text-muted font-13">
-                                All users from whole company.
+                                <label>Function: </label> All users who registered to use mobile app from whole company.
                             </p>
 
                             <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
@@ -77,8 +77,21 @@
                                     <p class="font-15"><b class="text-muted">TOTAL CREDIT: </b><span id="remainCredit" style="font-weight: bolder;"></span></p>
                                 </div>
                                 <div class="pull-right search" style="display: inline-flex;">
-                                    <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
-                                    <button id="demo-search-row" class="btn btn-warning btn-custom-color" style="margin-left: -5px;" onclick="_thisPage.fillTable();"><i class="fa fa-search m-r-5"></i></button>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select class="form-control combo-team" id="teamFilter" style="font-size: 1em;width: 80%;height: 39px;margin-top: 0;float: right">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="display: inline-flex;">
+                                                <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
+                                                <button id="demo-search-row" class="btn btn-warning btn-custom-color" style="margin-left: -5px;" onclick="_thisPage.fillTable();"><i class="fa fa-search m-r-5"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -319,6 +332,7 @@
                 onload : function () {
                     var _this = this;
                     _this.event();
+                    _this.setTeamFilter();
                     _this.fillTable();
                     _this.getUserTotalCredit();
                     wegarden.comm.checkAllTblChk("btSelectAll", "tbl_user", "bs-checkbox");
@@ -332,9 +346,42 @@
                     }else{
                         var page_no = input["PAGE_NO"];
                     }
+
+                    var page_size = $("#per_page").text();
+                    var teamUuid  = $("#teamFilter option:selected").val();
+                    input["PAGE_NO"] = page_no;
+                    input["LIMIT"]   = page_size;
+                    input["SRCH_WD"] = $("#srch_wd").val().trim();
+                    input["TEAM_UUID"] = (teamUuid == "0") ? "" : teamUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url       : url_context+"/users/get_user_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            renderUser(result.DATA_REC, result.CNT_REC, input);
+                        },
+                        error: function (error) {
+                            $("#loading").hide();
+                            console.log(error);
+                        }
+                    });
+                },
+                fillTableByTeam : function (input) {
+                    $("#loading").show();
+                    if(!input) input = {};
+                    if(!input["PAGE_NO"]){
+                        var page_no = 1
+                    }else{
+                        var page_no = input["PAGE_NO"];
+                    }
                     var page_size = $("#per_page").text();
                     input["PAGE_NO"] = page_no;
-                    input["LIMIT"]       = page_size;
+                    input["LIMIT"]   = page_size;
                     input["SRCH_WD"] = $("#srch_wd").val().trim();
 
                     $.ajax({
@@ -346,79 +393,10 @@
                             "charset"       : "UTF-8"
                         },
                         success : function (result) {
-                            var list = [[${data}]];
-                            $("#table_result").empty();
-                            // $(".bs-checkbox").show();
-                            $("#page_layer").show();
-                            $(".bs-checkbox").attr("checked", false);
-                            var strHtml = "", usr_image = "";
-
-                            if(!wegarden.comm.isEmpty(result.DATA_REC)){
-                                var each = $.each(result.DATA_REC, function (i, v) {
-                                    usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
-
-                                    strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.user_uuid+'"); class="userRow">';
-                                    strHtml += '    <td class="bs-checkbox line-height-50" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
-                                    strHtml += '    <td class="user-image line-height-50" style="width: 10px;border-right: none; ">';
-                                    strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
-                                    strHtml += '    <td class="line-height-50">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
-                                    // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
-                                    strHtml += '    <td style="text-align: left;">';
-                                    strHtml += '        <div class="tags-default">';
-                                    strHtml += '            <div class="bootstrap-tagsinput role_layer" data-uuId='+v.user_uuid+' >';
-                                    for(var i = 0; i < wegarden.comm.null2Void(v.user_role, "").split(",").length; i++){
-                                        strHtml += '				<span class="tag label label-info" data-id='+convertRoleToId(wegarden.comm.null2Void(v.user_role, "").split(",")[i])+'>'+wegarden.comm.null2Void(v.user_role, "").split(",")[i]+'<span data-role="remove" class="remove"></span></span>';
-                                    }
-                                    strHtml += '				<input type="hidden" class="roleId" value='+convertRoleToId(wegarden.comm.null2Void(v.user_role, ""))+'>';
-                                    strHtml += '            <select class="form-control comBoRole combo-role">';
-                                    strHtml += '                <option   value="0">----SELECT----</option>';
-                                    strHtml += '                <option   value="1">ADMIN</option>';
-                                    strHtml += '                <option   value="2">USER</option>';
-                                    strHtml += '                <option   value="3">TEAM_LEADER</option>';
-                                    strHtml += '                <option   value="4">BRONZE_MASTER</option>';
-                                    strHtml += '            </select>';
-                                    strHtml += '			</div>';
-                                    strHtml += '        </div>';
-                                    strHtml += '    </td>';
-                                    strHtml += '    <td style="text-align: center; " class="line-height-50">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(3))+'</td>';
-                                    strHtml += '    <td style="text-align: center; " class="line-height-50">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
-                                   // strHtml += '     <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
-                                    strHtml += '     <td style="text-align: center; " class="line-height-50">';
-                                    strHtml += '        <select class="form-control select-team  combo-team " user_uuid="'+v.user_uuid+'"   >';
-                                    for (i = 0; i < list.length; i++) {
-                                        if(v.team_uuid==list[i].team_uuid){
-                                            strHtml += '<option selected value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
-                                        }
-                                        else{
-                                            strHtml += '<option value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
-                                        }
-                                    }
-                                    strHtml += '        </select>';
-                                    strHtml += '     </td>';
-                                    strHtml += '      <td style="line-height: 40px;" class="act_btn text-center line-height-50">';
-                                    strHtml += '        <button type="button" class="btn btn-primary btn-xs" onclick=open_popup("'+v.user_uuid+'");><i class="fa fa-plus" aria-hidden="true"></i></button>';
-                                    strHtml += '      </td>';
-                                    strHtml += '</tr>';
-
-                                });
-
-                                $("#table_result").append(strHtml);
-                            }else{
-                                $(".bs-checkbox").hide();
-                                $("#page_layer").hide();
-                                $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
-                            }
-
-                            // wegarden.comm.renderPaging("paging", page_size, result.CNT_REC, _page_no);
-                            // tms.ui.drawTablePaing("CREATE_PG_LINK", _ppay_2001_01.fillTable, input["PAGE_NO"], data.CNT, input["PAGE_SIZE"],input);
-                            wegarden.comm.drawTablePaging("paging", _thisPage.fillTable, page_no, result.CNT_REC, page_size, input);
-
-                            setTimeout(function () {
-                                $("#loading").hide();
-                            }, 300);
-
+                            renderUser(result.DATA_REC, result.CNT_REC, input);
                         },
                         error: function (error) {
+                            $("#loading").hide();
                             console.log(error);
                         }
                     });
@@ -485,7 +463,7 @@
                             "charset"       : "UTF-8"
                         },
                         success: function (result) {
-                            console.log("result:: "+result);
+                            // console.log("result:: "+result);
                         },
                         error: function (error) {
                             console.log(error);
@@ -551,6 +529,17 @@
                             top.$("#loading").hide();
                         }
                     });
+                },
+                setTeamFilter : function () {
+                    var teamList = [[${data}]];
+                    var strTeam  = "<option value='0'>ALL</option>";
+                    $("#teamFilter").empty();
+
+                    $.each(teamList, function(i,v){
+                        strTeam += '<option value="'+wegarden.comm.null2Void(v.team_uuid)+'">'+wegarden.comm.null2Void(v.team_name)+'</option>';
+                    });
+                    $("#teamFilter").html(strTeam);
+                    $("#teamFilter option:eq(0)").attr("selected", true);
                 },
                 event : function () {
                     $("#pageSizeLayer li a").on("click", function () {
@@ -692,8 +681,89 @@
                         });
 
                     });
+                    $(document).on("change","#teamFilter",function () {
+                        _thisPage.fillTable();
+                    });
 
                 }
+            }
+
+            function renderUser(data_rec_, cnt_rec_, input){
+                var list = [[${data}]];
+                var data_rec = data_rec_;
+                var cnt_rec  = cnt_rec_;
+
+                if(!input) input = {};
+                if(!input["PAGE_NO"]){
+                    var page_no = 1
+                }else{
+                    var page_no = input["PAGE_NO"];
+                }
+                var page_size = $("#per_page").text();
+
+                $("#table_result").empty();
+                $("#page_layer").show();
+                var strHtml = "", usr_image = "";
+
+                if(!wegarden.comm.isEmpty(data_rec)){
+                    var each = $.each(data_rec, function (i, v) {
+                        usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
+
+                        strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.user_uuid+'"); class="userRow">';
+                        strHtml += '    <td class="bs-checkbox line-height-50" style="display: none;"><input data-index="0" name="btSelectItem" type="checkbox"></td>';
+                        strHtml += '    <td class="user-image line-height-50" style="width: 10px;border-right: none; ">';
+                        strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px" /></td>';
+                        strHtml += '    <td class="line-height-50">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
+                        // strHtml += '    <td style="text-align: center; "><div class="">'+wegarden.comm.null2Void(v.user_duty, '')+'</div></td>';
+                        strHtml += '    <td style="text-align: left;">';
+                        strHtml += '        <div class="tags-default">';
+                        strHtml += '            <div class="bootstrap-tagsinput role_layer" data-uuId='+v.user_uuid+' >';
+                        for(var i = 0; i < wegarden.comm.null2Void(v.user_role, "").split(",").length; i++){
+                            strHtml += '				<span class="tag label label-info" data-id='+convertRoleToId(wegarden.comm.null2Void(v.user_role, "").split(",")[i])+'>'+wegarden.comm.null2Void(v.user_role, "").split(",")[i]+'<span data-role="remove" class="remove"></span></span>';
+                        }
+                        strHtml += '				<input type="hidden" class="roleId" value='+convertRoleToId(wegarden.comm.null2Void(v.user_role, ""))+'>';
+                        strHtml += '            <select class="form-control comBoRole combo-role">';
+                        strHtml += '                <option   value="0">----SELECT----</option>';
+                        strHtml += '                <option   value="1">ADMIN</option>';
+                        strHtml += '                <option   value="2">USER</option>';
+                        strHtml += '                <option   value="3">TEAM_LEADER</option>';
+                        strHtml += '                <option   value="4">BRONZE_MASTER</option>';
+                        strHtml += '            </select>';
+                        strHtml += '			</div>';
+                        strHtml += '        </div>';
+                        strHtml += '    </td>';
+                        strHtml += '    <td style="text-align: center; " class="line-height-50">'+addCurrencySymbol(Number(v.user_credit_balance).toFixed(3))+'</td>';
+                        strHtml += '    <td style="text-align: center; " class="line-height-50">'+wegarden.comm.null2Void(v.department_uuid, '')+'</td>';
+                        // strHtml += '     <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name, '')+'</td>';
+                        strHtml += '     <td style="text-align: center; " class="line-height-50">';
+                        strHtml += '        <select class="form-control select-team combo-team " user_uuid="'+v.user_uuid+'"   >';
+                        for (i = 0; i < list.length; i++) {
+                            if(v.team_uuid==list[i].team_uuid){
+                                strHtml += '<option selected value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
+                            }else{
+                                strHtml += '<option value="'+list[i].team_uuid+'">'+list[i].team_name+'</option>';
+                            }
+                        }
+                        strHtml += '        </select>';
+                        strHtml += '     </td>';
+                        strHtml += '     <td style="line-height: 40px;" class="act_btn text-center line-height-50">';
+                        strHtml += '       <button type="button" class="btn btn-primary btn-xs" onclick=open_popup("'+v.user_uuid+'");><i class="fa fa-plus" aria-hidden="true"></i></button>';
+                        strHtml += '     </td>';
+                        strHtml += '</tr>';
+
+                    });
+
+                    $("#table_result").append(strHtml);
+                }else{
+                    $(".bs-checkbox").hide();
+                    $("#page_layer").hide();
+                    $("#table_result").append("<tr><td class='text-center' colspan='9'>There is no data.</td></tr>");
+                }
+
+                wegarden.comm.drawTablePaging("paging", _thisPage.fillTable, page_no, cnt_rec, page_size, input);
+                setTimeout(function () {
+                    $("#loading").hide();
+                }, 300);
             }
 
             function open_popup(input_){
@@ -714,7 +784,7 @@
                 var isEmpty = wegarden.comm.isEmpty(value_);
                 var formatValue = wegarden.comm.formatCurrency(value_);
 
-                if(!isEmpty && value_ != "0" && value_ != "0.00"){
+                if(!isEmpty && value_ != "0" && value_ != "0.00" && value_ != "0.000"){
                     return formatValue = "$"+formatValue;
                 }else{
                     return formatValue;

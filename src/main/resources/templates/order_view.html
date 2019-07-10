@@ -95,6 +95,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="pull-right search" style="margin-top: 23px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="display: inline-flex;">
+                                            <input class="form-control" type="text" placeholder="Search" autocomplete="off" id="srch_wd">
+                                            <button id="demo-search-row" class="btn btn-warning btn-custom-color" style="margin-left: -5px;"><i class="fa fa-search m-r-5"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!--modal stock-out-->
                             <div id="con-close-modal-0" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-left: 17px;">
@@ -355,7 +365,7 @@
                                                     </td>
                                                 </tr>-->
                                             </tbody>
-                                            <div class="panel-disabled loading-stock" style="display: none;">
+                                            <div class="panel-disabled loading-order" style="display: none;">
                                                 <div class="loader-1"></div>
                                             </div>
                                         </table>
@@ -399,11 +409,12 @@
             },
             fillTable: function (input) {
                 if (!input) input = {};
+                input["SRCH_WD"] = $("#srch_wd").val().trim();
 
                 $.ajax({
                     type  : "GET",
-                    url     : url_context+"/order/get_order_list",
-                    data  : '',
+                    url   : url_context+"/order/get_order_list",
+                    data  : input,
                     cache: false,
                     dataType: 'json',
                     headers: {
@@ -641,7 +652,7 @@
 
                 $.ajax({
                     type    : "GET",
-                    url       : url_context+"/order/order_stock_out",
+                    url     : url_context+"/order/order_stock_out",
                     data    : input,
                     headers : {
                         "Content-Type"  : "application/json;",
@@ -707,6 +718,22 @@
                     var input = {};
                     input["STATUS"] = "RO";
                     open_popup_stockout(input);
+                });
+                $("#srch_wd").keypress(function (e) {
+                    if(e.which == 13){
+                        $(".loading-order").show();
+                        _thisPage.fillTable();
+                        setTimeout(function () {
+                            $(".loading-order").hide();
+                        }, 300);
+                    }
+                });
+                $(document).on("click", "#demo-search-row", function () {
+                    $(".loading-order").show();
+                    _thisPage.fillTable();
+                    setTimeout(function () {
+                        $(".loading-order").hide();
+                    }, 300);
                 });
 
                 $("#btnSendAll").click(function () {

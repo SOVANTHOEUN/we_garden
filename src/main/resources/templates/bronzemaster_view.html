@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="Bronze-Master-Usage"></title>
+    <style type="text/css">
+        .card-selected{background-color: #34d3eb;}
+        #table_result tr.userRow{ cursor: pointer; }
+
+        table > thead > tr > th{background-color: #ffffff !important;}
+        table tbody > tr > td{font-size: 1.07em;}
+        table thead tr {background-color: #ebeff2;}
+        table tbody tr:nth-child(even) {background-color: #fdfdfd;cursor: pointer;}
+        table tbody tr:nth-child(odd)  {background-color:#f4f8fb;cursor: pointer;}
+        table tbody tr:hover  {background-color: #ebeff2;cursor: pointer;}
+        .custom-table1{ overflow-x: hidden;overflow-y: auto;height: 470px; }
+
+        .modal-custom-img {display: none;position: fixed;z-index: 9999999;padding-top: 75px;left: -80px;top: 0;width: 100%;height: 100%;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.3); }
+        /* Modal Content (image) */
+        .modal-content-custom { margin: auto;display: block;width: 100%;max-width: 700px;height: 95%; }
+        /* Caption of Modal Image */
+        #caption { margin: auto;display: block;width: 100%;max-width: 700px;text-align: center;color: #ccc;padding: 10px 0;height: 140px; }
+        /* Add Animation */
+        .modal-content-custom, #caption { -webkit-animation-name: zoom;-webkit-animation-duration: 0.6s;animation-name: zoom;animation-duration: 0.6s; }
+        .close-custom { position: absolute;top: 8%;right: 30%;color: #080808;font-size: 50px;font-weight: bolder;transition: 0.3s; }
+        .close-custom:hover, .close-custom:focus { color: #bbb;text-decoration: none;cursor: pointer; }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        table  { width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+        .tableFixHead th { border-top: 1px solid #ebeff2 !important;border-bottom: 1px solid #ebeff2 !important; }
+
+
+        .tableFixHead          {overflow-y: auto;height: 33em;}
+        .tableFixHead thead th { position: sticky; top: 0; }
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; }
+
+        /* Borders (if you need them) */
+        .tableFixHead { border: 1px solid #ebeff2; border-left: 0; border-right: 0; }
+        .tableFixHead th, td { border: 1px solid #ebeff2; border-top: 0; }
+        .tableFixHead tbody tr:last-child td { border-bottom: 0; }
+        .tableFixHead thead th { box-shadow: 1px 1px 0 #ebeff2; }
+
+        [type="radio"]:not(:checked), [type="radio"]:checked {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        [type="radio"]:not(:checked)+span, [type="radio"]:checked+span {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            font-size: 1rem;
+            -webkit-transition: .28s ease;
+            transition: .28s ease;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        [type="radio"]+span:before, [type="radio"]+span:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 4px;
+            width: 16px;
+            height: 16px;
+            z-index: 0;
+            -webkit-transition: .28s ease;
+            transition: .28s ease;
+        }
+        [type="radio"]:checked+span:after {
+            -webkit-transform: scale(1.02);
+            transform: scale(1.02);
+        }
+        [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+            background-color: #81c868;
+        }
+        [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+            border: 2px solid #81c868;
+        }
+        [type="radio"]:checked+span.inactive:after, [type="radio"].with-gap:checked+span.inactive:after {
+            background-color: #bfbfbf;
+        }
+        [type="radio"]:checked+span.inactive:after, [type="radio"].with-gap:checked+span.inactive:before, [type="radio"].with-gap:checked+span.inactive:after {
+            border: 2px solid #bfbfbf;
+        }
+        [type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]:checked+span:before, [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<!-- Begin page -->
+<div layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container">
+
+                <!--Custom Toolbar-->
+                <!--===================================================-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box">
+                            <h4 class="m-t-0 header-title"><b>Bronze Master Usage</b></h4>
+                            <p class="text-muted font-13">
+                                <label>Function: </label> Read bronze master usage for each month.
+                            </p>
+
+                            <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
+                            <div class="fixed-table-toolbar">
+                                <div class="bars pull-left" style="margin-top: 20px;">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="sDate" class="control-label">Select Date</label>
+                                                <div class="input-group date" id="sDate" data-provide="datepicker">
+                                                    <input type="text" class="form-control">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-md-4">
+
+                                        </div>
+                                    </div>
+                                    <!--<p class="font-15"><b class="text-muted">TOTAL CREDIT: </b><span id="remainCredit" style="font-weight: bolder;"></span></p>-->
+                                </div>
+                            </div>
+
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                    <div class="fixed-table-body">
+                                        <table data-toggle="" class="table-bordered table table-hover" id="tbl_user">
+                                            <colgroup>
+                                                <col style="width:10px;">
+                                                <col style="width:300px;">
+                                                <col style="width:20px;">
+                                                <col style="width:100px;">
+                                                <col style="width:20px;">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;" colspan="2">
+                                                        <div class="th-inner ">Name</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Usage</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Item</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
+                                                        <div class="th-inner ">Action</div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="table_result">
+                                                <tr data-index="1" class="userRow">
+                                                    <td style="text-align: center; ">Srey Oun</td>
+                                                    <td style="text-align: center; ">
+                                                        <div class="form-check">
+                                                            <input type="radio" disabled checked><span></span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="user-image" style="width: 10px;border-right: none;text-align: center;">
+                                                        <img src="..\images\we_garden_logo.png" alt="img" class="img-circle" width="40px" height="40px">
+                                                    </td>
+                                                    <td style="" class="act_btn text-center">
+                                                        <button type="button" class="btn btn-warning btn-sm" onclick=_thisPage.notificationOrderTeaTime("'+v.leader_uuid+'")>
+                                                            <i class="fa fa-bell" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                <!--<tr data-index="1" ondblclick="open_popup('2f256235-450b-4212-9751-be288521e5c1');" class="userRow">-->
+                                                    <!--<td style="text-align: center; ">B2B R&amp;D</td>-->
+                                                    <!--<td style="text-align: center; ">-->
+                                                        <!--<div class="form-check">-->
+                                                            <!--<input type="radio" name="" disabled checked><span class="inactive"></span>-->
+                                                        <!--</div>-->
+                                                    <!--</td>-->
+                                                    <!--<td style="" class="act_btn text-center">-->
+                                                        <!--<button type="button" class="btn btn-dark btn-sm" onclick="open_popup('2f256235-450b-4212-9751-be288521e5c1');">-->
+                                                            <!--<i class="fa fa-eye" aria-hidden="true"></i>-->
+                                                        <!--</button>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                            </tbody>
+                                        </table>
+                                        <div class="panel-disabled loading-stock-out" style="display: none;">
+                                            <div class="loader-1"></div>
+                                        </div>
+                                    </div>
+                                    <div id="myModalShowImg" class="modal-custom-img">
+                                        <span class="close-custom">&times;</span>
+                                        <img class="modal-content-custom img-responsive img-thumbnail" id="img01" />
+                                        <div id="caption"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+    <!--<th:block layout:fragment="myscript">-->
+        <script type="text/javascript" th:inline="javascript">
+            $(function(){
+                _thisPage.onload();
+            });
+
+            var _thisPage = {
+                onload : function () {
+                    var _this = this;
+                    fn_chooseDate();
+                    _this.event();
+                    searchOnLoading();
+                },
+                fillTable : function (input) {
+                    if(!input) input = {};
+                    input["START_DATE"] = $.trim($("#sDate input").val());
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/bronze_master/get_bronzemaster_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            var strHtml     = "", usageStatus = "", usrImage = "";
+                            $("#table_result").empty();
+
+                            if(!wegarden.comm.isEmpty(result.DATA_REC)){
+                                $.each(result.DATA_REC, function(i,v){
+                                    if(v.tea_time_usage){
+                                        usageStatus = '';
+                                    }else{
+                                        usageStatus = 'inactive';
+                                    }
+                                    usrImage = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl +wegarden.comm.null2Void(v.user_image, '');
+
+                                    strHtml += '<tr data-index="1" class="userRow">';
+                                    strHtml += '    <td class="user-image" style="width: 5%;text-align: right;border-right: none;">';
+                                    strHtml += '        <img src="'+usrImage+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="line-height: 40px;border-left: none;" class="userName">'+wegarden.comm.null2Void(v.user_name)+'</td>';
+                                    strHtml += '    <td style="line-height: 40px;text-align: center;">';
+                                    strHtml += '        <div class="form-check">';
+                                    strHtml += '            <input type="radio" name="" disabled checked><span class="'+usageStatus+'"></span>';
+                                    strHtml += '        </div>';
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td class="user-image" style="width: 10px;border-right: none;text-align: center;">';
+                                    if(!wegarden.comm.isEmpty(v.product_image)){
+                                        strHtml += '    <img src="'+_imageApiUrl+v.product_image+'" alt="img" class="img-circle" width="40px" height="40px">';
+                                    }
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="" class="act_btn text-center">';
+                                    if(!v.tea_time_usage) {
+                                        strHtml += '        <button type="button" class="btn btn-warning btn-sm" onclick=_thisPage.notifBronzeMaster("'+v.user_uuid+'",this)>';
+                                        strHtml += '            <i class="fa fa-bell" aria-hidden="true"></i>';
+                                        strHtml += '        </button>';
+                                    }
+                                    strHtml += '    </td>';
+                                    strHtml += '</tr>';
+                                });
+
+                                $("#table_result").html(strHtml);
+                            }else{
+                                $("#table_result").html("<tr><td class='text-center' colspan='4'>There is no data.</td></tr>");
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            $("#table_result").html("<tr><td class='text-center' colspan='4'>There is some error.</td></tr>");
+                        }
+                    });
+                },
+                notifBronzeMaster: function (userUuid, this_) {
+                    var input    = {};
+                    var userName = $(this_).closest("tr").find(".userName").text();
+                    input["user_uuid"] = userUuid;
+                    input["title"]     = "MASTER";
+                    input["message"]   = "Please order the item, or it will expire for today order !";
+
+                    $.ajax({
+                        type    : "POST",
+                        url     : "http://192.168.178.162:8080/wegardenapi/notification/send",
+                        data    : JSON.stringify(input),
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            $.Notification.autoHideNotify(
+                                'success',
+                                'bottom right',
+                                '<h4 style="font-style: italic;color: #fff;">Message has been reached to <b style="color: #0b0b0b;opacity: 0.7">'+userName+'</b></h4>');
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                event : function () {
+                    $(document).on("change", "#sDate input", function () {
+                        searchDateChange();
+                    });
+                    $(document).keydown(function(e) {
+                        if (e.keyCode === 27) {
+                            $('#con-close-modal').modal('hide');
+                        }
+                    });
+                }
+            }
+
+            function open_popup(input_,isUsed){
+                if(!isUsed) return;
+                $('#con-close-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                $('#con-close-modal').modal('show');
+            }
+
+            function fn_chooseDate(){
+                var today	  = new Date();
+                var firstDay = new Date(today.getFullYear(), today.getMonth());
+                var startDate = (firstDay.getFullYear())+ '-'+strpad00(today.getMonth()+ 1)+'-' +strpad00(today.getDate(),1);
+
+                $("#sDate input").val(startDate);
+
+                $('#sDate').datetimepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    showOtherMonths: true,
+                    selectOtherMonths: true
+                });
+
+                function strpad00(s){
+                    s = s + '';
+                    if (s.length === 1) s = '0'+s;
+                    return s;
+                }
+            }
+
+            function searchDateChange(){
+                $(".loading-stock-out").show();
+                _thisPage.fillTable();
+                setTimeout(function () {
+                    $(".loading-stock-out").hide();
+                }, 300);
+            }
+
+            function searchOnLoading(){
+                $("#loading").show();
+                _thisPage.fillTable();
+                setTimeout(function () {
+                    $("#loading").hide();
+                }, 300);
+            }
+        </script>
+    <!--</th:block>-->
+</div>
+
+</body>
+</html>

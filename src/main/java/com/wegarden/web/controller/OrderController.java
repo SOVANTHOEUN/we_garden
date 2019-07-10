@@ -38,10 +38,10 @@ public class OrderController {
 
     @RequestMapping(value = "/get_order_list", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getOrderList(){
+    public Map<String, Object> getOrderList(@ModelAttribute("SRCH_WD") String srchWd){
         Map<String, Object> response = new HashMap<>();
 
-        List<Order> orderList = orderService.getOrderList();
+        List<Order> orderList = orderService.getOrderList(srchWd);
         response.put("DATA_REC", orderList);
         return response;
     }
