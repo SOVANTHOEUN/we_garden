@@ -113,6 +113,12 @@
         [type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]:checked+span:before, [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
             border-radius: 50%;
         }
+        .btn-custom-color{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:hover{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .btn-custom-color:focus{ background-color: #5fbeaa !important;border: 1px solid #5fbeaa !important; }
+        .add-member-container { background: transparent url('../images/multiple-arrow.png') no-repeat 41.3% 50%; }
+        .add-member-container:after{ content: ".";display: block;height: 0;line-height: 0;font-size: 0;clear: both;min-height: 0;visibility: hidden; }
+        .combo-role{ width: 100%;height: 29px;font-size: 0.6em;margin-top: 6px; }
     </style>
     <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js/}"></script>
 </head>
@@ -134,7 +140,7 @@
                         <div class="card-box">
                             <h4 class="m-t-0 header-title"><b>Tea Time History</b></h4>
                             <p class="text-muted font-13">
-                                <label>Function: </label> Read tea time each month.
+                                <label>Function: </label> Read tea time each month. Create new tea-time and add member to team tea-time.
                             </p>
 
                             <!--<button id="demo-delete-row" class="btn btn-danger"><i class="fa fa-times m-r-5"></i>Delete</button>-->
@@ -152,23 +158,57 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
 
                                         </div>
                                         <div class="col-sm-4">
 
                                         </div>
-                                        <div class="col-md-4">
-
+                                        <div class="col-md-2">
+                                            <div class="bars pull-right">
+                                                <div class="form-group" style="margin-top: 24px;">
+                                                    <div class="input-group date">
+                                                        <button id="btnAddTeam" class="btn btn-warning btn-custom-color" data-target="#con-close-modal-team">
+                                                        <i class="fa fa-plus m-r-5"></i>Add Team</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--<p class="font-15"><b class="text-muted">TOTAL CREDIT: </b><span id="remainCredit" style="font-weight: bolder;"></span></p>-->
                                 </div>
                             </div>
 
-                            <!--modal-->
+                            <!--create team-->
+                            <div id="con-close-modal-team" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtSave" data-status="I" data-uuid="">Add Team</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="teamNm" class="control-label">Team name</label>
+                                                        <input type="text" class="form-control" id="teamNm" placeholder="please add team name" required="team name cannot empty">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-info waves-effect waves-light" id="btnSaveTeam">Save</button>
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--create team-->
+
+                            <!--modal list usage-->
                             <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog modal-lg">
+                                <div class="modal-dialog modal-md">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -183,7 +223,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="col-sm-4" style="">
+                                                <!--update new feature-->
+                                                <!--<div class="col-sm-4" style="">
                                                     <div class="bootstrap-table custom-table1">
                                                         <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
                                                             <div class="tableFixHead">
@@ -217,8 +258,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>
-                                                </div>
-                                                <div class="col-sm-8" style="">
+                                                </div>-->
+                                                <div class="col-sm-12" style="">
                                                     <div class="bootstrap-table custom-table1">
                                                         <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
                                                             <div class="tableFixHead">
@@ -268,16 +309,125 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.modal -->
+                            <!-- /.modal list usage -->
+
+                            <!--modal add user to team-->
+                            <div id="con-close-modal-addUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close closeAddMember" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="txtTitleTea," data-status="I" data-uuid="">Add Members</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="bars pull-right">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="input-group date">
+                                                                <button id="btnDeleteTeam" class="btn btn-danger">Delete Team</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row add-member-container">
+                                                <div class="col-sm-5" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="tableFixHead">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                                <span class="bg-hide" style="position: fixed;width: 29.5%;top: 6.em;background: #eeeeee;height: 22px;">&nbsp;</span>
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_user_all">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:250px;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th><div class="th-inner" style="text-align: right;padding: 7px;">Name:</div></th>
+                                                                            <th><input type="text" class="form-control" placeholder="search name" maxlength="25" name="srchName" id="srchName" style="border: 0;"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_all_user_list">
+                                                                        <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                            <td class="user-image" style="width: 10px;border-right: none;">
+                                                                                <img src="  https://kosignstore.wecambodia.com/storage/wegarden/image/7461ea9a-de39-4ddb-96fa-9dda97a1a0d8.jpeg" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">
+                                                                            </td>
+                                                                            <td style="line-height: 40px;border-left: none;">Sreyoun</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="panel-disabled loading-stock-out" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-sm-7" style="">
+                                                    <div class="bootstrap-table custom-table1">
+                                                        <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
+                                                            <div class="tableFixHead">
+                                                                <div class="panel-disabled loading-stock-pop" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                                <span class="bg-hide" style="position: fixed;width: 45.9%;top: 6.em;background: #eeeeee;height: 22px;">&nbsp;</span>
+                                                                <table data-toggle="" class="table table-bordered table-fixed" id="tbl_team_member">
+                                                                    <colgroup>
+                                                                        <col style="width:10px;">
+                                                                        <col style="width:220px;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th colspan="4"><div class="th-inner" style="text-align: center;" id="teamTeaTimeName">Name</div></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbl_team_member_list">
+                                                                    <tr data-row="d59a657f-c43a-4325-a205-c0cb7e6dedad">
+                                                                        <td class="user-image" style="width: 10px;border-right: none;">
+                                                                            <img src="https://kosignstore.wecambodia.com/storage/wegarden/image/55c60794-5154-42b7-ac83-5cfac7fbe83a.jpeg" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">
+                                                                        </td>
+                                                                        <td style="line-height: 40px;border-right: none;">Voleak</td>
+                                                                        <td style="line-height: 40px;border: none;text-align: right;">
+                                                                            <button type="button" class="btn btn-danger btn-sm">
+                                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class="panel-disabled loading-stock-out-member" style="display: none;">
+                                                                    <div class="loader-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <button type="button" class="btn btn-default waves-effect closeAddMember" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal add user to team -->
+
 
                             <div class="bootstrap-table">
                                 <div class="fixed-table-container" data-show-columns="true" style="padding-bottom: 0px;">
                                     <div class="fixed-table-body">
                                         <table data-toggle="" class="table-bordered table table-hover" id="tbl_user">
                                             <colgroup>
-                                                <col style="width:300px;">
-                                                <col style="width:20px;">
-                                                <col style="width:20px;">
+                                                <col style="width:500px;">
+                                                <col style="width:10px;">
+                                                <col style="width:10px;">
+                                                <col style="width:10px;">
                                                 <col style="width:50px;">
                                             </colgroup>
                                             <thead>
@@ -289,6 +439,9 @@
                                                         <div class="th-inner ">Tea Time Usage</div>
                                                     </th>
                                                     <th style="text-align: center; ">
+                                                        <div class="th-inner ">Team Member</div>
+                                                    </th>
+                                                    <th style="text-align: center; ">
                                                         <div class="th-inner ">Total Price</div>
                                                     </th>
                                                     <th style="text-align: center; ">
@@ -297,7 +450,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="table_result">
-                                                <!--<tr data-index="1" ondblclick="open_popup()" class="userRow">-->
+                                                <!--<tr data-index="1" ondblclick="open_popup_usage()" class="userRow">-->
                                                     <!--<td style="text-align: center; ">General Work</td>-->
                                                     <!--<td style="text-align: center; ">-->
                                                         <!--<div class="form-check">-->
@@ -306,7 +459,7 @@
                                                     <!--</td>-->
                                                     <!--<td style="text-align: center; ">$3.625</td>-->
                                                     <!--<td style="" class="act_btn text-center">-->
-                                                        <!--<button type="button" class="btn btn-success btn-sm" onclick="open_popup()">-->
+                                                        <!--<button type="button" class="btn btn-success btn-sm" onclick="open_popup_usage()">-->
                                                             <!--<i class="fa fa-eye" aria-hidden="true"></i>-->
                                                         <!--</button>-->
                                                     <!--</td>-->
@@ -343,6 +496,8 @@
 
             var _page_no = 1;
             var _userUuid = "";
+            var _teamUuid = "";
+            var _userMemberUuidRec = [];
             $(function(){
                 _thisPage.onload();
             });
@@ -383,21 +538,22 @@
                                         usageStatus = 'inactive';
                                     }
 
-                                    strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+') class="userRow">';
+                                    strHtml += '<tr data-index="'+(i+1)+'" ondblclick=open_popup_usage("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+') class="userRow">';
                                     strHtml += '    <td style="text-align: center; ">'+wegarden.comm.null2Void(v.team_name)+'</td>';
                                     strHtml += '    <td style="text-align: center; ">';
                                     strHtml += '        <div class="form-check">';
                                     strHtml += '            <input type="radio" name="" disabled checked><span class="'+usageStatus+'"></span>';
                                     strHtml += '        </div>';
                                     strHtml += '    </td>';
+                                    strHtml += '    <td style="text-align: center;text-decoration-line: underline;" class="addTeamMember" data-team_uuid="'+v.team_uuid+'" data-team_name="'+v.team_name+'"><div>'+wegarden.comm.null2Void(v.team_member_count.toString())+'</div></td>';
                                     strHtml += '    <td style="text-align: center; ">'+addCurrencySymbol(Number(v.order_subtotal).toFixed(3))+'</td>';
                                     strHtml += '    <td style="" class="act_btn text-center">';
                                     if(v.tea_time_usage){
-                                        strHtml += '        <button type="button" class="btn btn-success btn-sm" onclick=open_popup("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+')>';
+                                        strHtml += '        <button type="button" class="btn btn-success btn-sm" onclick=open_popup_usage("'+v.team_uuid+'/'+v.order_uuid+'",'+v.tea_time_usage+')>';
                                         strHtml += '            <i class="fa fa-eye" aria-hidden="true"></i>';
                                         strHtml += '        </button>';
-                                    }else{
-                                        strHtml += '        <button type="button" class="btn btn-warning btn-sm" onclick=_thisPage.notificationOrderTeaTime("'+v.leader_uuid+'")>';
+                                    }else if(Number(v.team_member_count) > 0){
+                                        strHtml += '        <button type="button" class="btn btn-warning btn-sm" onclick=_thisPage.notificationOrderTeaTime("'+v.team_leader_uuid+'")>';
                                         strHtml += '            <i class="fa fa-bell" aria-hidden="true"></i>';
                                         strHtml += '        </button>';
                                     }
@@ -407,7 +563,7 @@
 
                                 $("#table_result").html(strHtml);
                             }else{
-                                $("#table_result").html("<tr><td class='text-center' colspan='3'>There is no data.</td></tr>");
+                                $("#table_result").html("<tr><td class='text-center' colspan='5'>There is no data.</td></tr>");
                             }
                         },
                         error: function (error) {
@@ -438,12 +594,13 @@
                             $("#tbl_user_list").empty();
                             $("#tbl_order_list").empty();
 
-                            if(!wegarden.comm.isEmpty(result.DATA_USER_REC)){
+                            // update feature
+                            /*if(!wegarden.comm.isEmpty(result.DATA_USER_REC)){
                                 $.each(result.DATA_USER_REC, function (i,v) {
                                     usrImage = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
                                     strUser += '<tr>';
                                     strUser += '    <td class="user-image" style="width: 10px;border-right: none;">';
-                                    strUser += '    <img src="'+usrImage+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                    strUser += '        <img src="'+usrImage+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
                                     strUser += '    </td>';
                                     strUser += '    <td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.user_en_name)+'</td>';
                                     strUser += '</tr>';
@@ -452,7 +609,7 @@
                                 $("#tbl_user_list").html(strUser);
                             }else{
                                 $("#tbl_user_list").html("<tr><td class='text-center' colspan='2'>There is no data.</td></tr>");
-                            }
+                            }*/
 
 
                             if(!wegarden.comm.isEmpty(result.DATA_ORDER_REC)){
@@ -485,8 +642,123 @@
                         }
                     });
                 },
+                fillAllUserPopup : function (input) {
+                    if(!input) input = {};
+                    input["LIMIT"]      = 1000000; // static for onload
+                    input["PAGE_NO"]    = 1;
+                    input["TEAM_UUID"]  = "";
+                    input["SRCH_WD"]    = $("#srchName").val();
+                    input["USER_UUID"]  = "";
+
+
+                    $.ajax({
+                        type    : "GET",
+                        url       : url_context+"/users/get_user_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            $("#tbl_all_user_list").empty();
+                            var strHtml = "", usr_image = "";
+                            var data_rec = result.DATA_REC;
+                            var isBlank = true;
+
+                            if(!wegarden.comm.isEmpty(data_rec)){
+                                var each = $.each(data_rec, function (i, v) {
+                                    if(_userMemberUuidRec.indexOf(v.user_uuid) < 0){
+                                        usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
+
+                                        strHtml += '<tr data-row="'+v.user_uuid+'" onclick=_thisPage.insertTeamMember("'+v.user_uuid+'")>';
+                                        strHtml += '	<td class="user-image" style="width: 10px;border-right: none;">';
+                                        strHtml += '	    <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                        strHtml += '	</td>';
+                                        strHtml += '	<td style="line-height: 40px;border-left: none;">'+wegarden.comm.null2Void(v.user_en_name, '')+'</td>';
+                                        strHtml += '</tr>';
+                                    }else{
+                                        isBlank = false;
+                                    }
+                                });
+
+                                $("#tbl_all_user_list").append(strHtml);
+
+                                if(!isBlank && $("#tbl_all_user_list tr").length < 1){
+                                    $("#tbl_all_user_list").append("<tr><td class='text-center' colspan='2'>There is no data.</td></tr>");
+                                }
+                            }else{
+                                $("#tbl_all_user_list").append("<tr><td class='text-center' colspan='2'>There is no data.</td></tr>");
+                            }
+                        },
+                        error: function (error) {
+                            $("#loading").hide();
+                            console.log(error);
+                        }
+                    });
+                },
+                fillTeamTeaTimeMember : function (teamUuid_, teamName_) {
+                    $(".loading-stock-out-member").show();
+                    if(!teamUuid_) teamUuid_ = "";
+                    var input = {};
+                    input["TEAM_UUID"]  = teamUuid_;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/get_user_team_tea_time_list",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success : function (result) {
+                            _userMemberUuidRec = [];
+                            $("#tbl_team_member_list").empty();
+                            var strHtml  = "", usr_image = "";
+                            var data_rec = result.DATA_REC;
+
+                            if(!wegarden.comm.isEmpty(data_rec)){
+                                var each = $.each(data_rec, function (i, v) {
+                                    _userMemberUuidRec.push(wegarden.comm.null2Void(v.user_uuid, '').toString());
+                                    usr_image = wegarden.comm.isEmpty(v.user_image) ? _imageUserDefault : _imageApiUrl + wegarden.comm.null2Void(v.user_image, '');
+
+                                    strHtml += '<tr data-row="'+v.team_uuid+'">';
+                                    strHtml += '    <td class="user-image" style="width: 10px;border-right: none;">';
+                                    strHtml += '        <img src="'+usr_image+'" alt="user-img" class="img-circle orderUsrImage" width="40px" height="40px">';
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="line-height: 40px;border-right: none;display: inline-flex;">'+wegarden.comm.null2Void(v.user_en_name, '');
+                                    strHtml +=         (v.tea_time_role == "LEADER" ? "<img src=\"../images/icons8-crown.png\" width=\"18\" height=\"20\" style=\"margin-top: 9px;margin-left: 3px;\">" : "");
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="line-height: 40px;border-right: none;border-left: none;">';
+                                    strHtml += '    	<select class="form-control comBoRole combo-role" style="" onchange=update_TeaTimeLeader("'+v.user_uuid+'")>';
+                                    strHtml += '    		<option value="MEMBER" '+(v.tea_time_role == "MEMBER" ? "selected" : "")+'>MEMBER</option>';
+                                    strHtml += '    		<option value="LEADER" '+(v.tea_time_role == "LEADER" ? "selected" : "")+'>LEADER</option>';
+                                    strHtml += '    	</select>';
+                                    strHtml += '    </td>';
+                                    strHtml += '    <td style="line-height: 40px;border-right: none;border-left: none;text-align: right;">';
+                                    strHtml += '        <button type="button" class="btn btn-danger btn-sm" onclick=remove_member("'+v.user_uuid+'")>';
+                                    strHtml += '            <i class="fa fa-times" aria-hidden="true"></i>';
+                                    strHtml += '        </button>';
+                                    strHtml += '    </td>';
+                                    strHtml += '</tr>';
+                                });
+
+                                $("#tbl_team_member_list").append(strHtml);
+                            }else{
+                                $("#tbl_team_member_list").append("<tr><td class='text-center' colspan='3'>There is no data.</td></tr>");
+                            }
+                            setTimeout(function () {
+                                $(".loading-stock-out-member").hide();
+                            }, 300);
+                        },
+                        error: function (error) {
+                            $("#loading").hide();
+                            console.log(error);
+                        }
+                    });
+                },
                 notificationOrderTeaTime: function (leaderUuid, userName) {
                     var input = {};
+                    if(wegarden.comm.isEmpty(leaderUuid)) return;
                     input["user_uuid"] = leaderUuid;
                     input["title"]     = "TEA TIME";
                     input["message"]   = "Your team has not order tea time yet.";
@@ -510,19 +782,193 @@
                         }
                     });
                 },
+                createTeamTeaTime: function (teamName) {
+                    var input = {};
+                    if(wegarden.comm.isEmpty(teamName)){
+                        alert("Please input team name !!");
+                    }
+                    input["TEAM_NAME"] = teamName;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/create_team_tea_time",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            if(result.status){
+                                $("#teamNm").val("");
+                                searchOnLoading();
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                insertTeamMember: function (userUuid) {
+                    var input = {};
+                    input["TEAM_UUID"] = _teamUuid;
+                    input["USER_UUID"] = userUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/add_member_to_tea_time_team",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            if(result.status){
+                                _thisPage.fillTeamTeaTimeMember(_teamUuid);
+                                _thisPage.fillAllUserPopup();
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                removeMemberTeamTeaTime: function (userUuid) {
+                    var input = {};
+                    input["TEAM_UUID"] = _teamUuid;
+                    input["USER_UUID"] = userUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/fn_remove_member",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            if(result.status){
+                                _thisPage.fillTeamTeaTimeMember(_teamUuid);
+                                _thisPage.fillAllUserPopup();
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                removeTeamTeaTime: function (userUuid) {
+                    var input = {};
+                    input["TEAM_UUID"] = _teamUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/remove_team_tea_time",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            if(result.status){
+                                swal({
+                                    title: "Successful",
+                                    text : "Delete team success !",
+                                    type : "success",
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                                $('#con-close-modal-addUser').modal('hide');
+                                _thisPage.fillTable();
+                            }else{
+                                swal({
+                                    title: "Failed",
+                                    text : "Delete team not completed!",
+                                    type : "error",
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                updateTeaTimeLeader: function (userUuid) {
+                    var input = {};
+                    input["TEAM_UUID"] = _teamUuid;
+                    input["USER_UUID"] = userUuid;
+
+                    $.ajax({
+                        type    : "GET",
+                        url     : url_context+"/teatime/update_tea_time_leader",
+                        data    : input,
+                        headers : {
+                            "Content-Type"  : "application/json;",
+                            "charset"       : "UTF-8"
+                        },
+                        success: function (result) {
+                            if(result.status){
+                                _thisPage.fillTeamTeaTimeMember(_teamUuid);
+                                _thisPage.fillAllUserPopup();
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                },
                 event : function () {
                     $(document).on("change", "#sDate input", function () {
                         searchDateChange();
                     });
+                    $(document).on("click", "#btnAddTeam", function () {
+                        open_team();
+                    });
+                    $(document).on("click", "#btnSaveTeam", function () {
+                        var teamName = $("#teamNm").val().trim();
+                        _thisPage.createTeamTeaTime(teamName);
+                    });
+                    $(document).on("keyup", "#srchName", function () {
+                        _thisPage.fillAllUserPopup();
+                    });
+                    $(document).on("click", ".closeAddMember", function () {
+                        _thisPage.fillTable();
+                    });
+                    $(document).on("click", ".addTeamMember", function () {
+                        var teamUuid = $(this).data("team_uuid");
+                        var teamName = $(this).data("team_name");
+                        open_add_team_member(teamUuid, teamName);
+                    });
                     $(document).keydown(function(e) {
                         if (e.keyCode === 27) {
                             $('#con-close-modal').modal('hide');
+                            $('#con-close-modal-team').modal('hide');
+                            $('#con-close-modal-addUser').modal('hide');
                         }
+                    });
+                    $(document).on("click", "#btnDeleteTeam", function () {
+                        swal({
+                                title               : "Do you want delete team ?",
+                                text                : "",
+                                type                : "info",
+                                cancelButtonText    : "No, thanks!",
+                                confirmButtonText   : 'Yes, Delete now !',
+                                confirmButtonColor  : '#ff5e6e',
+                                showCancelButton    : true,
+                                closeOnCancel       : true,
+                                closeOnConfirm      : false
+                            },
+                            function(isConfirm) {
+                                if (isConfirm) {
+                                    _thisPage.removeTeamTeaTime();
+                                }
+                            });
                     });
                 }
             }
 
-            function open_popup(input_,isUsed){
+            function open_popup_usage(input_,isUsed){
                 if(!isUsed) return;
                 $('#con-close-modal').modal({
                     backdrop: 'static',
@@ -531,6 +977,36 @@
                 $('#con-close-modal').modal('show');
 
                 _thisPage.fillDetailPopup(input_);
+            }
+
+            function open_team(){
+                $('#con-close-modal-team').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                $('#con-close-modal-team').modal('show');
+            }
+
+            function open_add_team_member(teamUuid, teamName){
+                $('#con-close-modal-addUser').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                $('#con-close-modal-addUser').modal('show');
+                $("#srchName").val("");
+
+                _teamUuid = teamUuid;
+                $("#teamTeaTimeName").text(wegarden.comm.null2Void(teamName, '')+" Team");
+                _thisPage.fillTeamTeaTimeMember(teamUuid,teamName);
+                _thisPage.fillAllUserPopup();
+            }
+
+            function remove_member(userUuid){
+                _thisPage.removeMemberTeamTeaTime(userUuid);
+            }
+
+            function update_TeaTimeLeader(userUuid){
+                _thisPage.updateTeaTimeLeader(userUuid);
             }
 
             function fn_chooseDate(){

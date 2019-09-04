@@ -14,11 +14,14 @@ public class TeaTimeUsage {
     @JsonProperty("team_name")
     private String teamName;
 
-    @JsonProperty("leader_uuid")
-    private String leaderUuid;
+    @JsonProperty("team_member_count")
+    private Integer teamMemberCount;
 
-    @JsonProperty("leader_name")
-    private String leaderName;
+    @JsonProperty("team_leader_uuid")
+    private String teamLeaderUuid;
+
+    @JsonProperty("team_leader_name")
+    private String teamLeaderName;
 
     @JsonProperty("tea_time_usage")
     private Boolean teaTimeUsage;
@@ -31,11 +34,12 @@ public class TeaTimeUsage {
 
     public TeaTimeUsage(){  }
 
-    public TeaTimeUsage(String teamUuid, String teamName, String leaderUuid, String leaderName, Boolean teaTimeUsage, String orderUuid, Double orderSubtotal) {
+    public TeaTimeUsage(String teamUuid, String teamName, Integer teamMemberCount, String teamLeaderUuid, String teamLeaderName, Boolean teaTimeUsage, String orderUuid, Double orderSubtotal) {
         this.teamUuid = teamUuid;
         this.teamName = teamName;
-        this.leaderUuid = leaderUuid;
-        this.leaderName = leaderName;
+        this.teamMemberCount = teamMemberCount;
+        this.teamLeaderUuid = teamLeaderUuid;
+        this.teamLeaderName = teamLeaderName;
         this.teaTimeUsage = teaTimeUsage;
         this.orderUuid = orderUuid;
         this.orderSubtotal = orderSubtotal;
@@ -57,20 +61,28 @@ public class TeaTimeUsage {
         this.teamName = teamName;
     }
 
-    public String getLeaderUuid() {
-        return leaderUuid;
+    public Integer getTeamMemberCount() {
+        return teamMemberCount;
     }
 
-    public void setLeaderUuid(String leaderUuid) {
-        this.leaderUuid = leaderUuid;
+    public void setTeamMemberCount(Integer teamMemberCount) {
+        this.teamMemberCount = teamMemberCount;
     }
 
-    public String getLeaderName() {
-        return leaderName;
+    public String getTeamLeaderUuid() {
+        return teamLeaderUuid;
     }
 
-    public void setLeaderName(String leaderName) {
-        this.leaderName = leaderName;
+    public void setTeamLeaderUuid(String teamLeaderUuid) {
+        this.teamLeaderUuid = teamLeaderUuid;
+    }
+
+    public String getTeamLeaderName() {
+        return teamLeaderName;
+    }
+
+    public void setTeamLeaderName(String teamLeaderName) {
+        this.teamLeaderName = teamLeaderName;
     }
 
     public Boolean getTeaTimeUsage() {
@@ -102,8 +114,9 @@ public class TeaTimeUsage {
         return "TeaTimeUsage{" +
                 "teamUuid='" + teamUuid + '\'' +
                 ", teamName='" + teamName + '\'' +
-                ", leaderUuid='" + leaderUuid + '\'' +
-                ", leaderName='" + leaderName + '\'' +
+                ", teamMemberCount=" + teamMemberCount +
+                ", teamLeaderUuid='" + teamLeaderUuid + '\'' +
+                ", teamLeaderName='" + teamLeaderName + '\'' +
                 ", teaTimeUsage=" + teaTimeUsage +
                 ", orderUuid='" + orderUuid + '\'' +
                 ", orderSubtotal=" + orderSubtotal +

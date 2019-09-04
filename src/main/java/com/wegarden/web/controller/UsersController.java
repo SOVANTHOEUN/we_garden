@@ -62,8 +62,6 @@ public class UsersController {
     public String updateUserRoles(@ModelAttribute("ROLE_ID") String roleId, @ModelAttribute("USER_UUID") String userUuid) {
         Map<String, Object> response = new HashMap<>();
 
-        System.out.println("roleId:: "+roleId);
-        System.out.println("userUuid:: "+userUuid);
         String actionCode =  usersService.updateUserRole(roleId,userUuid);
         if (actionCode.equals("00000")){
             response.put("status",true);

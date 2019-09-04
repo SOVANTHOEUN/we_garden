@@ -52,6 +52,7 @@ public class UsersRepositoryImpl implements UsersRepository {
 
         try{
             userList = storedProcedureQuery.getResultList();
+
         }catch (Exception e){
             System.out.println("Error....proned");
             e.printStackTrace();
